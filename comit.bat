@@ -19,7 +19,7 @@ git commit -m "%commit_msg%"
 :: Bước 3: Push code lên GitHub
 echo [3/4] Dang day code len GitHub...
 :: Lưu ý: main là tên nhánh chính. Nếu nhánh của bạn là master, hãy đổi thành master
-git push origin main
+git push origin master
 
 :: Kết thúc
 echo ====================================================
