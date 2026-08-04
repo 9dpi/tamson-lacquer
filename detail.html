@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tam Son Art - Artwork Detail</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Style cho trang Detail */
+        .detail-wrapper { display: flex; flex-wrap: wrap; min-height: calc(100vh - 180px); }
+        .detail-image-column { flex: 1; width: 50%; padding: 60px; display: flex; justify-content: center; align-items: flex-start; }
+        .detail-image-column img { max-width: 100%; max-height: 80vh; object-fit: contain; background-color: #f9f6f5; }
+        .detail-text-column { flex: 1; width: 50%; padding: 60px 80px 80px 60px; border-left: 1px solid var(--border-color); position: relative; display: flex; flex-direction: column; }
+        .close-btn { position: absolute; top: 20px; right: 40px; width: 30px; height: 30px; cursor: pointer; transition: all 0.3s ease; color: var(--text-main); }
+        .close-btn:hover { opacity: 0.6; transform: rotate(90deg); }
+        .detail-title { font-family: var(--font-serif); font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; margin-bottom: 40px; margin-top: 20px; }
+        .detail-meta { display: flex; flex-direction: column; gap: 16px; font-size: 18px; font-weight: 400; margin-bottom: 20px; }
+        .detail-tags { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin: 20px 0 40px 0; }
+        .detail-description { font-size: 16px; line-height: 1.8; color: var(--text-main); max-width: 90%; white-space: pre-wrap; }
+
+        /* CSS cho Skeleton Loading */
+        .skeleton { background: #eae3df; background: linear-gradient(90deg, #eae3df 25%, #f9f6f5 50%, #eae3df 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        .skeleton-img { width: 100%; height: 70vh; border-radius: 4px; margin-bottom: 20px; }
+        .skeleton-title { width: 80%; height: 48px; border-radius: 4px; margin-bottom: 20px; }
+        .skeleton-meta { width: 50%; height: 20px; border-radius: 4px; margin-bottom: 12px; }
+        .skeleton-text { width: 100%; height: 16px; border-radius: 4px; margin-bottom: 10px; }
+        .skeleton-text.short { width: 70%; }
+
+        @media (max-width: 992px) { 
+            .detail-wrapper { flex-direction: column; min-height: auto; }
+            .detail-image-column, .detail-text-column { width: 100%; border-left: none; }
+            .detail-image-column { padding: 40px 20px; border-bottom: 1px solid var(--border-color); }
+            .detail-text-column { padding: 40px 20px 60px; }
+            .close-btn { right: 20px; top: 10px; }
+            .detail-description { max-width: 100%; }
+            .skeleton-img { height: 50vh; }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAV BAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">Tam Son Art</a>
+            <ul class="nav-links">
+                <li class="active"><a href="index.html#gallery">Gallery</a></li>
+                <li><a href="index.html#exhibitions">Exhibitions</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="mailto:vuquangcuong@gmail.com">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span>MENU</span></button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Container chứa nội dung Skeleton loading mặc định -->
+        <div class="detail-wrapper" id="detailContainer">
+            <div class="detail-image-column">
+                <div class="skeleton skeleton-img"></div>
+            </div>
+            <div class="detail-text-column">
+                <div class="skeleton skeleton-title"></div>
+                <div class="skeleton skeleton-meta"></div>
+                <div class="skeleton skeleton-meta"></div>
+                <div style="margin-top: 30px;">
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text short"></div>
+                </div>
+            </div>
+        </div>
+
+        <section id="about" class="home-about-cta" data-scroll-motion>
+            <div class="home-about-cta__inner">
+                <div class="home-about-cta__copy">
+                    <h2 class="home-about-cta__heading">ABOUT</h2>
+                    <p class="home-about-cta__body">My practice is driven by my belief in our interconnection with our environment...</p>
+                    <div class="home-about-cta__link-wrap">
+                        <a class="home-about-cta__link" href="mailto:vuquangcuong@gmail.com">
+                            <span class="home-about-cta__rule" aria-hidden="true"></span>
+                            <span class="home-about-cta__link-cluster"><span class="home-about-cta__link-label">Contact</span><span class="home-about-cta__arrow" aria-hidden="true">→</span></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="home-about-cta__media">
+                    <img class="home-about-cta__img" src="images/cuongvq.jpeg" alt="Portrait" width="720" height="900" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer" id="site-footer">
+        <div class="footer-info">
+            <div class="footer-info-grid">
+                <div class="footer-info-col">
+                    <nav class="footer-nav" aria-label="Footer navigation">
+                        <a href="index.html#gallery" class="footer-nav-link">GALLERY</a>
+                        <a href="index.html#exhibitions" class="footer-nav-link">EXHIBITIONS</a>
+                        <a href="index.html#about" class="footer-nav-link">ABOUT</a>
+                        <a href="mailto:vuquangcuong@gmail.com" class="footer-nav-link">CONTACT</a>
+                    </nav>
+                </div>
+                <div class="footer-info-col">
+                    <div class="footer-info-lead">
+                        <h3 class="footer-info-heading">TAM SON ART</h3>
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="footer-info-value footer-link">REPRESENTED BY TAM SON ART GALLERY</a>
+                    </div>
+                    <div class="footer-info-row"><span class="footer-info-label">EMAIL:</span><a href="mailto:vuquangcuong@gmail.com" class="footer-info-value">VUQUANGCUONG@GMAIL.COM</a></div>
+                    <div class="footer-info-row"><span class="footer-info-label">MOBILE NUMBER:</span><a href="tel:+41763930735" class="footer-info-value">+41 76 393 07 35</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright"><span>© 2026 TAM SON ART</span></div>
+    </footer>
+
+    <script>
+        // =======================================================
+        // ĐÂY LÀ ĐƯỜNG DẪN WEB APP BẠN ĐÃ DEPLOY
+        const API_BASE_URL = "https://script.google.com/macros/s/AKfycbxh6IZT41oIFiDmyZNUHnUZqUeOpLq8P1TXhiABJ_QAHDeAcgehDZIhc6B_vqKcbq-z/exec"; 
+        // =======================================================
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const artworkId = urlParams.get('id'); 
+
+            // Nếu URL không chứa id, hiển thị thông báo lỗi rõ ràng thay vì tự động chuyển hướng
+            if (!artworkId) {
+                const container = document.getElementById('detailContainer');
+                container.innerHTML = `
+                    <div style="width:100%; height: 60vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:20px; text-align:center;">
+                        <p style="font-size: 1.2rem; margin-bottom: 1rem;">Không tìm thấy ID tác phẩm trên URL.</p>
+                        <p>Vui lòng quay lại trang chủ.</p>
+                        <a href="index.html" style="margin-top:20px; padding: 10px 20px; background: var(--text-main); color: var(--bg-color); text-decoration:none;">Quay lại trang chủ</a>
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                // Gọi API App Script kèm ID
+                const response = await fetch(API_BASE_URL + '?id=' + encodeURIComponent(artworkId));
+                const data = await response.json();
+
+                const container = document.getElementById('detailContainer');
+                if (!data || Object.keys(data).length === 0) {
+                    container.innerHTML = `<div style="width:100%; text-align:center; padding:100px 20px; color:var(--text-muted);">Không tìm thấy tác phẩm với ID: ${artworkId}.</div>`;
+                    return;
+                }
+
+                // Render dữ liệu lên giao diện
+                container.innerHTML = `
+                    <div class="detail-image-column">
+                        <img src="${data.image_url || 'images/tamson_art_01.png'}" alt="${data.title}">
+                    </div>
+                    <div class="detail-text-column">
+                        <a href="index.html" class="close-btn" aria-label="Close details">
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </a>
+                        <h1 class="detail-title">${data.title}</h1>
+                        <div class="detail-meta">
+                            <span>${data.year || ''}</span>
+                            <span>${data.dimensions || ''}</span>
+                            <span>${data.medium || ''}</span>
+                        </div>
+                        <div class="detail-tags">${data.tags || ''}</div>
+                        <div class="detail-description">
+                            ${data.description ? data.description.replace(/\n/g, '<br>') : ''}
+                        </div>
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error("Lỗi khi load dữ liệu từ Apps Script:", error);
+                document.getElementById('detailContainer').innerHTML = `<div style="padding:100px; text-align:center; width:100%; color:red;">Lỗi kết nối dữ liệu. Vui lòng kiểm tra lại Web App URL.</div>`;
+            }
+            
+            // Hiệu ứng Footer
+            const footer = document.getElementById('site-footer');
+            let footerRevealed = false;
+            function checkFooterReveal() {
+                if (footerRevealed) return;
+                const rect = footer.getBoundingClientRect();
+                if (rect.top < window.innerHeight) {
+                    footerRevealed = true;
+                    footer.classList.add('footer-motion-visible');
+                }
+            }
+            function onScroll() { checkFooterReveal(); }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll, { passive: true });
+            checkFooterReveal();
+        });
+    </script>
+</body>
+</html>
