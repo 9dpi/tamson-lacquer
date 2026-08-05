@@ -21,7 +21,10 @@
             background-color: #f9f6f5; border-radius: 4px; 
             display: block; margin-bottom: 20px; 
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            cursor: pointer; /* Thêm con trỏ chuột tay để báo hiệu có thể bấm */
+            transition: transform 0.2s ease;
         }
+        .detail-image-column img:hover { transform: scale(1.01); }
         .detail-image-column img:last-child { margin-bottom: 0; }
         
         .detail-text-column { flex: 1; width: 50%; padding: 0 0 60px 60px; border-left: 1px solid var(--border-color); position: relative; display: flex; flex-direction: column; box-sizing: border-box; }
@@ -51,6 +54,58 @@
         /* Skeleton Loading */
         .skeleton-img-list { width: 100%; height: 300px; border-radius: 4px; margin-bottom: 20px; }
 
+        /* =========================== */
+        /* STYLE CHO LIGHTBOX (Màn hình phóng to ảnh) */
+        /* =========================== */
+        .lightbox {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.92);
+            z-index: 9999;
+            justify-content: center; align-items: center;
+            flex-direction: column;
+        }
+        .lightbox.active { display: flex; }
+        
+        .lightbox-content {
+            position: relative;
+            width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .lightbox-content img {
+            max-width: 90%; max-height: 90%;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%; transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            border: none; width: 60px; height: 60px;
+            border-radius: 50%; cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 30px; transition: background 0.3s ease;
+        }
+        .lightbox-nav:hover { background: rgba(255, 255, 255, 0.4); }
+        .lightbox-nav.prev { left: 20px; }
+        .lightbox-nav.next { right: 20px; }
+        
+        .lightbox-close {
+            position: absolute; top: 20px; right: 30px;
+            color: #fff; font-size: 40px; cursor: pointer;
+            border: none; background: transparent;
+            transition: transform 0.3s ease;
+        }
+        .lightbox-close:hover { transform: rotate(90deg); }
+        .lightbox-counter {
+            position: absolute; bottom: 30px;
+            color: rgba(255,255,255,0.7);
+            font-size: 16px; font-family: var(--font-sans);
+        }
+
         @media (max-width: 992px) {
             .detail-wrapper { flex-direction: column; min-height: auto; align-items: stretch; padding-top: 20px; }
             .detail-image-column, .detail-text-column { width: 100%; border-left: none; padding: 0 0 30px 0; }
@@ -59,11 +114,15 @@
             .close-btn { right: 0; top: 5px; }
             .detail-description { max-width: 100%; }
             .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+            
+            .lightbox-nav { width: 40px; height: 40px; font-size: 20px; }
+            .lightbox-nav.prev { left: 10px; }
+            .lightbox-nav.next { right: 10px; }
+            .lightbox-close { top: 10px; right: 15px; font-size: 30px; }
         }
     </style>
 </head>
 <body>
-    <!-- NAV BAR -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-brand">Tam Son Art</a>
@@ -80,7 +139,6 @@
     <main>
         <div class="container">
             <div class="detail-wrapper" id="detailContainer">
-                <!-- Skeleton Loading -->
                 <div class="detail-image-column">
                     <div class="skeleton skeleton-img-list"></div>
                     <div class="skeleton skeleton-img-list"></div>
@@ -146,15 +204,30 @@
         <div class="footer-copyright"><span>© 2026 TAM SON ART</span></div>
     </footer>
 
+    <!-- Lightbox Container (Để hiện ảnh phóng to) -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+        <button class="lightbox-close" onclick="closeLightboxDirect()">✕</button>
+        <button class="lightbox-nav prev" onclick="changeImage(-1)">‹</button>
+        <button class="lightbox-nav next" onclick="changeImage(1)">›</button>
+        <div class="lightbox-content" onclick="event.stopPropagation();">
+            <img id="lightboxImg" src="" alt="">
+        </div>
+        <div id="lightboxCounter" class="lightbox-counter"></div>
+    </div>
+
     <script>
         // =======================================================
-        // QUAN TRỌNG: Thay đường dẫn Web App mới nhất bạn vừa deploy vào đây
-        const API_BASE_URL = "https://script.google.com/macros/s/.../exec"; 
+        // ĐƯỜNG DẪN WEB APP
+        const API_BASE_URL = "https://script.google.com/macros/s/.../exec"; // THAY URL CỦA BẠN
         // =======================================================
 
         const WHATSAPP_NUMBER = "84912580018"; 
         const CACHE_DURATION = 24 * 60 * 60 * 1000; 
         const CACHE_KEY = 'tamSonArtCachedData';
+
+        // Biến toàn cục cho Lightbox
+        let allImages = [];
+        let currentImageIndex = 0;
 
         document.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
@@ -183,34 +256,27 @@
                     }
                 }
 
-                // 2. Xử lý lỗi nếu không có dữ liệu
                 const container = document.getElementById('detailContainer');
                 if (!data || Object.keys(data).length === 0) {
                     container.innerHTML = `<div style="width:100%; text-align:center; padding:100px 20px; color:var(--text-muted);">Không tìm thấy tác phẩm với ID: ${artworkId}.</div>`;
                     return;
                 }
 
-                // 3. QUAN TRỌNG: Xử lý danh sách ảnh (Fix lỗi nhiều ảnh)
+                // 2. Xử lý danh sách ảnh
                 let imageUrls = [];
                 if (data && data.image_url) {
-                    // Tách chuỗi bằng dấu phẩy, xuống dòng. Loại bỏ khoảng trắng thừa ở đầu và cuối mỗi link
                     imageUrls = data.image_url.split(/[,;\n]/).map(url => url.trim()).filter(url => url.length > 0);
                 }
+                if (imageUrls.length === 0) imageUrls = ['images/tamson_art_01.png'];
                 
-                // Nếu dữ liệu rỗng, dùng ảnh placeholder
-                if (imageUrls.length === 0) {
-                    imageUrls = ['images/tamson_art_01.png'];
-                }
+                // Lưu vào biến toàn cục để dùng cho Lightbox
+                allImages = imageUrls;
 
-                // Tạo HTML cho danh sách ảnh
-                let imagesHTML = imageUrls.map(url => `<img src="${url}" alt="${data.title}">`).join('');
-
-                // 4. Logic Hiển thị Giá & Trạng thái
+                // 3. Logic hiển thị giá
                 let priceHTML = '';
                 let chatLink = `https://wa.me/${WHATSAPP_NUMBER}?text=Hi%20Vu%20Cuong,%20I'm%20interested%20in%20your%20artwork:%20${encodeURIComponent(data.title)}`;
                 
                 if (data.status && data.status.toLowerCase() === 'sold') {
-                    // Đã bán
                     priceHTML = `
                         <div class="purchase-section">
                             <span class="price-label sold-status">SOLD</span>
@@ -225,7 +291,6 @@
                         </div>
                     `;
                 } else {
-                    // Còn hàng
                     priceHTML = `
                         <div class="purchase-section">
                             <span class="price-label">${data.price || 'Price on request'}</span>
@@ -240,7 +305,11 @@
                     `;
                 }
 
-                // 5. Render toàn bộ giao diện
+                // 4. Render ảnh và gán sự kiện click
+                let imagesHTML = imageUrls.map((url, index) => 
+                    `<img src="${url}" alt="${data.title}" onclick="openLightbox(${index})">`
+                ).join('');
+
                 container.innerHTML = `
                     <div class="detail-image-column">${imagesHTML}</div>
                     <div class="detail-text-column">
@@ -255,14 +324,13 @@
                         </div>
                         <div class="detail-tags">${data.tags || ''}</div>
                         <div class="detail-description">${data.description ? data.description.replace(/\n/g, '<br>') : ''}</div>
-                        
                         ${priceHTML}
                     </div>
                 `;
 
             } catch (error) {
                 console.error("Lỗi load dữ liệu:", error);
-                document.getElementById('detailContainer').innerHTML = `<div style="padding:100px; text-align:center; width:100%; color:red;">Lỗi kết nối dữ liệu. Vui lòng kiểm tra lại API URL.</div>`;
+                document.getElementById('detailContainer').innerHTML = `<div style="padding:100px; text-align:center; width:100%; color:red;">Lỗi kết nối dữ liệu.</div>`;
             }
             
             // Hiệu ứng Footer
@@ -279,6 +347,52 @@
             window.addEventListener('scroll', checkFooterReveal, { passive: true });
             window.addEventListener('resize', checkFooterReveal, { passive: true });
             checkFooterReveal();
+        });
+
+        // === CÁC HÀM XỬ LÝ LIGHTBOX (MŨI TÊN XEM ẢNH) ===
+        function openLightbox(index) {
+            currentImageIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightboxImg');
+            const counter = document.getElementById('lightboxCounter');
+            
+            img.src = allImages[index];
+            counter.innerText = `${index + 1} / ${allImages.length}`;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Chặn cuộn trang
+        }
+
+        function closeLightboxDirect() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function closeLightbox(e) {
+            if (e.target === e.currentTarget) {
+                document.getElementById('lightbox').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) currentImageIndex = allImages.length - 1;
+            if (currentImageIndex >= allImages.length) currentImageIndex = 0;
+            
+            const img = document.getElementById('lightboxImg');
+            const counter = document.getElementById('lightboxCounter');
+            img.src = allImages[currentImageIndex];
+            counter.innerText = `${currentImageIndex + 1} / ${allImages.length}`;
+        }
+
+        // Bắt sự kiện bàn phím (Mũi tên trái/phải và phím Esc để đóng)
+        document.addEventListener('keydown', function(e) {
+            const lightbox = document.getElementById('lightbox');
+            if (!lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'ArrowLeft') changeImage(-1);
+            if (e.key === 'ArrowRight') changeImage(1);
+            if (e.key === 'Escape') closeLightboxDirect();
         });
     </script>
 </body>
