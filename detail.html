@@ -5,42 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tam Son Art - Artwork Detail</title>
     
+    <!-- Link font chữ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     
+    <!-- Link CSS chung của dự án -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- Link CSS của SwiperJS (Thư viện Carousel ảnh) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
         /* Style cho trang Detail */
-        .detail-wrapper { display: flex; flex-wrap: wrap; min-height: calc(100vh - 180px); }
-        .detail-image-column { flex: 1; width: 50%; padding: 60px; display: flex; justify-content: center; align-items: flex-start; }
-        .detail-image-column img { max-width: 100%; max-height: 80vh; object-fit: contain; background-color: #f9f6f5; }
-        .detail-text-column { flex: 1; width: 50%; padding: 60px 80px 80px 60px; border-left: 1px solid var(--border-color); position: relative; display: flex; flex-direction: column; }
-        .close-btn { position: absolute; top: 20px; right: 40px; width: 30px; height: 30px; cursor: pointer; transition: all 0.3s ease; color: var(--text-main); }
+        .detail-wrapper { display: flex; flex-wrap: wrap; min-height: 60vh; align-items: flex-start; }
+        
+        /* Cột Ảnh */
+        .detail-image-column { flex: 1; width: 50%; padding: 60px 40px 60px 0; display: flex; justify-content: center; align-items: flex-start; position: relative; }
+        
+        /* Tùy chỉnh Swiper để hiển thị đẹp */
+        .swiper {
+            width: 100%;
+            height: 80vh;
+            background-color: #f9f6f5;
+            border-radius: 4px;
+        }
+        .swiper-slide {
+            display: flex; justify-content: center; align-items: center;
+            background-color: #f9f6f5;
+        }
+        .swiper-slide img {
+            width: 100%; height: 100%; object-fit: contain;
+            display: block;
+        }
+        /* Nút điều hướng của Swiper (chỉ hiện trên Desktop) */
+        .swiper-button-next, .swiper-button-prev {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.8);
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .swiper-button-next::after, .swiper-button-prev::after {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .swiper-button-next:hover, .swiper-button-prev:hover {
+            background: #fff;
+            color: var(--accent-pink);
+        }
+        /* Chấm tròn pagination */
+        .swiper-pagination-bullet-active {
+            background: var(--accent-pink) !important;
+        }
+
+        /* Cột Text */
+        .detail-text-column { flex: 1; width: 50%; padding: 60px 0 80px 60px; border-left: 1px solid var(--border-color); position: relative; display: flex; flex-direction: column; }
+        .close-btn { position: absolute; top: 20px; right: 0; width: 30px; height: 30px; cursor: pointer; transition: all 0.3s ease; color: var(--text-main); }
         .close-btn:hover { opacity: 0.6; transform: rotate(90deg); }
         .detail-title { font-family: var(--font-serif); font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; margin-bottom: 40px; margin-top: 20px; }
         .detail-meta { display: flex; flex-direction: column; gap: 16px; font-size: 18px; font-weight: 400; margin-bottom: 20px; }
         .detail-tags { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin: 20px 0 40px 0; }
-        .detail-description { font-size: 16px; line-height: 1.8; color: var(--text-main); max-width: 90%; white-space: pre-wrap; }
+        .detail-description { font-size: 16px; line-height: 1.8; color: var(--text-main); max-width: 90%; }
+        .detail-description p + p { margin-top: 20px; }
 
-        /* CSS cho Skeleton Loading */
-        .skeleton { background: #eae3df; background: linear-gradient(90deg, #eae3df 25%, #f9f6f5 50%, #eae3df 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
-        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-        .skeleton-img { width: 100%; height: 70vh; border-radius: 4px; margin-bottom: 20px; }
-        .skeleton-title { width: 80%; height: 48px; border-radius: 4px; margin-bottom: 20px; }
-        .skeleton-meta { width: 50%; height: 20px; border-radius: 4px; margin-bottom: 12px; }
-        .skeleton-text { width: 100%; height: 16px; border-radius: 4px; margin-bottom: 10px; }
-        .skeleton-text.short { width: 70%; }
-
-        @media (max-width: 992px) { 
-            .detail-wrapper { flex-direction: column; min-height: auto; }
-            .detail-image-column, .detail-text-column { width: 100%; border-left: none; }
-            .detail-image-column { padding: 40px 20px; border-bottom: 1px solid var(--border-color); }
-            .detail-text-column { padding: 40px 20px 60px; }
-            .close-btn { right: 20px; top: 10px; }
+        /* Responsive Mobile */
+        @media (max-width: 992px) {
+            .detail-wrapper { flex-direction: column; min-height: auto; align-items: stretch; }
+            .detail-image-column, .detail-text-column { width: 100%; border-left: none; padding: 40px 0; }
+            .detail-image-column { border-bottom: 1px solid var(--border-color); padding-top: 20px; }
+            .detail-text-column { padding: 40px 0 60px; }
+            .close-btn { right: 0; top: 10px; }
             .detail-description { max-width: 100%; }
-            .skeleton-img { height: 50vh; }
+            .swiper { height: 60vh; }
+            .swiper-button-next, .swiper-button-prev { display: none !important; } /* Ẩn nút điều hướng trên mobile để vuốt tay */
         }
     </style>
 </head>
@@ -60,42 +98,49 @@
     </nav>
 
     <main>
-        <!-- Container chứa nội dung Skeleton loading mặc định -->
-        <div class="detail-wrapper" id="detailContainer">
-            <div class="detail-image-column">
-                <div class="skeleton skeleton-img"></div>
-            </div>
-            <div class="detail-text-column">
-                <div class="skeleton skeleton-title"></div>
-                <div class="skeleton skeleton-meta"></div>
-                <div class="skeleton skeleton-meta"></div>
-                <div style="margin-top: 30px;">
-                    <div class="skeleton skeleton-text"></div>
-                    <div class="skeleton skeleton-text"></div>
-                    <div class="skeleton skeleton-text short"></div>
+        <div class="container">
+            <!-- Nội dung chi tiết tác phẩm -->
+            <div class="detail-wrapper" id="detailContainer">
+                <!-- Skeleton loading (Khung xám) - Giống như cũ -->
+                <div class="detail-image-column">
+                    <div class="skeleton" style="width: 100%; height: 60vh; border-radius: 4px;"></div>
                 </div>
-            </div>
-        </div>
-
-        <section id="about" class="home-about-cta" data-scroll-motion>
-            <div class="home-about-cta__inner">
-                <div class="home-about-cta__copy">
-                    <h2 class="home-about-cta__heading">ABOUT</h2>
-                    <p class="home-about-cta__body">My practice is driven by my belief in our interconnection with our environment...</p>
-                    <div class="home-about-cta__link-wrap">
-                        <a class="home-about-cta__link" href="mailto:vuquangcuong@gmail.com">
-                            <span class="home-about-cta__rule" aria-hidden="true"></span>
-                            <span class="home-about-cta__link-cluster"><span class="home-about-cta__link-label">Contact</span><span class="home-about-cta__arrow" aria-hidden="true">→</span></span>
-                        </a>
+                <div class="detail-text-column">
+                    <div class="skeleton skeleton-title" style="width: 80%; height: 48px; border-radius: 4px; margin-bottom: 20px;"></div>
+                    <div class="skeleton skeleton-meta" style="width: 50%; height: 20px; border-radius: 4px; margin-bottom: 12px;"></div>
+                    <div class="skeleton skeleton-meta" style="width: 50%; height: 20px; border-radius: 4px; margin-bottom: 12px;"></div>
+                    <div style="margin-top: 30px;">
+                        <div class="skeleton skeleton-text" style="width: 100%; height: 16px; border-radius: 4px; margin-bottom: 10px;"></div>
+                        <div class="skeleton skeleton-text" style="width: 100%; height: 16px; border-radius: 4px; margin-bottom: 10px;"></div>
+                        <div class="skeleton skeleton-text short" style="width: 70%; height: 16px; border-radius: 4px;"></div>
                     </div>
                 </div>
-                <div class="home-about-cta__media">
-                    <img class="home-about-cta__img" src="images/cuongvq.jpeg" alt="Portrait" width="720" height="900" loading="lazy" decoding="async">
-                </div>
             </div>
-        </section>
+
+            <!-- Phần About -->
+            <section id="about" class="home-about-cta" data-scroll-motion>
+                <div class="home-about-cta__inner">
+                    <div class="home-about-cta__copy">
+                        <h2 class="home-about-cta__heading">ABOUT</h2>
+                        <p class="home-about-cta__body">
+                            My practice is driven by my belief in our interconnection with our environment. Currently, my interest is in future plant life, informed by my research in plant consciousness and the ways plants communicate with each other and with us. Through large-scale, highly detailed drawings in coloured pencil and text marker, I create speculative “plants of the future.”
+                        </p>
+                        <div class="home-about-cta__link-wrap">
+                            <a class="home-about-cta__link" href="mailto:vuquangcuong@gmail.com">
+                                <span class="home-about-cta__rule" aria-hidden="true"></span>
+                                <span class="home-about-cta__link-cluster"><span class="home-about-cta__link-label">Contact</span><span class="home-about-cta__arrow" aria-hidden="true">→</span></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="home-about-cta__media">
+                        <img class="home-about-cta__img" src="images/cuongvq.jpeg" alt="Portrait" width="720" height="900" loading="lazy" decoding="async">
+                    </div>
+                </div>
+            </section>
+        </div>
     </main>
 
+    <!-- Footer -->
     <footer class="site-footer" id="site-footer">
         <div class="footer-info">
             <div class="footer-info-grid">
@@ -120,17 +165,22 @@
         <div class="footer-copyright"><span>© 2026 TAM SON ART</span></div>
     </footer>
 
+    <!-- Import thư viện SwiperJS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
     <script>
         // =======================================================
-        // ĐÂY LÀ ĐƯỜNG DẪN WEB APP BẠN ĐÃ DEPLOY
+        // ĐƯỜNG DẪN WEB APP CỦA BẠN
         const API_BASE_URL = "https://script.google.com/macros/s/AKfycbxh6IZT41oIFiDmyZNUHnUZqUeOpLq8P1TXhiABJ_QAHDeAcgehDZIhc6B_vqKcbq-z/exec"; 
         // =======================================================
+
+        const CACHE_DURATION = 24 * 60 * 60 * 1000; 
+        const CACHE_KEY = 'tamSonArtCachedData';
 
         document.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
             const artworkId = urlParams.get('id'); 
 
-            // Nếu URL không chứa id, hiển thị thông báo lỗi rõ ràng thay vì tự động chuyển hướng
             if (!artworkId) {
                 const container = document.getElementById('detailContainer');
                 container.innerHTML = `
@@ -144,20 +194,69 @@
             }
 
             try {
-                // Gọi API App Script kèm ID
-                const response = await fetch(API_BASE_URL + '?id=' + encodeURIComponent(artworkId));
-                const data = await response.json();
+                // 1. Kiểm tra Cache
+                const cached = localStorage.getItem(CACHE_KEY);
+                let data = null;
+                
+                if (cached) {
+                    const parsedCache = JSON.parse(cached);
+                    if (Date.now() - parsedCache.timestamp < CACHE_DURATION) {
+                        data = parsedCache.data;
+                    }
+                }
 
+                // 2. Nếu không có cache, gọi API mới
+                if (!data) {
+                    const response = await fetch(API_BASE_URL + '?id=' + encodeURIComponent(artworkId));
+                    data = await response.json();
+                    localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: data }));
+                } else {
+                    if (Array.isArray(data)) {
+                        data = data.find(r => String(r.id).trim() === String(artworkId).trim());
+                    }
+                }
+
+                // 3. Xử lý danh sách ảnh (Quan trọng)
+                let imageUrls = [];
+                if (data && data.image_url) {
+                    // Tách chuỗi bằng dấu phẩy, xuống dòng hoặc khoảng trắng thừa để lấy mảng các link
+                    imageUrls = data.image_url.split(/,|\n/).map(url => url.trim()).filter(url => url.length > 0);
+                }
+                
+                // Nếu không có ảnh nào, dùng ảnh mặc định
+                if (imageUrls.length === 0) {
+                    imageUrls = ['images/tamson_art_01.png'];
+                }
+
+                // 4. Render nội dung
                 const container = document.getElementById('detailContainer');
                 if (!data || Object.keys(data).length === 0) {
-                    container.innerHTML = `<div style="width:100%; text-align:center; padding:100px 20px; color:var(--text-muted);">Không tìm thấy tác phẩm với ID: ${artworkId}.</div>`;
+                    container.innerHTML = `<div style="width:100%; text-align:center; padding:100px 20px; color:var(--text-muted);">Không tìm thấy tác phẩm. <a href="index.html">Quay lại trang chủ</a></div>`;
                     return;
                 }
 
-                // Render dữ liệu lên giao diện
+                // Tạo HTML cho Swiper
+                let swiperSlidesHTML = '';
+                imageUrls.forEach(url => {
+                    swiperSlidesHTML += `
+                        <div class="swiper-slide">
+                            <img src="${url}" alt="${data.title}">
+                        </div>
+                    `;
+                });
+
                 container.innerHTML = `
                     <div class="detail-image-column">
-                        <img src="${data.image_url || 'images/tamson_art_01.png'}" alt="${data.title}">
+                        <!-- Khung Carousel Ảnh -->
+                        <div class="swiper myArtworkSwiper">
+                            <div class="swiper-wrapper">
+                                ${swiperSlidesHTML}
+                            </div>
+                            <!-- Nút điều hướng và chấm tròn -->
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-pagination"></div>
+                        </div>
                     </div>
                     <div class="detail-text-column">
                         <a href="index.html" class="close-btn" aria-label="Close details">
@@ -178,6 +277,20 @@
                         </div>
                     </div>
                 `;
+
+                // 5. Khởi tạo Swiper ngay sau khi DOM được render xong
+                new Swiper(".myArtworkSwiper", {
+                    loop: true, // Cho phép vòng lặp ảnh vô tận
+                    spaceBetween: 10,
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: ".swiper-button-next",
+                        prevEl: ".swiper-button-prev",
+                    },
+                });
 
             } catch (error) {
                 console.error("Lỗi khi load dữ liệu từ Apps Script:", error);
