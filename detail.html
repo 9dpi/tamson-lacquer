@@ -11,22 +11,52 @@
     
     <link rel="stylesheet" href="style.css">
 
+    <!-- Thêm CSS của Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
     <style>
         .detail-wrapper { display: flex; flex-wrap: wrap; min-height: 60vh; align-items: flex-start; padding-top: 40px; }
         .detail-image-column { flex: 1; width: 50%; padding: 0 40px 60px 0; display: flex; flex-direction: column; align-items: flex-start; box-sizing: border-box; }
         
-        /* Style cho ảnh trong chi tiết */
-        .detail-image-column img { 
-            width: 100%; height: auto; object-fit: cover; 
-            background-color: #f9f6f5; border-radius: 4px; 
-            display: block; margin-bottom: 20px; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            cursor: pointer; /* Thêm con trỏ chuột tay để báo hiệu có thể bấm */
-            transition: transform 0.2s ease;
+        /* --- STYLE CHO SWIPER CAROUSEL --- */
+        .swiper {
+            width: 100%;
+            height: 75vh;
+            background-color: #f9f6f5;
+            border-radius: 4px;
+            overflow: hidden;
         }
-        .detail-image-column img:hover { transform: scale(1.01); }
-        .detail-image-column img:last-child { margin-bottom: 0; }
+        .swiper-slide {
+            display: flex; justify-content: center; align-items: center;
+            background-color: #f9f6f5;
+        }
+        .swiper-slide img {
+            width: 100%; height: 100%; object-fit: contain;
+            display: block;
+        }
         
+        /* Tùy biến nút mũi tên của Swiper */
+        .swiper-button-next, .swiper-button-prev {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.85);
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .swiper-button-next::after, .swiper-button-prev::after {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .swiper-button-next:hover, .swiper-button-prev:hover {
+            background: #fff;
+            color: var(--accent-pink);
+        }
+        /* Chấm tròn bên dưới ảnh */
+        .swiper-pagination-bullet-active {
+            background: var(--accent-pink) !important;
+        }
+        /* --- HẾT SWIPER STYLE --- */
+
         .detail-text-column { flex: 1; width: 50%; padding: 0 0 60px 60px; border-left: 1px solid var(--border-color); position: relative; display: flex; flex-direction: column; box-sizing: border-box; }
         .close-btn { position: absolute; top: 0; right: 0; width: 30px; height: 30px; cursor: pointer; transition: all 0.3s ease; color: var(--text-main); }
         .close-btn:hover { opacity: 0.6; transform: rotate(90deg); }
@@ -52,59 +82,7 @@
         .detail-description p + p { margin-top: 20px; }
 
         /* Skeleton Loading */
-        .skeleton-img-list { width: 100%; height: 300px; border-radius: 4px; margin-bottom: 20px; }
-
-        /* =========================== */
-        /* STYLE CHO LIGHTBOX (Màn hình phóng to ảnh) */
-        /* =========================== */
-        .lightbox {
-            display: none;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.92);
-            z-index: 9999;
-            justify-content: center; align-items: center;
-            flex-direction: column;
-        }
-        .lightbox.active { display: flex; }
-        
-        .lightbox-content {
-            position: relative;
-            width: 100%; height: 100%;
-            display: flex; justify-content: center; align-items: center;
-        }
-        .lightbox-content img {
-            max-width: 90%; max-height: 90%;
-            object-fit: contain;
-            border-radius: 4px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-        }
-        
-        .lightbox-nav {
-            position: absolute;
-            top: 50%; transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.15);
-            color: #fff;
-            border: none; width: 60px; height: 60px;
-            border-radius: 50%; cursor: pointer;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 30px; transition: background 0.3s ease;
-        }
-        .lightbox-nav:hover { background: rgba(255, 255, 255, 0.4); }
-        .lightbox-nav.prev { left: 20px; }
-        .lightbox-nav.next { right: 20px; }
-        
-        .lightbox-close {
-            position: absolute; top: 20px; right: 30px;
-            color: #fff; font-size: 40px; cursor: pointer;
-            border: none; background: transparent;
-            transition: transform 0.3s ease;
-        }
-        .lightbox-close:hover { transform: rotate(90deg); }
-        .lightbox-counter {
-            position: absolute; bottom: 30px;
-            color: rgba(255,255,255,0.7);
-            font-size: 16px; font-family: var(--font-sans);
-        }
+        .skeleton-swiper { width: 100%; height: 500px; border-radius: 4px; margin-bottom: 20px; }
 
         @media (max-width: 992px) {
             .detail-wrapper { flex-direction: column; min-height: auto; align-items: stretch; padding-top: 20px; }
@@ -115,10 +93,8 @@
             .detail-description { max-width: 100%; }
             .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
             
-            .lightbox-nav { width: 40px; height: 40px; font-size: 20px; }
-            .lightbox-nav.prev { left: 10px; }
-            .lightbox-nav.next { right: 10px; }
-            .lightbox-close { top: 10px; right: 15px; font-size: 30px; }
+            .swiper { height: 55vh; }
+            .swiper-button-next, .swiper-button-prev { display: none !important; } /* Ẩn nút trên Mobile */
         }
     </style>
 </head>
@@ -139,9 +115,9 @@
     <main>
         <div class="container">
             <div class="detail-wrapper" id="detailContainer">
+                <!-- Skeleton Loading cho Swiper -->
                 <div class="detail-image-column">
-                    <div class="skeleton skeleton-img-list"></div>
-                    <div class="skeleton skeleton-img-list"></div>
+                    <div class="skeleton skeleton-swiper"></div>
                 </div>
                 <div class="detail-text-column">
                     <div class="skeleton skeleton-title" style="width: 80%; height: 48px; border-radius: 4px; margin-bottom: 20px;"></div>
@@ -204,16 +180,8 @@
         <div class="footer-copyright"><span>© 2026 TAM SON ART</span></div>
     </footer>
 
-    <!-- Lightbox Container (Để hiện ảnh phóng to) -->
-    <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
-        <button class="lightbox-close" onclick="closeLightboxDirect()">✕</button>
-        <button class="lightbox-nav prev" onclick="changeImage(-1)">‹</button>
-        <button class="lightbox-nav next" onclick="changeImage(1)">›</button>
-        <div class="lightbox-content" onclick="event.stopPropagation();">
-            <img id="lightboxImg" src="" alt="">
-        </div>
-        <div id="lightboxCounter" class="lightbox-counter"></div>
-    </div>
+    <!-- Import JS của Swiper -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
         // =======================================================
@@ -224,10 +192,6 @@
         const WHATSAPP_NUMBER = "84912580018"; 
         const CACHE_DURATION = 24 * 60 * 60 * 1000; 
         const CACHE_KEY = 'tamSonArtCachedData';
-
-        // Biến toàn cục cho Lightbox
-        let allImages = [];
-        let currentImageIndex = 0;
 
         document.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
@@ -268,9 +232,6 @@
                     imageUrls = data.image_url.split(/[,;\n]/).map(url => url.trim()).filter(url => url.length > 0);
                 }
                 if (imageUrls.length === 0) imageUrls = ['images/tamson_art_01.png'];
-                
-                // Lưu vào biến toàn cục để dùng cho Lightbox
-                allImages = imageUrls;
 
                 // 3. Logic hiển thị giá
                 let priceHTML = '';
@@ -305,13 +266,24 @@
                     `;
                 }
 
-                // 4. Render ảnh và gán sự kiện click
-                let imagesHTML = imageUrls.map((url, index) => 
-                    `<img src="${url}" alt="${data.title}" onclick="openLightbox(${index})">`
-                ).join('');
+                // 4. Tạo HTML cho Swiper
+                let swiperSlidesHTML = imageUrls.map(url => `
+                    <div class="swiper-slide">
+                        <img src="${url}" alt="${data.title}">
+                    </div>
+                `).join('');
 
                 container.innerHTML = `
-                    <div class="detail-image-column">${imagesHTML}</div>
+                    <div class="detail-image-column">
+                        <div class="swiper myArtworkSwiper">
+                            <div class="swiper-wrapper">
+                                ${swiperSlidesHTML}
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                    </div>
                     <div class="detail-text-column">
                         <a href="index.html" class="close-btn" aria-label="Close details">
                             <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -324,13 +296,22 @@
                         </div>
                         <div class="detail-tags">${data.tags || ''}</div>
                         <div class="detail-description">${data.description ? data.description.replace(/\n/g, '<br>') : ''}</div>
+                        
                         ${priceHTML}
                     </div>
                 `;
 
+                // 5. Khởi tạo Swiper (Slider mượt)
+                new Swiper(".myArtworkSwiper", {
+                    loop: imageUrls.length > 1, // Chỉ loop nếu có nhiều hơn 1 ảnh
+                    spaceBetween: 20,
+                    pagination: { el: ".swiper-pagination", clickable: true },
+                    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+                });
+
             } catch (error) {
                 console.error("Lỗi load dữ liệu:", error);
-                document.getElementById('detailContainer').innerHTML = `<div style="padding:100px; text-align:center; width:100%; color:red;">Lỗi kết nối dữ liệu.</div>`;
+                document.getElementById('detailContainer').innerHTML = `<div style="padding:100px; text-align:center; width:100%; color:red;">Lỗi kết nối dữ liệu. Vui lòng kiểm tra lại API URL.</div>`;
             }
             
             // Hiệu ứng Footer
@@ -347,52 +328,6 @@
             window.addEventListener('scroll', checkFooterReveal, { passive: true });
             window.addEventListener('resize', checkFooterReveal, { passive: true });
             checkFooterReveal();
-        });
-
-        // === CÁC HÀM XỬ LÝ LIGHTBOX (MŨI TÊN XEM ẢNH) ===
-        function openLightbox(index) {
-            currentImageIndex = index;
-            const lightbox = document.getElementById('lightbox');
-            const img = document.getElementById('lightboxImg');
-            const counter = document.getElementById('lightboxCounter');
-            
-            img.src = allImages[index];
-            counter.innerText = `${index + 1} / ${allImages.length}`;
-            lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Chặn cuộn trang
-        }
-
-        function closeLightboxDirect() {
-            document.getElementById('lightbox').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-        
-        function closeLightbox(e) {
-            if (e.target === e.currentTarget) {
-                document.getElementById('lightbox').classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        }
-
-        function changeImage(direction) {
-            currentImageIndex += direction;
-            if (currentImageIndex < 0) currentImageIndex = allImages.length - 1;
-            if (currentImageIndex >= allImages.length) currentImageIndex = 0;
-            
-            const img = document.getElementById('lightboxImg');
-            const counter = document.getElementById('lightboxCounter');
-            img.src = allImages[currentImageIndex];
-            counter.innerText = `${currentImageIndex + 1} / ${allImages.length}`;
-        }
-
-        // Bắt sự kiện bàn phím (Mũi tên trái/phải và phím Esc để đóng)
-        document.addEventListener('keydown', function(e) {
-            const lightbox = document.getElementById('lightbox');
-            if (!lightbox.classList.contains('active')) return;
-            
-            if (e.key === 'ArrowLeft') changeImage(-1);
-            if (e.key === 'ArrowRight') changeImage(1);
-            if (e.key === 'Escape') closeLightboxDirect();
         });
     </script>
 </body>
