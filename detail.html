@@ -12,56 +12,36 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* --- Style cục bộ cho trang Detail --- */
-        .detail-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            min-height: 60vh; 
-            align-items: flex-start;
-            padding-top: 40px; /* Khoảng cách với Header */
-        }
-        
-        /* Cột Ảnh (Trái) */
-        .detail-image-column {
-            flex: 1; width: 50%; padding: 0 40px 60px 0;
-            display: flex; flex-direction: column; align-items: flex-start;
-            box-sizing: border-box;
-        }
-        
-        .detail-image-column img {
-            width: 100%; height: auto; object-fit: cover;
-            background-color: #f9f6f5; border-radius: 4px;
-            display: block; margin-bottom: 20px;
-        }
+        .detail-wrapper { display: flex; flex-wrap: wrap; min-height: 60vh; align-items: flex-start; padding-top: 40px; }
+        .detail-image-column { flex: 1; width: 50%; padding: 0 40px 60px 0; display: flex; flex-direction: column; align-items: flex-start; box-sizing: border-box; }
+        .detail-image-column img { width: 100%; height: auto; object-fit: cover; background-color: #f9f6f5; border-radius: 4px; display: block; margin-bottom: 20px; }
         .detail-image-column img:last-child { margin-bottom: 0; }
-
-        /* Cột Text (Phải) */
-        .detail-text-column { 
-            flex: 1; width: 50%; padding: 0 0 60px 60px; 
-            border-left: 1px solid var(--border-color); position: relative; 
-            display: flex; flex-direction: column; box-sizing: border-box;
-        }
-        .close-btn { 
-            position: absolute; top: 0; right: 0; width: 30px; height: 30px; 
-            cursor: pointer; transition: all 0.3s ease; color: var(--text-main); 
-        }
+        
+        .detail-text-column { flex: 1; width: 50%; padding: 0 0 60px 60px; border-left: 1px solid var(--border-color); position: relative; display: flex; flex-direction: column; box-sizing: border-box; }
+        .close-btn { position: absolute; top: 0; right: 0; width: 30px; height: 30px; cursor: pointer; transition: all 0.3s ease; color: var(--text-main); }
         .close-btn:hover { opacity: 0.6; transform: rotate(90deg); }
         
-        .detail-title { 
-            font-family: var(--font-serif); font-size: clamp(32px, 3.5vw, 52px); 
-            font-weight: 400; margin-bottom: 40px; margin-top: 0; 
-        }
-        .detail-meta { 
-            display: flex; flex-direction: column; gap: 16px; 
-            font-size: 18px; font-weight: 400; margin-bottom: 20px; 
-        }
-        .detail-tags { 
-            color: var(--text-muted); font-size: 12px; text-transform: uppercase; 
-            letter-spacing: 2px; margin: 20px 0 40px 0; 
-        }
-        .detail-description { 
-            font-size: 16px; line-height: 1.8; color: var(--text-main); max-width: 90%; 
-        }
+        .detail-title { font-family: var(--font-serif); font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; margin-bottom: 20px; margin-top: 0; }
+        .detail-meta { display: flex; flex-direction: column; gap: 12px; font-size: 18px; font-weight: 400; margin-bottom: 20px; }
+        .detail-tags { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin: 10px 0 20px 0; }
+
+        /* === CÁC NÚT MỚI === */
+        .purchase-section { margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 25px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+        
+        .price-label { font-family: var(--font-serif); font-size: 1.6rem; color: var(--text-main); }
+        .price-label.sold-price { color: var(--text-muted); text-decoration: line-through; font-size: 1.2rem; }
+        .price-label.sold-status { color: #b91c1c; font-size: 1.2rem; font-family: var(--font-sans); font-weight: 500; }
+
+        .cta-group { display: flex; gap: 15px; flex-wrap: wrap; width: 100%; }
+        
+        .btn-primary { display: inline-flex; align-items: center; justify-content: center; padding: 14px 36px; background: var(--accent-pink); color: #fff; border: none; font-family: var(--font-sans); font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: background 0.3s ease; border-radius: 4px; text-decoration: none; }
+        .btn-primary:hover { background: #e0456a; color: #fff; }
+        .btn-primary svg { margin-right: 8px; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        .btn-secondary { display: inline-flex; align-items: center; justify-content: center; padding: 14px 30px; background: transparent; color: var(--text-main); border: 1px solid var(--border-color); font-family: var(--font-sans); font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 0.3s ease; border-radius: 4px; text-decoration: none; }
+        .btn-secondary:hover { border-color: var(--text-main); background: #f0f0f0; }
+
+        .detail-description { font-size: 16px; line-height: 1.8; color: var(--text-main); max-width: 90%; margin-top: 20px; }
         .detail-description p + p { margin-top: 20px; }
 
         /* Skeleton Loading */
@@ -75,6 +55,7 @@
             .detail-text-column { padding: 30px 0 60px; }
             .close-btn { right: 0; top: 5px; }
             .detail-description { max-width: 100%; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -95,9 +76,8 @@
 
     <main>
         <div class="container">
-            <!-- Nội dung chi tiết tác phẩm -->
             <div class="detail-wrapper" id="detailContainer">
-                <!-- Skeleton loading (Khung xám) -->
+                <!-- Skeleton Loading giữ nguyên -->
                 <div class="detail-image-column">
                     <div class="skeleton skeleton-img-list"></div>
                     <div class="skeleton skeleton-img-list"></div>
@@ -110,17 +90,19 @@
                         <div class="skeleton skeleton-text" style="width: 100%; height: 16px; border-radius: 4px; margin-bottom: 10px;"></div>
                         <div class="skeleton skeleton-text" style="width: 100%; height: 16px; border-radius: 4px; margin-bottom: 10px;"></div>
                         <div class="skeleton skeleton-text short" style="width: 70%; height: 16px; border-radius: 4px;"></div>
+                        <div class="skeleton" style="width: 150px; height: 45px; border-radius: 4px; margin-top: 20px;"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Phần About -->
             <section id="about" class="home-about-cta" data-scroll-motion>
                 <div class="home-about-cta__inner">
                     <div class="home-about-cta__copy">
                         <h2 class="home-about-cta__heading">ABOUT</h2>
                         <p class="home-about-cta__body">
-                            My practice is driven by my belief in our interconnection with our environment. Currently, my interest is in future plant life, informed by my research in plant consciousness and the ways plants communicate with each other and with us. Through large-scale, highly detailed drawings in coloured pencil and text marker, I create speculative “plants of the future.”
+                            Tam Son Art is founded by Master Lacquer Artist Vu Cuong. With nearly 30 years of dedication to the art of design and lacquer painting, I specialize in creating high-end, handcrafted lacquerware that bridges traditional Vietnamese heritage and modern artistic expression. My works are deeply rooted in Vietnamese culture, utilizing sophisticated materials such as natural lacquer, eggshell, mother-of-pearl, and gold leaf. Every piece is a silent conversation between the artist, the material, and timeless tradition.
+                            <br><br>
+                            For commissions, collaborations, and inquiries, please reach out via <strong>Email: vuquangcuong@gmail.com</strong> or <strong>WhatsApp: +84 912 580018</strong>.
                         </p>
                         <div class="home-about-cta__link-wrap">
                             <a class="home-about-cta__link" href="mailto:vuquangcuong@gmail.com">
@@ -137,36 +119,13 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="site-footer" id="site-footer">
-        <div class="footer-info">
-            <div class="footer-info-grid">
-                <div class="footer-info-col">
-                    <nav class="footer-nav" aria-label="Footer navigation">
-                        <a href="index.html#gallery" class="footer-nav-link">GALLERY</a>
-                        <a href="index.html#exhibitions" class="footer-nav-link">EXHIBITIONS</a>
-                        <a href="index.html#about" class="footer-nav-link">ABOUT</a>
-                        <a href="mailto:vuquangcuong@gmail.com" class="footer-nav-link">CONTACT</a>
-                    </nav>
-                </div>
-                <div class="footer-info-col">
-                    <div class="footer-info-lead">
-                        <h3 class="footer-info-heading">TAM SON ART</h3>
-                        <a href="#" target="_blank" rel="noopener noreferrer" class="footer-info-value footer-link">REPRESENTED BY TAM SON ART GALLERY</a>
-                    </div>
-                    <div class="footer-info-row"><span class="footer-info-label">EMAIL:</span><a href="mailto:vuquangcuong@gmail.com" class="footer-info-value">VUQUANGCUONG@GMAIL.COM</a></div>
-                    <div class="footer-info-row"><span class="footer-info-label">MOBILE NUMBER:</span><a href="tel:+41763930735" class="footer-info-value">+41 76 393 07 35</a></div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-copyright"><span>© 2026 TAM SON ART</span></div>
-    </footer>
+    <footer class="site-footer" id="site-footer">...</footer> <!-- Footer cũ giữ nguyên -->
 
     <script>
-        // =======================================================
-        // ĐƯỜNG DẪN WEB APP CỦA BẠN (Lưu ý: Phải deploy mới nhất)
-        const API_BASE_URL = "https://script.google.com/macros/s/AKfycbxh6IZT41oIFiDmyZNUHnUZqUeOpLq8P1TXhiABJ_QAHDeAcgehDZIhc6B_vqKcbq-z/exec"; 
-        // =======================================================
+        // --- ĐƯỜNG DẪN WEB APP ---
+        const API_BASE_URL = "https://script.google.com/macros/s/.../exec"; // THAY BẰNG URL MỚI CỦA BẠN
+        const WHATSAPP_NUMBER = "84912580018"; // SĐT của bạn (Không dấu +)
+        // Đổi thành Zalo link nếu bạn dùng Zalo: const CHAT_LINK = "https://zalo.me/84912580018";
 
         const CACHE_DURATION = 24 * 60 * 60 * 1000; 
         const CACHE_KEY = 'tamSonArtCachedData';
@@ -176,30 +135,18 @@
             const artworkId = urlParams.get('id'); 
 
             if (!artworkId) {
-                const container = document.getElementById('detailContainer');
-                container.innerHTML = `
-                    <div style="width:100%; height: 60vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:20px; text-align:center;">
-                        <p style="font-size: 1.2rem; margin-bottom: 1rem;">Không tìm thấy ID tác phẩm trên URL.</p>
-                        <p>Vui lòng quay lại trang chủ.</p>
-                        <a href="index.html" style="margin-top:20px; padding: 10px 20px; background: var(--text-main); color: var(--bg-color); text-decoration:none;">Quay lại trang chủ</a>
-                    </div>
-                `;
+                document.getElementById('detailContainer').innerHTML = `<div style="width:100%; height: 60vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:20px; text-align:center;"><p style="font-size: 1.2rem; margin-bottom: 1rem;">Không tìm thấy ID tác phẩm.</p><a href="index.html" style="margin-top:20px; padding: 10px 20px; background: var(--text-main); color: var(--bg-color); text-decoration:none;">Quay lại</a></div>`;
                 return;
             }
 
             try {
-                // 1. Kiểm tra Cache
+                // Hàm gọi data (Có Cache)
                 const cached = localStorage.getItem(CACHE_KEY);
                 let data = null;
-                
                 if (cached) {
                     const parsedCache = JSON.parse(cached);
-                    if (Date.now() - parsedCache.timestamp < CACHE_DURATION) {
-                        data = parsedCache.data;
-                    }
+                    if (Date.now() - parsedCache.timestamp < CACHE_DURATION) data = parsedCache.data;
                 }
-
-                // 2. Nếu không có cache, gọi API mới
                 if (!data) {
                     const response = await fetch(API_BASE_URL + '?id=' + encodeURIComponent(artworkId));
                     data = await response.json();
@@ -210,40 +157,60 @@
                     }
                 }
 
-                // 3. Xử lý danh sách ảnh
+                // Xử lý ảnh
                 let imageUrls = [];
-                if (data && data.image_url) {
-                    // Tách chuỗi bằng dấu phẩy hoặc xuống dòng
-                    imageUrls = data.image_url.split(/,|\n/).map(url => url.trim()).filter(url => url.length > 0);
-                }
-                
-                if (imageUrls.length === 0) {
-                    imageUrls = ['images/tamson_art_01.png'];
-                }
+                if (data && data.image_url) imageUrls = data.image_url.split(/,|\n/).map(url => url.trim()).filter(url => url.length > 0);
+                if (imageUrls.length === 0) imageUrls = ['images/tamson_art_01.png'];
 
-                // 4. Render nội dung lên DOM
+                // Render UI
                 const container = document.getElementById('detailContainer');
                 if (!data || Object.keys(data).length === 0) {
                     container.innerHTML = `<div style="width:100%; text-align:center; padding:100px 20px; color:var(--text-muted);">Không tìm thấy tác phẩm với ID: ${artworkId}.</div>`;
                     return;
                 }
 
-                // Tạo HTML cho danh sách ảnh (Chạy dọc)
-                let imagesHTML = '';
-                imageUrls.forEach(url => {
-                    imagesHTML += `<img src="${url}" alt="${data.title}">`;
-                });
+                // Logic Hiển thị Giá & Trạng thái
+                let priceHTML = '';
+                let chatLink = `https://wa.me/${WHATSAPP_NUMBER}?text=Hi%20Vu%20Cuong,%20I'm%20interested%20in%20your%20artwork:%20${encodeURIComponent(data.title)}`;
+                
+                if (data.status && data.status.toLowerCase() === 'sold') {
+                    // Đã bán
+                    priceHTML = `
+                        <div class="purchase-section">
+                            <span class="price-label sold-status">SOLD</span>
+                            ${data.price ? `<span class="price-label sold-price">${data.price}</span>` : ''}
+                            <div class="cta-group">
+                                <a href="${chatLink}" target="_blank" class="btn-primary">
+                                    <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                    Inquire / Order
+                                </a>
+                                <a href="mailto:vuquangcuong@gmail.com?subject=Inquiry%20-%20${encodeURIComponent(data.title)}" class="btn-secondary">Email Us</a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Còn hàng
+                    priceHTML = `
+                        <div class="purchase-section">
+                            <span class="price-label">${data.price || 'Price on request'}</span>
+                            <div class="cta-group">
+                                <a href="${chatLink}" target="_blank" class="btn-primary">
+                                    <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                    Buy / Order
+                                </a>
+                                <a href="mailto:vuquangcuong@gmail.com?subject=Inquiry%20-%20${encodeURIComponent(data.title)}" class="btn-secondary">Ask a Question</a>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                let imagesHTML = imageUrls.map(url => `<img src="${url}" alt="${data.title}">`).join('');
 
                 container.innerHTML = `
-                    <div class="detail-image-column">
-                        ${imagesHTML}
-                    </div>
+                    <div class="detail-image-column">${imagesHTML}</div>
                     <div class="detail-text-column">
                         <a href="index.html" class="close-btn" aria-label="Close details">
-                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </a>
                         <h1 class="detail-title">${data.title}</h1>
                         <div class="detail-meta">
@@ -252,15 +219,15 @@
                             <span>${data.medium || ''}</span>
                         </div>
                         <div class="detail-tags">${data.tags || ''}</div>
-                        <div class="detail-description">
-                            ${data.description ? data.description.replace(/\n/g, '<br>') : ''}
-                        </div>
+                        <div class="detail-description">${data.description ? data.description.replace(/\n/g, '<br>') : ''}</div>
+                        
+                        ${priceHTML}
                     </div>
                 `;
 
             } catch (error) {
-                console.error("Lỗi khi load dữ liệu từ Apps Script:", error);
-                document.getElementById('detailContainer').innerHTML = `<div style="padding:100px; text-align:center; width:100%; color:red;">Lỗi kết nối dữ liệu. Vui lòng kiểm tra lại Web App URL.</div>`;
+                console.error("Lỗi load dữ liệu:", error);
+                document.getElementById('detailContainer').innerHTML = `<div style="padding:100px; text-align:center; width:100%; color:red;">Lỗi kết nối dữ liệu.</div>`;
             }
             
             // Hiệu ứng Footer
@@ -274,9 +241,8 @@
                     footer.classList.add('footer-motion-visible');
                 }
             }
-            function onScroll() { checkFooterReveal(); }
-            window.addEventListener('scroll', onScroll, { passive: true });
-            window.addEventListener('resize', onScroll, { passive: true });
+            window.addEventListener('scroll', checkFooterReveal, { passive: true });
+            window.addEventListener('resize', checkFooterReveal, { passive: true });
             checkFooterReveal();
         });
     </script>

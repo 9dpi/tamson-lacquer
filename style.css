@@ -69,8 +69,9 @@ main { flex: 1; width: 100%; overflow-x: clip; }
 }
 .nav-brand {
     font-family: var(--font-serif); font-weight: 400; font-style: italic;
-    font-size: 1.1rem; letter-spacing: .08em; text-decoration: none; color: var(--text-main);
+    font-size: 1.5rem; letter-spacing: .08em; text-decoration: none; color: var(--text-main);
     transition: color .3s ease;
+    color: #ff5e7e;
 }
 .nav-brand:hover { color: var(--accent-pink); }
 
