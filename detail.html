@@ -14,7 +14,14 @@
     <style>
         .detail-wrapper { display: flex; flex-wrap: wrap; min-height: 60vh; align-items: flex-start; padding-top: 40px; }
         .detail-image-column { flex: 1; width: 50%; padding: 0 40px 60px 0; display: flex; flex-direction: column; align-items: flex-start; box-sizing: border-box; }
-        .detail-image-column img { width: 100%; height: auto; object-fit: cover; background-color: #f9f6f5; border-radius: 4px; display: block; margin-bottom: 20px; }
+        
+        /* Style cho ảnh trong chi tiết */
+        .detail-image-column img { 
+            width: 100%; height: auto; object-fit: cover; 
+            background-color: #f9f6f5; border-radius: 4px; 
+            display: block; margin-bottom: 20px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
         .detail-image-column img:last-child { margin-bottom: 0; }
         
         .detail-text-column { flex: 1; width: 50%; padding: 0 0 60px 60px; border-left: 1px solid var(--border-color); position: relative; display: flex; flex-direction: column; box-sizing: border-box; }
@@ -25,15 +32,12 @@
         .detail-meta { display: flex; flex-direction: column; gap: 12px; font-size: 18px; font-weight: 400; margin-bottom: 20px; }
         .detail-tags { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin: 10px 0 20px 0; }
 
-        /* === CÁC NÚT MỚI === */
         .purchase-section { margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 25px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
-        
         .price-label { font-family: var(--font-serif); font-size: 1.6rem; color: var(--text-main); }
         .price-label.sold-price { color: var(--text-muted); text-decoration: line-through; font-size: 1.2rem; }
         .price-label.sold-status { color: #b91c1c; font-size: 1.2rem; font-family: var(--font-sans); font-weight: 500; }
 
         .cta-group { display: flex; gap: 15px; flex-wrap: wrap; width: 100%; }
-        
         .btn-primary { display: inline-flex; align-items: center; justify-content: center; padding: 14px 36px; background: var(--accent-pink); color: #fff; border: none; font-family: var(--font-sans); font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: background 0.3s ease; border-radius: 4px; text-decoration: none; }
         .btn-primary:hover { background: #e0456a; color: #fff; }
         .btn-primary svg { margin-right: 8px; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
@@ -47,7 +51,6 @@
         /* Skeleton Loading */
         .skeleton-img-list { width: 100%; height: 300px; border-radius: 4px; margin-bottom: 20px; }
 
-        /* Responsive Mobile */
         @media (max-width: 992px) {
             .detail-wrapper { flex-direction: column; min-height: auto; align-items: stretch; padding-top: 20px; }
             .detail-image-column, .detail-text-column { width: 100%; border-left: none; padding: 0 0 30px 0; }
@@ -77,7 +80,7 @@
     <main>
         <div class="container">
             <div class="detail-wrapper" id="detailContainer">
-                <!-- Skeleton Loading giữ nguyên -->
+                <!-- Skeleton Loading -->
                 <div class="detail-image-column">
                     <div class="skeleton skeleton-img-list"></div>
                     <div class="skeleton skeleton-img-list"></div>
@@ -119,14 +122,37 @@
         </div>
     </main>
 
-    <footer class="site-footer" id="site-footer">...</footer> <!-- Footer cũ giữ nguyên -->
+    <footer class="site-footer" id="site-footer">
+        <div class="footer-info">
+            <div class="footer-info-grid">
+                <div class="footer-info-col">
+                    <nav class="footer-nav" aria-label="Footer navigation">
+                        <a href="index.html#gallery" class="footer-nav-link">GALLERY</a>
+                        <a href="index.html#exhibitions" class="footer-nav-link">EXHIBITIONS</a>
+                        <a href="index.html#about" class="footer-nav-link">ABOUT</a>
+                        <a href="mailto:vuquangcuong@gmail.com" class="footer-nav-link">CONTACT</a>
+                    </nav>
+                </div>
+                <div class="footer-info-col">
+                    <div class="footer-info-lead">
+                        <h3 class="footer-info-heading">TAM SON ART</h3>
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="footer-info-value footer-link">REPRESENTED BY TAM SON ART GALLERY</a>
+                    </div>
+                    <div class="footer-info-row"><span class="footer-info-label">EMAIL:</span><a href="mailto:vuquangcuong@gmail.com" class="footer-info-value">VUQUANGCUONG@GMAIL.COM</a></div>
+                    <div class="footer-info-row"><span class="footer-info-label">WHATSAPP & PHONE:</span><a href="tel:+84912580018" class="footer-info-value">+84 912 580018</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright"><span>© 2026 TAM SON ART</span></div>
+    </footer>
 
     <script>
-        // --- ĐƯỜNG DẪN WEB APP ---
-        const API_BASE_URL = "https://script.google.com/macros/s/.../exec"; // THAY BẰNG URL MỚI CỦA BẠN
-        const WHATSAPP_NUMBER = "84912580018"; // SĐT của bạn (Không dấu +)
-        // Đổi thành Zalo link nếu bạn dùng Zalo: const CHAT_LINK = "https://zalo.me/84912580018";
+        // =======================================================
+        // QUAN TRỌNG: Thay đường dẫn Web App mới nhất bạn vừa deploy vào đây
+        const API_BASE_URL = "https://script.google.com/macros/s/.../exec"; 
+        // =======================================================
 
+        const WHATSAPP_NUMBER = "84912580018"; 
         const CACHE_DURATION = 24 * 60 * 60 * 1000; 
         const CACHE_KEY = 'tamSonArtCachedData';
 
@@ -140,7 +166,7 @@
             }
 
             try {
-                // Hàm gọi data (Có Cache)
+                // 1. Lấy dữ liệu (Có Cache)
                 const cached = localStorage.getItem(CACHE_KEY);
                 let data = null;
                 if (cached) {
@@ -157,19 +183,29 @@
                     }
                 }
 
-                // Xử lý ảnh
-                let imageUrls = [];
-                if (data && data.image_url) imageUrls = data.image_url.split(/,|\n/).map(url => url.trim()).filter(url => url.length > 0);
-                if (imageUrls.length === 0) imageUrls = ['images/tamson_art_01.png'];
-
-                // Render UI
+                // 2. Xử lý lỗi nếu không có dữ liệu
                 const container = document.getElementById('detailContainer');
                 if (!data || Object.keys(data).length === 0) {
                     container.innerHTML = `<div style="width:100%; text-align:center; padding:100px 20px; color:var(--text-muted);">Không tìm thấy tác phẩm với ID: ${artworkId}.</div>`;
                     return;
                 }
 
-                // Logic Hiển thị Giá & Trạng thái
+                // 3. QUAN TRỌNG: Xử lý danh sách ảnh (Fix lỗi nhiều ảnh)
+                let imageUrls = [];
+                if (data && data.image_url) {
+                    // Tách chuỗi bằng dấu phẩy, xuống dòng. Loại bỏ khoảng trắng thừa ở đầu và cuối mỗi link
+                    imageUrls = data.image_url.split(/[,;\n]/).map(url => url.trim()).filter(url => url.length > 0);
+                }
+                
+                // Nếu dữ liệu rỗng, dùng ảnh placeholder
+                if (imageUrls.length === 0) {
+                    imageUrls = ['images/tamson_art_01.png'];
+                }
+
+                // Tạo HTML cho danh sách ảnh
+                let imagesHTML = imageUrls.map(url => `<img src="${url}" alt="${data.title}">`).join('');
+
+                // 4. Logic Hiển thị Giá & Trạng thái
                 let priceHTML = '';
                 let chatLink = `https://wa.me/${WHATSAPP_NUMBER}?text=Hi%20Vu%20Cuong,%20I'm%20interested%20in%20your%20artwork:%20${encodeURIComponent(data.title)}`;
                 
@@ -204,8 +240,7 @@
                     `;
                 }
 
-                let imagesHTML = imageUrls.map(url => `<img src="${url}" alt="${data.title}">`).join('');
-
+                // 5. Render toàn bộ giao diện
                 container.innerHTML = `
                     <div class="detail-image-column">${imagesHTML}</div>
                     <div class="detail-text-column">
@@ -227,7 +262,7 @@
 
             } catch (error) {
                 console.error("Lỗi load dữ liệu:", error);
-                document.getElementById('detailContainer').innerHTML = `<div style="padding:100px; text-align:center; width:100%; color:red;">Lỗi kết nối dữ liệu.</div>`;
+                document.getElementById('detailContainer').innerHTML = `<div style="padding:100px; text-align:center; width:100%; color:red;">Lỗi kết nối dữ liệu. Vui lòng kiểm tra lại API URL.</div>`;
             }
             
             // Hiệu ứng Footer
