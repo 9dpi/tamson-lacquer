@@ -5,80 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tam Son Art - Artwork Detail</title>
     
-    <!-- Link font chữ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     
-    <!-- Link CSS chung của dự án -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Link CSS của SwiperJS (Thư viện Carousel ảnh) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
     <style>
-        /* Style cho trang Detail */
-        .detail-wrapper { display: flex; flex-wrap: wrap; min-height: 60vh; align-items: flex-start; }
+        /* --- Style cục bộ cho trang Detail --- */
+        .detail-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            min-height: 60vh; 
+            align-items: flex-start;
+            padding-top: 40px; /* Khoảng cách với Header */
+        }
         
-        /* Cột Ảnh */
-        .detail-image-column { flex: 1; width: 50%; padding: 60px 40px 60px 0; display: flex; justify-content: center; align-items: flex-start; position: relative; }
+        /* Cột Ảnh (Trái) */
+        .detail-image-column {
+            flex: 1; width: 50%; padding: 0 40px 60px 0;
+            display: flex; flex-direction: column; align-items: flex-start;
+            box-sizing: border-box;
+        }
         
-        /* Tùy chỉnh Swiper để hiển thị đẹp */
-        .swiper {
-            width: 100%;
-            height: 80vh;
-            background-color: #f9f6f5;
-            border-radius: 4px;
+        .detail-image-column img {
+            width: 100%; height: auto; object-fit: cover;
+            background-color: #f9f6f5; border-radius: 4px;
+            display: block; margin-bottom: 20px;
         }
-        .swiper-slide {
-            display: flex; justify-content: center; align-items: center;
-            background-color: #f9f6f5;
-        }
-        .swiper-slide img {
-            width: 100%; height: 100%; object-fit: contain;
-            display: block;
-        }
-        /* Nút điều hướng của Swiper (chỉ hiện trên Desktop) */
-        .swiper-button-next, .swiper-button-prev {
-            color: var(--text-main);
-            background: rgba(255, 255, 255, 0.8);
-            width: 44px; height: 44px;
-            border-radius: 50%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .swiper-button-next::after, .swiper-button-prev::after {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .swiper-button-next:hover, .swiper-button-prev:hover {
-            background: #fff;
-            color: var(--accent-pink);
-        }
-        /* Chấm tròn pagination */
-        .swiper-pagination-bullet-active {
-            background: var(--accent-pink) !important;
-        }
+        .detail-image-column img:last-child { margin-bottom: 0; }
 
-        /* Cột Text */
-        .detail-text-column { flex: 1; width: 50%; padding: 60px 0 80px 60px; border-left: 1px solid var(--border-color); position: relative; display: flex; flex-direction: column; }
-        .close-btn { position: absolute; top: 20px; right: 0; width: 30px; height: 30px; cursor: pointer; transition: all 0.3s ease; color: var(--text-main); }
+        /* Cột Text (Phải) */
+        .detail-text-column { 
+            flex: 1; width: 50%; padding: 0 0 60px 60px; 
+            border-left: 1px solid var(--border-color); position: relative; 
+            display: flex; flex-direction: column; box-sizing: border-box;
+        }
+        .close-btn { 
+            position: absolute; top: 0; right: 0; width: 30px; height: 30px; 
+            cursor: pointer; transition: all 0.3s ease; color: var(--text-main); 
+        }
         .close-btn:hover { opacity: 0.6; transform: rotate(90deg); }
-        .detail-title { font-family: var(--font-serif); font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; margin-bottom: 40px; margin-top: 20px; }
-        .detail-meta { display: flex; flex-direction: column; gap: 16px; font-size: 18px; font-weight: 400; margin-bottom: 20px; }
-        .detail-tags { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin: 20px 0 40px 0; }
-        .detail-description { font-size: 16px; line-height: 1.8; color: var(--text-main); max-width: 90%; }
+        
+        .detail-title { 
+            font-family: var(--font-serif); font-size: clamp(32px, 3.5vw, 52px); 
+            font-weight: 400; margin-bottom: 40px; margin-top: 0; 
+        }
+        .detail-meta { 
+            display: flex; flex-direction: column; gap: 16px; 
+            font-size: 18px; font-weight: 400; margin-bottom: 20px; 
+        }
+        .detail-tags { 
+            color: var(--text-muted); font-size: 12px; text-transform: uppercase; 
+            letter-spacing: 2px; margin: 20px 0 40px 0; 
+        }
+        .detail-description { 
+            font-size: 16px; line-height: 1.8; color: var(--text-main); max-width: 90%; 
+        }
         .detail-description p + p { margin-top: 20px; }
+
+        /* Skeleton Loading */
+        .skeleton-img-list { width: 100%; height: 300px; border-radius: 4px; margin-bottom: 20px; }
 
         /* Responsive Mobile */
         @media (max-width: 992px) {
-            .detail-wrapper { flex-direction: column; min-height: auto; align-items: stretch; }
-            .detail-image-column, .detail-text-column { width: 100%; border-left: none; padding: 40px 0; }
-            .detail-image-column { border-bottom: 1px solid var(--border-color); padding-top: 20px; }
-            .detail-text-column { padding: 40px 0 60px; }
-            .close-btn { right: 0; top: 10px; }
+            .detail-wrapper { flex-direction: column; min-height: auto; align-items: stretch; padding-top: 20px; }
+            .detail-image-column, .detail-text-column { width: 100%; border-left: none; padding: 0 0 30px 0; }
+            .detail-image-column { border-bottom: 1px solid var(--border-color); padding-bottom: 30px; }
+            .detail-text-column { padding: 30px 0 60px; }
+            .close-btn { right: 0; top: 5px; }
             .detail-description { max-width: 100%; }
-            .swiper { height: 60vh; }
-            .swiper-button-next, .swiper-button-prev { display: none !important; } /* Ẩn nút điều hướng trên mobile để vuốt tay */
         }
     </style>
 </head>
@@ -101,9 +97,10 @@
         <div class="container">
             <!-- Nội dung chi tiết tác phẩm -->
             <div class="detail-wrapper" id="detailContainer">
-                <!-- Skeleton loading (Khung xám) - Giống như cũ -->
+                <!-- Skeleton loading (Khung xám) -->
                 <div class="detail-image-column">
-                    <div class="skeleton" style="width: 100%; height: 60vh; border-radius: 4px;"></div>
+                    <div class="skeleton skeleton-img-list"></div>
+                    <div class="skeleton skeleton-img-list"></div>
                 </div>
                 <div class="detail-text-column">
                     <div class="skeleton skeleton-title" style="width: 80%; height: 48px; border-radius: 4px; margin-bottom: 20px;"></div>
@@ -165,12 +162,9 @@
         <div class="footer-copyright"><span>© 2026 TAM SON ART</span></div>
     </footer>
 
-    <!-- Import thư viện SwiperJS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
     <script>
         // =======================================================
-        // ĐƯỜNG DẪN WEB APP CỦA BẠN
+        // ĐƯỜNG DẪN WEB APP CỦA BẠN (Lưu ý: Phải deploy mới nhất)
         const API_BASE_URL = "https://script.google.com/macros/s/AKfycbxh6IZT41oIFiDmyZNUHnUZqUeOpLq8P1TXhiABJ_QAHDeAcgehDZIhc6B_vqKcbq-z/exec"; 
         // =======================================================
 
@@ -216,47 +210,33 @@
                     }
                 }
 
-                // 3. Xử lý danh sách ảnh (Quan trọng)
+                // 3. Xử lý danh sách ảnh
                 let imageUrls = [];
                 if (data && data.image_url) {
-                    // Tách chuỗi bằng dấu phẩy, xuống dòng hoặc khoảng trắng thừa để lấy mảng các link
+                    // Tách chuỗi bằng dấu phẩy hoặc xuống dòng
                     imageUrls = data.image_url.split(/,|\n/).map(url => url.trim()).filter(url => url.length > 0);
                 }
                 
-                // Nếu không có ảnh nào, dùng ảnh mặc định
                 if (imageUrls.length === 0) {
                     imageUrls = ['images/tamson_art_01.png'];
                 }
 
-                // 4. Render nội dung
+                // 4. Render nội dung lên DOM
                 const container = document.getElementById('detailContainer');
                 if (!data || Object.keys(data).length === 0) {
-                    container.innerHTML = `<div style="width:100%; text-align:center; padding:100px 20px; color:var(--text-muted);">Không tìm thấy tác phẩm. <a href="index.html">Quay lại trang chủ</a></div>`;
+                    container.innerHTML = `<div style="width:100%; text-align:center; padding:100px 20px; color:var(--text-muted);">Không tìm thấy tác phẩm với ID: ${artworkId}.</div>`;
                     return;
                 }
 
-                // Tạo HTML cho Swiper
-                let swiperSlidesHTML = '';
+                // Tạo HTML cho danh sách ảnh (Chạy dọc)
+                let imagesHTML = '';
                 imageUrls.forEach(url => {
-                    swiperSlidesHTML += `
-                        <div class="swiper-slide">
-                            <img src="${url}" alt="${data.title}">
-                        </div>
-                    `;
+                    imagesHTML += `<img src="${url}" alt="${data.title}">`;
                 });
 
                 container.innerHTML = `
                     <div class="detail-image-column">
-                        <!-- Khung Carousel Ảnh -->
-                        <div class="swiper myArtworkSwiper">
-                            <div class="swiper-wrapper">
-                                ${swiperSlidesHTML}
-                            </div>
-                            <!-- Nút điều hướng và chấm tròn -->
-                            <div class="swiper-button-next"></div>
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-pagination"></div>
-                        </div>
+                        ${imagesHTML}
                     </div>
                     <div class="detail-text-column">
                         <a href="index.html" class="close-btn" aria-label="Close details">
@@ -277,20 +257,6 @@
                         </div>
                     </div>
                 `;
-
-                // 5. Khởi tạo Swiper ngay sau khi DOM được render xong
-                new Swiper(".myArtworkSwiper", {
-                    loop: true, // Cho phép vòng lặp ảnh vô tận
-                    spaceBetween: 10,
-                    pagination: {
-                        el: ".swiper-pagination",
-                        clickable: true,
-                    },
-                    navigation: {
-                        nextEl: ".swiper-button-next",
-                        prevEl: ".swiper-button-prev",
-                    },
-                });
 
             } catch (error) {
                 console.error("Lỗi khi load dữ liệu từ Apps Script:", error);
