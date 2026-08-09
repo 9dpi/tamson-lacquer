@@ -173,6 +173,9 @@
         //  1. DỮ LIỆU CỦA TÁC PHẨM NẰM NGAY TRONG FILE NÀY
         //  Bạn có thể thêm nhiều tác phẩm vào mảng này để dùng chung
         // ==========================================================
+                // ==========================================================
+        //  1. DỮ LIỆU CỦA 8 TÁC PHẨM (Từ ts001 đến ts008)
+        // ==========================================================
         const ARTWORKS_DATA = [
             {
                 id: 'ts001',
@@ -186,14 +189,109 @@ This drawing marks a distinct departure from my earlier work, moving into a more
 
 The layered interior, articulated through parallel chromatic bands, closely resembles the microscopic cross-section of a leaf, in which palisade mesophyll, spongy mesophyll, and vascular bundles are revealed as stratified tissues. Here, the internal anatomy of a leaf is reimagined as the internal architecture of cognition.`,
                 images: [
-                    'images/tamson_art_01.png', // Ảnh chính
-                    // Nếu muốn thêm ảnh chi tiết cho tác phẩm này, hãy thêm đường dẫn ảnh vào đây,
-                    // Ví dụ: 'images/prj_01/detail_01.jpg'
+                    'images/tamson_art_01.png'
                 ],
                 price: '$2,200',
-                status: 'available' // 'available' hoặc 'sold'
+                status: 'available'
+            },
+            {
+                id: 'ts002',
+                title: 'Summer 2026',
+                year: '2026',
+                dimensions: '70 X 90 CM',
+                medium: 'Pencil crayon and text markers',
+                tags: 'LARGE-FORMATS',
+                description: `Summer 2026 captures the vibrant energy of the season through bold color blocks and intricate layering. It reflects a moment of stillness in nature, where sunlight meets the deep textures of the natural world.`,
+                images: [
+                    'images/tamson_art_02.png'
+                ],
+                price: '$850',
+                status: 'available'
+            },
+            {
+                id: 'ts003',
+                title: 'The Signal',
+                year: '2024',
+                dimensions: '260 X 150 CM',
+                medium: 'Colour pencils on paper',
+                tags: 'COLOUR, NATURE, COMMUNICATION',
+                description: `The Signal explores the unseen language of plants and their ability to communicate. Through intricate patterning and bold color contrasts, this artwork visualizes a silent transmission of information across the natural world.`,
+                images: [
+                    'images/tamson_art_03.png'
+                ],
+                price: '$1,500',
+                status: 'available'
+            },
+            {
+                id: 'ts004',
+                title: 'The Joy tree',
+                year: '2025',
+                dimensions: '150 x 100cm',
+                medium: 'Pencil crayon in paper',
+                tags: 'TREES, HAPPINESS, NATURE',
+                description: `The Joy Tree is an ode to the simple pleasures of life. Its sprawling branches and playful forms invite the viewer to pause and appreciate the lightness and freedom of the natural world.`,
+                images: [
+                    'images/tamson_art_04.png'
+                ],
+                price: '$1,100',
+                status: 'available'
+            },
+            {
+                id: 'ts005',
+                title: 'Fruiting bodies',
+                year: '2024',
+                dimensions: '260 x 150 cm',
+                medium: 'Pencil crayon and text markers',
+                tags: 'MYCELIUM, FUNGI, ORGANIC',
+                description: `Fruiting Bodies examines the hidden networks beneath the forest floor. By translating the microscopic world of fungi into large-scale drawings, I seek to reveal the quiet intelligence of the underground ecosystem.`,
+                images: [
+                    'images/tamson_art_05.png'
+                ],
+                price: '$1,800',
+                status: 'sold' 
+            },
+            {
+                id: 'ts006',
+                title: 'The Spring of 2050',
+                year: '2026',
+                dimensions: '150 X 100 CM',
+                medium: 'Pencil crayon on papper',
+                tags: 'FUTURE, SPRING, SPECULATIVE',
+                description: `The Spring of 2050 is a speculative portrait of a future season. Combining organic flows with futuristic patterns, this work imagines the return of life after a long period of technological dominance.`,
+                images: [
+                    'images/tamson_art_06.png'
+                ],
+                price: '$950',
+                status: 'available'
+            },
+            {
+                id: 'ts007',
+                title: 'Untitled Flora',
+                year: '2025',
+                dimensions: '90 X 70 CM',
+                medium: 'Watercolor and pencil',
+                tags: 'FLORA, BOTANICAL, DELICATE',
+                description: `Untitled Flora focuses on the fragile balance of botanical life. Through delicate washes of color and precise line work, it captures the quiet poetry of a flower that is often overlooked.`,
+                images: [
+                    'images/tamson_art_07.png'
+                ],
+                price: '$600',
+                status: 'available'
+            },
+            {
+                id: 'ts008',
+                title: 'Bloom Cycle',
+                year: '2023',
+                dimensions: '200 x 140 CM',
+                medium: 'Mixed media',
+                tags: 'CYCLE, BLOOM, TRANSITION',
+                description: `Bloom Cycle reflects the inevitable rhythm of growth and decay in nature. Using mixed media, the artwork layers moments of full bloom with fading organic structures to celebrate the beauty of impermanence.`,
+                images: [
+                    'images/tamson_art_08.png'
+                ],
+                price: '$2,500',
+                status: 'available'
             }
-            // Bạn có thể copy block trên để thêm các tác phẩm khác (ts002, ts003...)
         ];
 
         // ==========================================================
