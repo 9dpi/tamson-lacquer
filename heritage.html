@@ -10,63 +10,48 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-
     <style>
         /* Tổng thể trang */
-        .heritage-wrapper { padding: 100px 0 80px; }
+        .main-content-wrapper { display: flex; flex-direction: column; width: 100%; padding-inline: 20px; padding-top: 20px; }
+        @media(min-width: 1024px) { .main-content-wrapper { padding-inline: 0; padding-top: 40px; } }
         
-        /* Header của trang */
         .heritage-header { padding-bottom: 40px; border-bottom: 1px solid var(--border-color); margin-bottom: 50px; }
         .heritage-header h1 { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 400; font-style: italic; margin: 0; }
         .heritage-header p { font-weight: 300; color: var(--text-muted); margin-top: 15px; max-width: 600px; }
         .heritage-header .sub-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 10px; display: block; }
 
-        /* Masonry Grid (Lưới xếp chồng giống Pinterest) */
-        .masonry-grid {
-            column-count: 3; /* Chia làm 3 cột */
-            column-gap: 25px;
-            width: 100%;
-            box-sizing: border-box;
-        }
+        .masonry-grid { column-count: 3; column-gap: 25px; width: 100%; box-sizing: border-box; }
         @media (max-width: 1024px) { .masonry-grid { column-count: 2; } }
         @media (max-width: 640px) { .masonry-grid { column-count: 1; } }
 
-        .grid-item {
-            break-inside: avoid;
-            margin-bottom: 25px;
-            background: var(--bg-color);
-            border-radius: 4px;
-            overflow: hidden;
-            display: block;
-            text-decoration: none;
-            color: inherit;
-            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-        }
+        .grid-item { break-inside: avoid; margin-bottom: 25px; background: var(--bg-color); border-radius: 4px; overflow: hidden; display: block; text-decoration: none; color: inherit; transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
         .grid-item:hover { transform: translateY(-6px); }
-
-        .grid-item img {
-            width: 100%; height: auto; display: block;
-            background: var(--border-color);
-        }
+        .grid-item img { width: 100%; height: auto; display: block; background: var(--border-color); }
         .grid-content { padding: 16px 0; }
         .grid-content .meta { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 6px; }
         .grid-content h3 { font-family: var(--font-sans); font-size: 1.15rem; font-weight: 500; margin: 0 0 6px; line-height: 1.4; }
         .grid-content p { font-size: 0.9rem; color: var(--text-muted); font-weight: 300; margin: 0; line-height: 1.5; }
-
-        /* Kích thước ảnh giả lập cao/thấp (Bạn có thể bỏ qua phần này nếu ảnh thật đã có tỷ lệ riêng) */
-        .tall-img { aspect-ratio: 3 / 4; object-fit: cover; }
-        .square-img { aspect-ratio: 1 / 1; object-fit: cover; }
-        .wide-img { aspect-ratio: 16 / 9; object-fit: cover; }
         .grid-item:nth-child(1) img { aspect-ratio: 2 / 3; }
         .grid-item:nth-child(2) img { aspect-ratio: 4 / 3; }
         .grid-item:nth-child(3) img { aspect-ratio: 1 / 1; }
         .grid-item:nth-child(4) img { aspect-ratio: 3 / 4; }
-        
-        @media (max-width: 768px) { .heritage-wrapper { padding: 80px 0 60px; } }
+        @media (max-width: 768px) { .main-content-wrapper { padding-inline: 20px; } }
+
+        /* Mobile Overlay Menu */
+        .mobile-overlay { position: fixed; inset: 0; z-index: 200; background-color: var(--text-main); color: var(--bg-color); display: flex; flex-direction: column; overflow-y: auto; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.4s ease, visibility 0.4s ease; }
+        .mobile-overlay.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+        .mobile-overlay-header { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem var(--nav-padding-x, 2rem); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .mobile-brand { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 400; font-style: italic; color: var(--bg-color); text-decoration: none; }
+        .menu-close-top { background: none; border: none; color: var(--bg-color); font-family: var(--font-sans); font-size: 0.85rem; text-transform: uppercase; cursor: pointer; }
+        .mobile-overlay-body { padding: 2rem var(--nav-padding-x, 2rem); }
+        .mobile-nav-links { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+        .mobile-nav-links a { font-family: var(--font-serif); font-size: 2.5rem; color: var(--bg-color); text-decoration: none; transition: opacity 0.3s ease; }
+        .mobile-nav-links a:hover { opacity: 0.6; }
+        @media (max-width: 768px) { .mobile-overlay { display: flex; } }
+        @media (min-width: 769px) { .mobile-overlay { display: none; } }
     </style>
 </head>
 <body>
-    <!-- NAV BAR -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-brand">Tam Son Art</a>
@@ -80,19 +65,31 @@
         </div>
     </nav>
 
+    <div class="mobile-overlay" id="mobileOverlay">
+        <div class="mobile-overlay-header">
+            <a href="index.html" class="mobile-brand">Tam Son Art</a>
+            <button class="menu-close-top" id="menuCloseTop"><span>CLOSE</span></button>
+        </div>
+        <div class="mobile-overlay-body">
+            <ul class="mobile-nav-links">
+                <li><a href="index.html#gallery" class="mobile-link">Gallery</a></li>
+                <li><a href="index.html#exhibitions" class="mobile-link">Exhibitions</a></li>
+                <li><a href="heritage.html" class="mobile-link">Heritage</a></li>
+                <li><a href="contact.html" class="mobile-link">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
     <main>
         <div class="container">
-            <div class="heritage-wrapper">
+            <div class="main-content-wrapper">
                 <div class="heritage-header">
                     <span class="sub-title">Di sản văn hóa</span>
                     <h1>Heritage</h1>
                     <p>Hành trình khám phá vẻ đẹp trường tồn của nghệ thuật sơn mài Việt Nam. Nơi những câu chuyện về kỹ thuật, chất liệu và tinh thần nghệ nhân được kể lại qua từng hình ảnh và bài viết.</p>
                 </div>
 
-                <!-- Masonry Grid Content -->
                 <div class="masonry-grid">
-                    
-                    <!-- Bài viết 1 (Cao) -->
                     <a href="heritage-detail.html?id=hrt01" class="grid-item">
                         <img src="images/tamson_art_01.png" alt="Kỹ thuật vẽ vàng lá">
                         <div class="grid-content">
@@ -101,8 +98,6 @@
                             <p>Vàng lá không chỉ là chất liệu, mà là linh hồn làm bừng sáng tác phẩm. Tìm hiểu quy trình...</p>
                         </div>
                     </a>
-
-                    <!-- Bài viết 2 (Ngang) -->
                     <a href="heritage-detail.html?id=hrt02" class="grid-item">
                         <img src="images/tamson_art_04.png" alt="Câu chuyện về vỏ trứng">
                         <div class="grid-content">
@@ -111,8 +106,6 @@
                             <p>Mỗi mảnh vỏ trứng nhỏ bé đều có thể trở thành những vì sao lấp lánh trong tranh sơn mài...</p>
                         </div>
                     </a>
-
-                    <!-- Bài viết 3 (Vuông) -->
                     <a href="heritage-detail.html?id=hrt03" class="grid-item">
                         <img src="images/tamson_art_02.png" alt="Tranh sơn mài đương đại">
                         <div class="grid-content">
@@ -121,8 +114,6 @@
                             <p>Làm thế nào để giữ gìn kỹ thuật nghìn năm tuổi mà vẫn mang lại sự tươi mới cho nghệ thuật hiện đại?</p>
                         </div>
                     </a>
-
-                    <!-- Bài viết 4 (Cao) -->
                     <a href="heritage-detail.html?id=hrt04" class="grid-item">
                         <img src="images/tamson_art_08.png" alt="Sơn mài và tín ngưỡng">
                         <div class="grid-content">
@@ -131,13 +122,11 @@
                             <p>Khám phá ý nghĩa ẩn giấu sau những họa tiết linh thiêng thường thấy trong các tác phẩm truyền thống.</p>
                         </div>
                     </a>
-                    
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="site-footer" id="site-footer">
         <div class="footer-info">
             <div class="footer-info-grid">
@@ -164,16 +153,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const menuCloseTop = document.getElementById('menuCloseTop');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            if (menuToggle && mobileOverlay) {
+                menuToggle.addEventListener('click', () => { mobileOverlay.classList.add('is-open'); document.body.style.overflow = 'hidden'; });
+                if (menuCloseTop) menuCloseTop.addEventListener('click', () => { mobileOverlay.classList.remove('is-open'); document.body.style.overflow = 'auto'; });
+                mobileOverlay.querySelectorAll('.mobile-link').forEach(link => { link.addEventListener('click', () => { mobileOverlay.classList.remove('is-open'); document.body.style.overflow = 'auto'; }); });
+            }
             const footer = document.getElementById('site-footer');
             let footerRevealed = false;
-            function checkFooterReveal() {
-                if (footerRevealed) return;
-                const rect = footer.getBoundingClientRect();
-                if (rect.top < window.innerHeight) {
-                    footerRevealed = true;
-                    footer.classList.add('footer-motion-visible');
-                }
-            }
+            function checkFooterReveal() { if (footerRevealed) return; const rect = footer.getBoundingClientRect(); if (rect.top < window.innerHeight) { footerRevealed = true; footer.classList.add('footer-motion-visible'); } }
             window.addEventListener('scroll', checkFooterReveal, { passive: true });
             window.addEventListener('resize', checkFooterReveal, { passive: true });
             checkFooterReveal();

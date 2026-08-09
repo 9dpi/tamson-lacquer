@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
-        .detail-wrapper { display: flex; flex-wrap: wrap; min-height: 60vh; align-items: flex-start; padding-top: 90px; }
+        .detail-wrapper { display: flex; flex-wrap: wrap; min-height: 60vh; align-items: flex-start; padding-top: 40px; padding-inline: 20px; }
+        @media(min-width: 1024px) { .detail-wrapper { padding-inline: 0; padding-top: 90px; } }
+        
         .detail-image-column { flex: 1; width: 50%; padding: 0 40px 60px 0; display: flex; flex-direction: column; align-items: flex-start; box-sizing: border-box; }
         .swiper { width: 100%; height: 75vh; background-color: #f9f6f5; border-radius: 4px; overflow: hidden; }
         .swiper-slide { display: flex; justify-content: center; align-items: center; background-color: #f9f6f5; }
@@ -41,6 +43,7 @@
         .btn-secondary:hover { border-color: var(--text-main); background: #f0f0f0; }
         .detail-description { font-size: 16px; line-height: 1.8; color: var(--text-main); max-width: 90%; margin-top: 20px; }
         .detail-description p + p { margin-top: 20px; }
+
         @media (max-width: 992px) {
             .detail-wrapper { flex-direction: column; min-height: auto; align-items: stretch; padding-top: 80px; }
             .detail-image-column, .detail-text-column { width: 100%; border-left: none; padding: 0 0 30px 0; }
@@ -52,6 +55,18 @@
             .swiper { height: 55vh; }
             .swiper-button-next, .swiper-button-prev { display: none !important; }
         }
+
+        .mobile-overlay { position: fixed; inset: 0; z-index: 200; background-color: var(--text-main); color: var(--bg-color); display: flex; flex-direction: column; overflow-y: auto; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.4s ease, visibility 0.4s ease; }
+        .mobile-overlay.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+        .mobile-overlay-header { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem var(--nav-padding-x, 2rem); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .mobile-brand { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 400; font-style: italic; color: var(--bg-color); text-decoration: none; }
+        .menu-close-top { background: none; border: none; color: var(--bg-color); font-family: var(--font-sans); font-size: 0.85rem; text-transform: uppercase; cursor: pointer; }
+        .mobile-overlay-body { padding: 2rem var(--nav-padding-x, 2rem); }
+        .mobile-nav-links { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+        .mobile-nav-links a { font-family: var(--font-serif); font-size: 2.5rem; color: var(--bg-color); text-decoration: none; transition: opacity 0.3s ease; }
+        .mobile-nav-links a:hover { opacity: 0.6; }
+        @media (max-width: 768px) { .mobile-overlay { display: flex; } }
+        @media (min-width: 769px) { .mobile-overlay { display: none; } }
     </style>
 </head>
 <body>
@@ -67,6 +82,21 @@
             <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span>MENU</span></button>
         </div>
     </nav>
+
+    <div class="mobile-overlay" id="mobileOverlay">
+        <div class="mobile-overlay-header">
+            <a href="index.html" class="mobile-brand">Tam Son Art</a>
+            <button class="menu-close-top" id="menuCloseTop"><span>CLOSE</span></button>
+        </div>
+        <div class="mobile-overlay-body">
+            <ul class="mobile-nav-links">
+                <li><a href="index.html#gallery" class="mobile-link">Gallery</a></li>
+                <li><a href="index.html#exhibitions" class="mobile-link">Exhibitions</a></li>
+                <li><a href="heritage.html" class="mobile-link">Heritage</a></li>
+                <li><a href="contact.html" class="mobile-link">Contact</a></li>
+            </ul>
+        </div>
+    </div>
 
     <main>
         <div class="container">
@@ -124,10 +154,7 @@
                     </nav>
                 </div>
                 <div class="footer-info-col">
-                    <div class="footer-info-lead">
-                        <h3 class="footer-info-heading">TAM SON ART</h3>
-                        <a href="#" target="_blank" rel="noopener noreferrer" class="footer-info-value footer-link">REPRESENTED BY TAM SON ART GALLERY</a>
-                    </div>
+                    <div class="footer-info-lead"><h3 class="footer-info-heading">TAM SON ART</h3><a href="#" target="_blank" rel="noopener noreferrer" class="footer-info-value footer-link">REPRESENTED BY TAM SON ART GALLERY</a></div>
                     <div class="footer-info-row"><span class="footer-info-label">EMAIL:</span><a href="mailto:vuquangcuong@gmail.com" class="footer-info-value">VUQUANGCUONG@GMAIL.COM</a></div>
                     <div class="footer-info-row"><span class="footer-info-label">WHATSAPP & PHONE:</span><a href="tel:+84912580018" class="footer-info-value">+84 912 580018</a></div>
                 </div>
@@ -136,114 +163,30 @@
         <div class="footer-copyright"><span>© 2026 TAM SON ART</span></div>
     </footer>
 
-    <!-- Import JS của Swiper -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
     <script>
-        // ==========================================================
-        //  DỮ LIỆU CỦA 8 TÁC PHẨM
-        // ==========================================================
         const ARTWORKS_DATA = [
-            {
-                id: 'ts001',
-                title: 'The Great Unfurling Head',
-                year: '2026',
-                dimensions: '260 X 150 CM',
-                medium: 'Pencil crayon, and text markers.',
-                tags: 'LACQUER, PAINTING, FLOWER, WOMEN',
-                description: `The Great Unfurling Head\nThis drawing marks a distinct departure from my earlier work, moving into a more interior and psychologically inflected register. Its dominant form is a single plant whose opened head occupies an ambiguous territory between a calla lily spathe, a neural cross-section, and an auditory organ. That hybrid morphology is central to the image: the structure reads as a receptive, listening apparatus.\n\nThe layered interior, articulated through parallel chromatic bands, closely resembles the microscopic cross-section of a leaf, in which palisade mesophyll, spongy mesophyll, and vascular bundles are revealed as stratified tissues. Here, the internal anatomy of a leaf is reimagined as the internal architecture of cognition.`,
-                images: ['images/tamson_art_01.png'],
-                price: '$2,200',
-                status: 'available'
-            },
-            {
-                id: 'ts002',
-                title: 'Summer 2026',
-                year: '2026',
-                dimensions: '70 X 90 CM',
-                medium: 'Pencil crayon and text markers',
-                tags: 'LARGE-FORMATS',
-                description: `Summer 2026 captures the vibrant energy of the season through bold color blocks and intricate layering. It reflects a moment of stillness in nature, where sunlight meets the deep textures of the natural world.`,
-                images: ['images/tamson_art_02.png'],
-                price: '$850',
-                status: 'available'
-            },
-            {
-                id: 'ts003',
-                title: 'The Signal',
-                year: '2024',
-                dimensions: '260 X 150 CM',
-                medium: 'Colour pencils on paper',
-                tags: 'COLOUR, NATURE, COMMUNICATION',
-                description: `The Signal explores the unseen language of plants and their ability to communicate. Through intricate patterning and bold color contrasts, this artwork visualizes a silent transmission of information across the natural world.`,
-                images: ['images/tamson_art_03.png'],
-                price: '$1,500',
-                status: 'available'
-            },
-            {
-                id: 'ts004',
-                title: 'The Joy tree',
-                year: '2025',
-                dimensions: '150 x 100cm',
-                medium: 'Pencil crayon in paper',
-                tags: 'TREES, HAPPINESS, NATURE',
-                description: `The Joy Tree is an ode to the simple pleasures of life. Its sprawling branches and playful forms invite the viewer to pause and appreciate the lightness and freedom of the natural world.`,
-                images: ['images/tamson_art_04.png'],
-                price: '$1,100',
-                status: 'available'
-            },
-            {
-                id: 'ts005',
-                title: 'Fruiting bodies',
-                year: '2024',
-                dimensions: '260 x 150 cm',
-                medium: 'Pencil crayon and text markers',
-                tags: 'MYCELIUM, FUNGI, ORGANIC',
-                description: `Fruiting Bodies examines the hidden networks beneath the forest floor. By translating the microscopic world of fungi into large-scale drawings, I seek to reveal the quiet intelligence of the underground ecosystem.`,
-                images: ['images/tamson_art_05.png'],
-                price: '$1,800',
-                status: 'sold' 
-            },
-            {
-                id: 'ts006',
-                title: 'The Spring of 2050',
-                year: '2026',
-                dimensions: '150 X 100 CM',
-                medium: 'Pencil crayon on papper',
-                tags: 'FUTURE, SPRING, SPECULATIVE',
-                description: `The Spring of 2050 is a speculative portrait of a future season. Combining organic flows with futuristic patterns, this work imagines the return of life after a long period of technological dominance.`,
-                images: ['images/tamson_art_06.png'],
-                price: '$950',
-                status: 'available'
-            },
-            {
-                id: 'ts007',
-                title: 'Untitled Flora',
-                year: '2025',
-                dimensions: '90 X 70 CM',
-                medium: 'Watercolor and pencil',
-                tags: 'FLORA, BOTANICAL, DELICATE',
-                description: `Untitled Flora focuses on the fragile balance of botanical life. Through delicate washes of color and precise line work, it captures the quiet poetry of a flower that is often overlooked.`,
-                images: ['images/tamson_art_07.png'],
-                price: '$600',
-                status: 'available'
-            },
-            {
-                id: 'ts008',
-                title: 'Bloom Cycle',
-                year: '2023',
-                dimensions: '200 x 140 CM',
-                medium: 'Mixed media',
-                tags: 'CYCLE, BLOOM, TRANSITION',
-                description: `Bloom Cycle reflects the inevitable rhythm of growth and decay in nature. Using mixed media, the artwork layers moments of full bloom with fading organic structures to celebrate the beauty of impermanence.`,
-                images: ['images/tamson_art_08.png'],
-                price: '$2,500',
-                status: 'available'
-            }
+            { id: 'ts001', title: 'The Great Unfurling Head', year: '2026', dimensions: '260 X 150 CM', medium: 'Pencil crayon, and text markers.', tags: 'LACQUER, PAINTING, FLOWER, WOMEN', description: `The Great Unfurling Head\nThis drawing marks a distinct departure from my earlier work, moving into a more interior and psychologically inflected register. Its dominant form is a single plant whose opened head occupies an ambiguous territory between a calla lily spathe, a neural cross-section, and an auditory organ. That hybrid morphology is central to the image: the structure reads as a receptive, listening apparatus.\n\nThe layered interior, articulated through parallel chromatic bands, closely resembles the microscopic cross-section of a leaf, in which palisade mesophyll, spongy mesophyll, and vascular bundles are revealed as stratified tissues. Here, the internal anatomy of a leaf is reimagined as the internal architecture of cognition.`, images: ['images/tamson_art_01.png'], price: '$2,200', status: 'available' },
+            { id: 'ts002', title: 'Summer 2026', year: '2026', dimensions: '70 X 90 CM', medium: 'Pencil crayon and text markers', tags: 'LARGE-FORMATS', description: `Summer 2026 captures the vibrant energy of the season through bold color blocks and intricate layering. It reflects a moment of stillness in nature, where sunlight meets the deep textures of the natural world.`, images: ['images/tamson_art_02.png'], price: '$850', status: 'available' },
+            { id: 'ts003', title: 'The Signal', year: '2024', dimensions: '260 X 150 CM', medium: 'Colour pencils on paper', tags: 'COLOUR, NATURE, COMMUNICATION', description: `The Signal explores the unseen language of plants and their ability to communicate. Through intricate patterning and bold color contrasts, this artwork visualizes a silent transmission of information across the natural world.`, images: ['images/tamson_art_03.png'], price: '$1,500', status: 'available' },
+            { id: 'ts004', title: 'The Joy tree', year: '2025', dimensions: '150 x 100cm', medium: 'Pencil crayon in paper', tags: 'TREES, HAPPINESS, NATURE', description: `The Joy Tree is an ode to the simple pleasures of life. Its sprawling branches and playful forms invite the viewer to pause and appreciate the lightness and freedom of the natural world.`, images: ['images/tamson_art_04.png'], price: '$1,100', status: 'available' },
+            { id: 'ts005', title: 'Fruiting bodies', year: '2024', dimensions: '260 x 150 cm', medium: 'Pencil crayon and text markers', tags: 'MYCELIUM, FUNGI, ORGANIC', description: `Fruiting Bodies examines the hidden networks beneath the forest floor. By translating the microscopic world of fungi into large-scale drawings, I seek to reveal the quiet intelligence of the underground ecosystem.`, images: ['images/tamson_art_05.png'], price: '$1,800', status: 'sold' },
+            { id: 'ts006', title: 'The Spring of 2050', year: '2026', dimensions: '150 X 100 CM', medium: 'Pencil crayon on papper', tags: 'FUTURE, SPRING, SPECULATIVE', description: `The Spring of 2050 is a speculative portrait of a future season. Combining organic flows with futuristic patterns, this work imagines the return of life after a long period of technological dominance.`, images: ['images/tamson_art_06.png'], price: '$950', status: 'available' },
+            { id: 'ts007', title: 'Untitled Flora', year: '2025', dimensions: '90 X 70 CM', medium: 'Watercolor and pencil', tags: 'FLORA, BOTANICAL, DELICATE', description: `Untitled Flora focuses on the fragile balance of botanical life. Through delicate washes of color and precise line work, it captures the quiet poetry of a flower that is often overlooked.`, images: ['images/tamson_art_07.png'], price: '$600', status: 'available' },
+            { id: 'ts008', title: 'Bloom Cycle', year: '2023', dimensions: '200 x 140 CM', medium: 'Mixed media', tags: 'CYCLE, BLOOM, TRANSITION', description: `Bloom Cycle reflects the inevitable rhythm of growth and decay in nature. Using mixed media, the artwork layers moments of full bloom with fading organic structures to celebrate the beauty of impermanence.`, images: ['images/tamson_art_08.png'], price: '$2,500', status: 'available' }
         ];
 
         const WHATSAPP_NUMBER = "84912580018"; 
-        document.addEventListener('DOMContentLoaded', async () => {
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const menuCloseTop = document.getElementById('menuCloseTop');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            if (menuToggle && mobileOverlay) {
+                menuToggle.addEventListener('click', () => { mobileOverlay.classList.add('is-open'); document.body.style.overflow = 'hidden'; });
+                if (menuCloseTop) menuCloseTop.addEventListener('click', () => { mobileOverlay.classList.remove('is-open'); document.body.style.overflow = 'auto'; });
+                mobileOverlay.querySelectorAll('.mobile-link').forEach(link => { link.addEventListener('click', () => { mobileOverlay.classList.remove('is-open'); document.body.style.overflow = 'auto'; }); });
+            }
+
             const urlParams = new URLSearchParams(window.location.search);
             const artworkId = urlParams.get('id'); 
             if (!artworkId) {
@@ -256,81 +199,31 @@
                 container.innerHTML = `<div style="width:100%; text-align:center; padding:100px 20px; color:var(--text-muted);">Không tìm thấy tác phẩm với ID: ${artworkId}.</div>`;
                 return;
             }
-            let imageUrls = [];
-            if (data && data.images) imageUrls = data.images;
-            if (imageUrls.length === 0) imageUrls = ['images/tamson_art_01.png'];
-
+            let imageUrls = data.images || ['images/tamson_art_01.png'];
             let priceHTML = '';
             let chatLink = `https://wa.me/${WHATSAPP_NUMBER}?text=Hi%20Vu%20Cuong,%20I'm%20interested%20in%20your%20artwork:%20${encodeURIComponent(data.title)}`;
             if (data.status && data.status.toLowerCase() === 'sold') {
-                priceHTML = `
-                    <div class="purchase-section">
-                        <span class="price-label sold-status">SOLD</span>
-                        ${data.price ? `<span class="price-label sold-price">${data.price}</span>` : ''}
-                        <div class="cta-group">
-                            <a href="${chatLink}" target="_blank" class="btn-primary">
-                                <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                                Inquire / Order
-                            </a>
-                            <a href="mailto:vuquangcuong@gmail.com?subject=Inquiry%20-%20${encodeURIComponent(data.title)}" class="btn-secondary">Email Us</a>
-                        </div>
-                    </div>
-                `;
+                priceHTML = `<div class="purchase-section"><span class="price-label sold-status">SOLD</span>${data.price ? `<span class="price-label sold-price">${data.price}</span>` : ''}<div class="cta-group"><a href="${chatLink}" target="_blank" class="btn-primary"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>Inquire / Order</a><a href="mailto:vuquangcuong@gmail.com?subject=Inquiry%20-%20${encodeURIComponent(data.title)}" class="btn-secondary">Email Us</a></div></div>`;
             } else {
-                priceHTML = `
-                    <div class="purchase-section">
-                        <span class="price-label">${data.price || 'Price on request'}</span>
-                        <div class="cta-group">
-                            <a href="${chatLink}" target="_blank" class="btn-primary">
-                                <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                                Buy / Order
-                            </a>
-                            <a href="mailto:vuquangcuong@gmail.com?subject=Inquiry%20-%20${encodeURIComponent(data.title)}" class="btn-secondary">Ask a Question</a>
-                        </div>
-                    </div>
-                `;
+                priceHTML = `<div class="purchase-section"><span class="price-label">${data.price || 'Price on request'}</span><div class="cta-group"><a href="${chatLink}" target="_blank" class="btn-primary"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>Buy / Order</a><a href="mailto:vuquangcuong@gmail.com?subject=Inquiry%20-%20${encodeURIComponent(data.title)}" class="btn-secondary">Ask a Question</a></div></div>`;
             }
             let swiperSlidesHTML = imageUrls.map(url => `<div class="swiper-slide"><img src="${url}" alt="${data.title}"></div>`).join('');
             container.innerHTML = `
-                <div class="detail-image-column">
-                    <div class="swiper myArtworkSwiper">
-                        <div class="swiper-wrapper">${swiperSlidesHTML}</div>
-                        <div class="swiper-pagination"></div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                    </div>
-                </div>
+                <div class="detail-image-column"><div class="swiper myArtworkSwiper"><div class="swiper-wrapper">${swiperSlidesHTML}</div><div class="swiper-pagination"></div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div></div></div>
                 <div class="detail-text-column">
-                    <a href="index.html" class="close-btn" aria-label="Close details">
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    </a>
+                    <a href="index.html" class="close-btn" aria-label="Close details"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></a>
                     <h1 class="detail-title">${data.title}</h1>
-                    <div class="detail-meta">
-                        <span>${data.year || ''}</span>
-                        <span>${data.dimensions || ''}</span>
-                        <span>${data.medium || ''}</span>
-                    </div>
+                    <div class="detail-meta"><span>${data.year || ''}</span><span>${data.dimensions || ''}</span><span>${data.medium || ''}</span></div>
                     <div class="detail-tags">${data.tags || ''}</div>
                     <div class="detail-description">${data.description ? data.description.replace(/\n/g, '<br>') : ''}</div>
                     ${priceHTML}
                 </div>
             `;
-            new Swiper(".myArtworkSwiper", {
-                loop: imageUrls.length > 1,
-                spaceBetween: 20,
-                pagination: { el: ".swiper-pagination", clickable: true },
-                navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
-            });
+            new Swiper(".myArtworkSwiper", { loop: imageUrls.length > 1, spaceBetween: 20, pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" } });
+
             const footer = document.getElementById('site-footer');
             let footerRevealed = false;
-            function checkFooterReveal() {
-                if (footerRevealed) return;
-                const rect = footer.getBoundingClientRect();
-                if (rect.top < window.innerHeight) {
-                    footerRevealed = true;
-                    footer.classList.add('footer-motion-visible');
-                }
-            }
+            function checkFooterReveal() { if (footerRevealed) return; const rect = footer.getBoundingClientRect(); if (rect.top < window.innerHeight) { footerRevealed = true; footer.classList.add('footer-motion-visible'); } }
             window.addEventListener('scroll', checkFooterReveal, { passive: true });
             window.addEventListener('resize', checkFooterReveal, { passive: true });
             checkFooterReveal();
