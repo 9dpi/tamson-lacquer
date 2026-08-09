@@ -33,6 +33,9 @@
                 <div class="home-hero-spacer" aria-hidden="true"></div>
                 <div class="home-overlap">
                     
+                    <!-- ============================================ -->
+                    <!-- GALLERY SECTION (Giữ nguyên)                 -->
+                    <!-- ============================================ -->
                     <section id="gallery" class="works-intro">
                         <div class="works-intro__layout">
                             <header class="works-intro__intro">
@@ -222,20 +225,27 @@
                         </div>
                     </section>
 
-                    <section id="exhibitions" class="home-featured-exhibitions">
-                        <header class="home-featured-exhibitions__header">
-                            <div class="home-featured-exhibitions__title-wrap">
-                                <p class="home-featured-exhibitions__eyebrow">Selected exhibitions</p>
-                                <h2 class="home-featured-exhibitions__title is-revealed" id="home-featured-exhibitions-title">EXHIBITIONS</h2>
-                                <p class="home-featured-exhibitions__lede">Selected exhibitions and projects featuring masterpieces of Vietnamese lacquer art. From solo showcases to international collaborations, each exhibition reflects a journey of preserving and evolving the ancient art of lacquer.</p>
-                                <a class="home-featured-exhibitions__cta" href="#">
-                                    <span class="home-featured-exhibitions__cta-label">All exhibitions</span>
-                                    <span class="home-featured-exhibitions__cta-arrow" aria-hidden="true">→</span>
-                                </a>
+                    <!-- ============================================ -->
+                    <!-- EXHIBITIONS SECTION (Layout Grid Đẹp Mới)    -->
+                    <!-- ============================================ -->
+                    <section id="exhibitions" class="exhibitions-section">
+                        <header class="exhibitions-section__header">
+                            <div class="exhibitions-section__title-wrap">
+                                <p class="exhibitions-section__eyebrow">Selected exhibitions</p>
+                                <h2 class="exhibitions-section__title is-revealed" id="exhibitions-section-title">EXHIBITIONS</h2>
+                                <p class="exhibitions-section__lede">Selected exhibitions and projects featuring masterpieces of Vietnamese lacquer art. From solo showcases to international collaborations, each exhibition reflects a journey of preserving and evolving the ancient art of lacquer.</p>
                             </div>
                         </header>
+                        
+                        <!-- Container Grid Layout -->
+                        <div class="exhibitions-grid-wrapper" id="exhibitionsContainer">
+                            <!-- Các thẻ Exhibition sẽ được JavaScript render vào đây -->
+                        </div>
                     </section>
 
+                    <!-- ============================================ -->
+                    <!-- ABOUT SECTION                               -->
+                    <!-- ============================================ -->
                     <section id="about" class="home-about-cta" data-scroll-motion>
                         <div class="home-about-cta__inner">
                             <div class="home-about-cta__copy">
@@ -290,8 +300,92 @@
         <div class="footer-copyright"><span>© 2026 TAM SON ART</span></div>
     </footer>
 
+    <!-- CSS Local dùng cho EXHIBITIONS Section -->
+    <style>
+        /* --- Layout cho phần EXHIBITIONS --- */
+        .exhibitions-section {
+            width: 100%; max-width: 100%; box-sizing: border-box;
+            background: var(--bg-color); padding-bottom: 80px; padding-top: 40px;
+            position: relative; z-index: 1;
+        }
+        .exhibitions-section__header {
+            padding: 0 0 50px 0; box-sizing: border-box;
+        }
+        .exhibitions-section__title-wrap {
+            width: 100%; max-width: 100%; min-width: 0;
+            display: flex; flex-direction: column; gap: clamp(1rem,2vh,1.5rem);
+        }
+        .exhibitions-section__eyebrow {
+            font-family: var(--font-sans); font-size: 0.85rem; font-weight: 400;
+            letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); margin: 0;
+        }
+        .exhibitions-section__title {
+            font-family: var(--font-serif); font-size: clamp(2.5rem,5.5vw,5rem);
+            font-weight: 400; font-style: italic; letter-spacing: -1px; line-height: 1;
+            margin: 0; color: var(--text-main); text-transform: uppercase; max-width: 100%; white-space: nowrap;
+        }
+        .exhibitions-section__lede {
+            font-family: var(--font-sans); font-size: clamp(1rem,1.5vw,1.2rem);
+            font-weight: 300; line-height: 1.6; color: var(--text-main); margin: 0; max-width: 600px;
+        }
+
+        /* --- Grid Layout cho các thẻ Exhibition --- */
+        .exhibitions-grid-wrapper {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 30px;
+        }
+        @media (min-width: 768px) {
+            .exhibitions-grid-wrapper { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 1024px) {
+            .exhibitions-grid-wrapper { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* --- Card Exhibition --- */
+        .exhibition-card {
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .exhibition-card.is-revealed { opacity: 1; transform: translateY(0); }
+        
+        .exhibition-card a { text-decoration: none; color: inherit; display: block; }
+        .exhibition-card__media {
+            width: 100%; margin-bottom: 20px;
+            overflow: hidden; border-radius: 4px;
+            background: #f9f6f5;
+            aspect-ratio: 16 / 10;
+        }
+        .exhibition-card__media img {
+            width: 100%; height: 100%; object-fit: cover;
+            display: block; transition: transform 0.8s ease;
+        }
+        .exhibition-card a:hover .exhibition-card__media img { transform: scale(1.03); }
+        
+        .exhibition-card__meta { font-family: var(--font-sans); }
+        .exhibition-card__date {
+            display: block; font-size: 0.8rem; font-weight: 500;
+            letter-spacing: .12em; text-transform: uppercase; color: var(--accent-pink); margin-bottom: 6px;
+        }
+        .exhibition-card__caption {
+            font-size: 1.1rem; font-weight: 500; letter-spacing: .04em;
+            text-transform: uppercase; color: var(--text-main); margin-bottom: 4px;
+        }
+        .exhibition-card__source {
+            font-size: 0.9rem; font-weight: 300; color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .exhibitions-section { padding-bottom: 60px; padding-top: 20px; }
+        }
+    </style>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- 1. Gallery Scroll ---
             const viewport = document.getElementById('scrollViewport');
             const prevBtn = document.getElementById('galleryPrev');
             const nextBtn = document.getElementById('galleryNext');
@@ -309,6 +403,56 @@
                 nextBtn.addEventListener('click', () => scrollGallery(1));
             }
 
+            // --- 2. Render Exhibitions ---
+            const exhibitionsData = [
+                {
+                    date: 'May 2026',
+                    title: 'ART INTERNATIONAL ZURICH',
+                    source: 'Contemporary Art Fair',
+                    image: 'https://images.unsplash.com/photo-1545989253-02cc26577f88?q=80&w=800&auto=format&fit=crop'
+                },
+                {
+                    date: 'Dec 2025',
+                    title: 'VIETNAMESE LACQUER HERITAGE',
+                    source: 'National Museum of Fine Arts',
+                    image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=800&auto=format&fit=crop'
+                },
+                {
+                    date: 'Aug 2025',
+                    title: 'SOUTHEAST ASIAN ART FORUM',
+                    source: 'Singapore Art Week',
+                    image: 'https://images.unsplash.com/photo-1536924940846-227afb31e2a5?q=80&w=800&auto=format&fit=crop'
+                }
+            ];
+
+            const container = document.getElementById('exhibitionsContainer');
+            container.innerHTML = exhibitionsData.map((ex, index) => `
+                <a href="#" class="exhibition-card" style="transition-delay: ${index * 0.1}s;">
+                    <div class="exhibition-card__media">
+                        <img src="${ex.image}" alt="${ex.title}" loading="lazy" decoding="async">
+                    </div>
+                    <div class="exhibition-card__meta">
+                        <span class="exhibition-card__date">${ex.date}</span>
+                        <p class="exhibition-card__caption">${ex.title}</p>
+                        <p class="exhibition-card__source">${ex.source}</p>
+                    </div>
+                </a>
+            `).join('');
+
+            // --- 3. Hiệu ứng Reveal cho Exhibition Cards khi scroll ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-revealed');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.exhibition-card').forEach(el => {
+                observer.observe(el);
+            });
+
+            // --- 4. Footer ---
             const footer = document.getElementById('site-footer');
             let footerRevealed = false;
             function checkFooterReveal() {
