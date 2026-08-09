@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tam Son Art - Gallery</title>
+    <meta name="description" content="Tam Son Art - Khám phá bộ sưu tập sơn mài tinh xảo của Nghệ nhân Vũ Cường. Tranh sơn mài, nghệ thuật đương đại, tác phẩm thủ công cao cấp.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,8 +20,8 @@
             <ul class="nav-links">
                 <li class="active"><a href="#gallery">Gallery</a></li>
                 <li><a href="#exhibitions">Exhibitions</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="heritage.html">Heritage</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
             <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span>MENU</span></button>
         </div>
@@ -272,8 +273,8 @@
                     <nav class="footer-nav" aria-label="Footer navigation">
                         <a href="#gallery" class="footer-nav-link">GALLERY</a>
                         <a href="#exhibitions" class="footer-nav-link">EXHIBITIONS</a>
-                        <a href="#about" class="footer-nav-link">ABOUT</a>
-                        <a href="mailto:vuquangcuong@gmail.com" class="footer-nav-link">CONTACT</a>
+                        <a href="heritage.html" class="footer-nav-link">HERITAGE</a>
+                        <a href="contact.html" class="footer-nav-link">CONTACT</a>
                     </nav>
                 </div>
                 <div class="footer-info-col">
@@ -291,11 +292,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Xử lý scroll ngang Gallery bằng nút bấm ---
             const viewport = document.getElementById('scrollViewport');
             const prevBtn = document.getElementById('galleryPrev');
             const nextBtn = document.getElementById('galleryNext');
-
             if (viewport && prevBtn && nextBtn) {
                 const scrollGallery = (direction) => {
                     const card = viewport.querySelector('.works-card');
@@ -310,7 +309,6 @@
                 nextBtn.addEventListener('click', () => scrollGallery(1));
             }
 
-            // --- Hiệu ứng Footer ---
             const footer = document.getElementById('site-footer');
             let footerRevealed = false;
             function checkFooterReveal() {

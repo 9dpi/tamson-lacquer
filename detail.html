@@ -10,79 +10,37 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
-
-    <!-- Thêm CSS của Swiper -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
-        .detail-wrapper { 
-            display: flex; flex-wrap: wrap; min-height: 60vh; align-items: flex-start; 
-            padding-top: 90px; 
-        }
+        .detail-wrapper { display: flex; flex-wrap: wrap; min-height: 60vh; align-items: flex-start; padding-top: 90px; }
         .detail-image-column { flex: 1; width: 50%; padding: 0 40px 60px 0; display: flex; flex-direction: column; align-items: flex-start; box-sizing: border-box; }
+        .swiper { width: 100%; height: 75vh; background-color: #f9f6f5; border-radius: 4px; overflow: hidden; }
+        .swiper-slide { display: flex; justify-content: center; align-items: center; background-color: #f9f6f5; }
+        .swiper-slide img { width: 100%; height: 100%; object-fit: contain; display: block; }
+        .swiper-button-next, .swiper-button-prev { color: var(--text-main); background: rgba(255, 255, 255, 0.85); width: 48px; height: 48px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .swiper-button-next::after, .swiper-button-prev::after { font-size: 20px; font-weight: bold; }
+        .swiper-button-next:hover, .swiper-button-prev:hover { background: #fff; color: var(--accent-pink); }
+        .swiper-pagination-bullet-active { background: var(--accent-pink) !important; }
         
-        /* --- STYLE CHO SWIPER CAROUSEL --- */
-        .swiper {
-            width: 100%;
-            height: 75vh;
-            background-color: #f9f6f5;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .swiper-slide {
-            display: flex; justify-content: center; align-items: center;
-            background-color: #f9f6f5;
-        }
-        .swiper-slide img {
-            width: 100%; height: 100%; object-fit: contain;
-            display: block;
-        }
-        
-        /* Tùy biến nút mũi tên của Swiper */
-        .swiper-button-next, .swiper-button-prev {
-            color: var(--text-main);
-            background: rgba(255, 255, 255, 0.85);
-            width: 48px; height: 48px;
-            border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .swiper-button-next::after, .swiper-button-prev::after {
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .swiper-button-next:hover, .swiper-button-prev:hover {
-            background: #fff;
-            color: var(--accent-pink);
-        }
-        .swiper-pagination-bullet-active {
-            background: var(--accent-pink) !important;
-        }
-        /* --- HẾT SWIPER STYLE --- */
-
         .detail-text-column { flex: 1; width: 50%; padding: 0 0 60px 60px; border-left: 1px solid var(--border-color); position: relative; display: flex; flex-direction: column; box-sizing: border-box; }
         .close-btn { position: absolute; top: 0; right: 0; width: 30px; height: 30px; cursor: pointer; transition: all 0.3s ease; color: var(--text-main); }
         .close-btn:hover { opacity: 0.6; transform: rotate(90deg); }
-        
         .detail-title { font-family: var(--font-serif); font-size: clamp(32px, 3.5vw, 52px); font-weight: 400; margin-bottom: 20px; margin-top: 0; }
         .detail-meta { display: flex; flex-direction: column; gap: 12px; font-size: 18px; font-weight: 400; margin-bottom: 20px; }
         .detail-tags { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin: 10px 0 20px 0; }
-
         .purchase-section { margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 25px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
         .price-label { font-family: var(--font-serif); font-size: 1.6rem; color: var(--text-main); }
         .price-label.sold-price { color: var(--text-muted); text-decoration: line-through; font-size: 1.2rem; }
         .price-label.sold-status { color: #b91c1c; font-size: 1.2rem; font-family: var(--font-sans); font-weight: 500; }
-
         .cta-group { display: flex; gap: 15px; flex-wrap: wrap; width: 100%; }
         .btn-primary { display: inline-flex; align-items: center; justify-content: center; padding: 14px 36px; background: var(--accent-pink); color: #fff; border: none; font-family: var(--font-sans); font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: background 0.3s ease; border-radius: 4px; text-decoration: none; }
         .btn-primary:hover { background: #e0456a; color: #fff; }
         .btn-primary svg { margin-right: 8px; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
         .btn-secondary { display: inline-flex; align-items: center; justify-content: center; padding: 14px 30px; background: transparent; color: var(--text-main); border: 1px solid var(--border-color); font-family: var(--font-sans); font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; transition: all 0.3s ease; border-radius: 4px; text-decoration: none; }
         .btn-secondary:hover { border-color: var(--text-main); background: #f0f0f0; }
-
         .detail-description { font-size: 16px; line-height: 1.8; color: var(--text-main); max-width: 90%; margin-top: 20px; }
         .detail-description p + p { margin-top: 20px; }
-
         @media (max-width: 992px) {
             .detail-wrapper { flex-direction: column; min-height: auto; align-items: stretch; padding-top: 80px; }
             .detail-image-column, .detail-text-column { width: 100%; border-left: none; padding: 0 0 30px 0; }
@@ -92,7 +50,7 @@
             .detail-description { max-width: 100%; }
             .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
             .swiper { height: 55vh; }
-            .swiper-button-next, .swiper-button-prev { display: none !important; } 
+            .swiper-button-next, .swiper-button-prev { display: none !important; }
         }
     </style>
 </head>
@@ -103,8 +61,8 @@
             <ul class="nav-links">
                 <li class="active"><a href="index.html#gallery">Gallery</a></li>
                 <li><a href="index.html#exhibitions">Exhibitions</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="mailto:vuquangcuong@gmail.com">Contact</a></li>
+                <li><a href="heritage.html">Heritage</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
             <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span>MENU</span></button>
         </div>
@@ -112,9 +70,22 @@
 
     <main>
         <div class="container">
-            <!-- Container hiển thị nội dung chi tiết -->
             <div class="detail-wrapper" id="detailContainer">
-                <!-- Nội dung sẽ được JavaScript render tự động vào đây -->
+                <!-- Skeleton Loading -->
+                <div class="detail-image-column">
+                    <div class="skeleton" style="width: 100%; height: 500px; border-radius: 4px; margin-bottom: 20px;"></div>
+                </div>
+                <div class="detail-text-column">
+                    <div class="skeleton" style="width: 80%; height: 48px; border-radius: 4px; margin-bottom: 20px;"></div>
+                    <div class="skeleton" style="width: 50%; height: 20px; border-radius: 4px; margin-bottom: 12px;"></div>
+                    <div class="skeleton" style="width: 50%; height: 20px; border-radius: 4px; margin-bottom: 12px;"></div>
+                    <div style="margin-top: 30px;">
+                        <div class="skeleton" style="width: 100%; height: 16px; border-radius: 4px; margin-bottom: 10px;"></div>
+                        <div class="skeleton" style="width: 100%; height: 16px; border-radius: 4px; margin-bottom: 10px;"></div>
+                        <div class="skeleton" style="width: 70%; height: 16px; border-radius: 4px;"></div>
+                        <div class="skeleton" style="width: 150px; height: 45px; border-radius: 4px; margin-top: 20px;"></div>
+                    </div>
+                </div>
             </div>
 
             <section id="about" class="home-about-cta" data-scroll-motion>
@@ -148,8 +119,8 @@
                     <nav class="footer-nav" aria-label="Footer navigation">
                         <a href="index.html#gallery" class="footer-nav-link">GALLERY</a>
                         <a href="index.html#exhibitions" class="footer-nav-link">EXHIBITIONS</a>
-                        <a href="index.html#about" class="footer-nav-link">ABOUT</a>
-                        <a href="mailto:vuquangcuong@gmail.com" class="footer-nav-link">CONTACT</a>
+                        <a href="heritage.html" class="footer-nav-link">HERITAGE</a>
+                        <a href="contact.html" class="footer-nav-link">CONTACT</a>
                     </nav>
                 </div>
                 <div class="footer-info-col">
@@ -170,27 +141,18 @@
 
     <script>
         // ==========================================================
-        //  1. DỮ LIỆU CỦA TÁC PHẨM NẰM NGAY TRONG FILE NÀY
-        //  Bạn có thể thêm nhiều tác phẩm vào mảng này để dùng chung
-        // ==========================================================
-                // ==========================================================
-        //  1. DỮ LIỆU CỦA 8 TÁC PHẨM (Từ ts001 đến ts008)
+        //  DỮ LIỆU CỦA 8 TÁC PHẨM
         // ==========================================================
         const ARTWORKS_DATA = [
             {
                 id: 'ts001',
-                title: 'Thiếu nữ bên hoa',
+                title: 'The Great Unfurling Head',
                 year: '2026',
-                dimensions: '120×200cm',
-                medium: 'Lacquer, eggshell, gold leaf',
+                dimensions: '260 X 150 CM',
+                medium: 'Pencil crayon, and text markers.',
                 tags: 'LACQUER, PAINTING, FLOWER, WOMEN',
-                description: `The Great Unfurling Head
-This drawing marks a distinct departure from my earlier work, moving into a more interior and psychologically inflected register. Its dominant form is a single plant whose opened head occupies an ambiguous territory between a calla lily spathe, a neural cross-section, and an auditory organ. That hybrid morphology is central to the image: the structure reads as a receptive, listening apparatus.
-
-The layered interior, articulated through parallel chromatic bands, closely resembles the microscopic cross-section of a leaf, in which palisade mesophyll, spongy mesophyll, and vascular bundles are revealed as stratified tissues. Here, the internal anatomy of a leaf is reimagined as the internal architecture of cognition.`,
-                images: [
-                    'images/tamson_art_01.png'
-                ],
+                description: `The Great Unfurling Head\nThis drawing marks a distinct departure from my earlier work, moving into a more interior and psychologically inflected register. Its dominant form is a single plant whose opened head occupies an ambiguous territory between a calla lily spathe, a neural cross-section, and an auditory organ. That hybrid morphology is central to the image: the structure reads as a receptive, listening apparatus.\n\nThe layered interior, articulated through parallel chromatic bands, closely resembles the microscopic cross-section of a leaf, in which palisade mesophyll, spongy mesophyll, and vascular bundles are revealed as stratified tissues. Here, the internal anatomy of a leaf is reimagined as the internal architecture of cognition.`,
+                images: ['images/tamson_art_01.png'],
                 price: '$2,200',
                 status: 'available'
             },
@@ -202,9 +164,7 @@ The layered interior, articulated through parallel chromatic bands, closely rese
                 medium: 'Pencil crayon and text markers',
                 tags: 'LARGE-FORMATS',
                 description: `Summer 2026 captures the vibrant energy of the season through bold color blocks and intricate layering. It reflects a moment of stillness in nature, where sunlight meets the deep textures of the natural world.`,
-                images: [
-                    'images/tamson_art_02.png'
-                ],
+                images: ['images/tamson_art_02.png'],
                 price: '$850',
                 status: 'available'
             },
@@ -216,9 +176,7 @@ The layered interior, articulated through parallel chromatic bands, closely rese
                 medium: 'Colour pencils on paper',
                 tags: 'COLOUR, NATURE, COMMUNICATION',
                 description: `The Signal explores the unseen language of plants and their ability to communicate. Through intricate patterning and bold color contrasts, this artwork visualizes a silent transmission of information across the natural world.`,
-                images: [
-                    'images/tamson_art_03.png'
-                ],
+                images: ['images/tamson_art_03.png'],
                 price: '$1,500',
                 status: 'available'
             },
@@ -230,9 +188,7 @@ The layered interior, articulated through parallel chromatic bands, closely rese
                 medium: 'Pencil crayon in paper',
                 tags: 'TREES, HAPPINESS, NATURE',
                 description: `The Joy Tree is an ode to the simple pleasures of life. Its sprawling branches and playful forms invite the viewer to pause and appreciate the lightness and freedom of the natural world.`,
-                images: [
-                    'images/tamson_art_04.png'
-                ],
+                images: ['images/tamson_art_04.png'],
                 price: '$1,100',
                 status: 'available'
             },
@@ -244,9 +200,7 @@ The layered interior, articulated through parallel chromatic bands, closely rese
                 medium: 'Pencil crayon and text markers',
                 tags: 'MYCELIUM, FUNGI, ORGANIC',
                 description: `Fruiting Bodies examines the hidden networks beneath the forest floor. By translating the microscopic world of fungi into large-scale drawings, I seek to reveal the quiet intelligence of the underground ecosystem.`,
-                images: [
-                    'images/tamson_art_05.png'
-                ],
+                images: ['images/tamson_art_05.png'],
                 price: '$1,800',
                 status: 'sold' 
             },
@@ -258,9 +212,7 @@ The layered interior, articulated through parallel chromatic bands, closely rese
                 medium: 'Pencil crayon on papper',
                 tags: 'FUTURE, SPRING, SPECULATIVE',
                 description: `The Spring of 2050 is a speculative portrait of a future season. Combining organic flows with futuristic patterns, this work imagines the return of life after a long period of technological dominance.`,
-                images: [
-                    'images/tamson_art_06.png'
-                ],
+                images: ['images/tamson_art_06.png'],
                 price: '$950',
                 status: 'available'
             },
@@ -272,9 +224,7 @@ The layered interior, articulated through parallel chromatic bands, closely rese
                 medium: 'Watercolor and pencil',
                 tags: 'FLORA, BOTANICAL, DELICATE',
                 description: `Untitled Flora focuses on the fragile balance of botanical life. Through delicate washes of color and precise line work, it captures the quiet poetry of a flower that is often overlooked.`,
-                images: [
-                    'images/tamson_art_07.png'
-                ],
+                images: ['images/tamson_art_07.png'],
                 price: '$600',
                 status: 'available'
             },
@@ -286,48 +236,32 @@ The layered interior, articulated through parallel chromatic bands, closely rese
                 medium: 'Mixed media',
                 tags: 'CYCLE, BLOOM, TRANSITION',
                 description: `Bloom Cycle reflects the inevitable rhythm of growth and decay in nature. Using mixed media, the artwork layers moments of full bloom with fading organic structures to celebrate the beauty of impermanence.`,
-                images: [
-                    'images/tamson_art_08.png'
-                ],
+                images: ['images/tamson_art_08.png'],
                 price: '$2,500',
                 status: 'available'
             }
         ];
 
-        // ==========================================================
-        //  2. XỬ LÝ HIỂN THỊ NỘI DUNG
-        // ==========================================================
         const WHATSAPP_NUMBER = "84912580018"; 
-
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
             const artworkId = urlParams.get('id'); 
-
             if (!artworkId) {
-                document.getElementById('detailContainer').innerHTML = 
-                    `<div style="width:100%; height: 60vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:20px; text-align:center;">
-                        <p style="font-size: 1.2rem; margin-bottom: 1rem;">Không tìm thấy ID tác phẩm.</p>
-                        <a href="index.html" style="margin-top:20px; padding: 10px 20px; background: var(--text-main); color: var(--bg-color); text-decoration:none;">Quay lại</a>
-                    </div>`;
+                document.getElementById('detailContainer').innerHTML = `<div style="width:100%; height: 60vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:20px; text-align:center;"><p style="font-size: 1.2rem; margin-bottom: 1rem;">Không tìm thấy ID tác phẩm.</p><a href="index.html" style="margin-top:20px; padding: 10px 20px; background: var(--text-main); color: var(--bg-color); text-decoration:none;">Quay lại</a></div>`;
                 return;
             }
-
-            // Tìm tác phẩm trong dữ liệu khai báo ở trên
             const data = ARTWORKS_DATA.find(item => String(item.id).trim() === String(artworkId).trim());
-
             const container = document.getElementById('detailContainer');
             if (!data) {
                 container.innerHTML = `<div style="width:100%; text-align:center; padding:100px 20px; color:var(--text-muted);">Không tìm thấy tác phẩm với ID: ${artworkId}.</div>`;
                 return;
             }
+            let imageUrls = [];
+            if (data && data.images) imageUrls = data.images;
+            if (imageUrls.length === 0) imageUrls = ['images/tamson_art_01.png'];
 
-            // Xử lý danh sách ảnh
-            const imageUrls = data.images && data.images.length > 0 ? data.images : ['images/tamson_art_01.png'];
-
-            // Xử lý Logic Hiển thị Giá & Trạng thái
             let priceHTML = '';
             let chatLink = `https://wa.me/${WHATSAPP_NUMBER}?text=Hi%20Vu%20Cuong,%20I'm%20interested%20in%20your%20artwork:%20${encodeURIComponent(data.title)}`;
-            
             if (data.status && data.status.toLowerCase() === 'sold') {
                 priceHTML = `
                     <div class="purchase-section">
@@ -356,21 +290,11 @@ The layered interior, articulated through parallel chromatic bands, closely rese
                     </div>
                 `;
             }
-
-            // Tạo HTML cho Swiper
-            let swiperSlidesHTML = imageUrls.map(url => `
-                <div class="swiper-slide">
-                    <img src="${url}" alt="${data.title}">
-                </div>
-            `).join('');
-
-            // Render ra giao diện
+            let swiperSlidesHTML = imageUrls.map(url => `<div class="swiper-slide"><img src="${url}" alt="${data.title}"></div>`).join('');
             container.innerHTML = `
                 <div class="detail-image-column">
                     <div class="swiper myArtworkSwiper">
-                        <div class="swiper-wrapper">
-                            ${swiperSlidesHTML}
-                        </div>
+                        <div class="swiper-wrapper">${swiperSlidesHTML}</div>
                         <div class="swiper-pagination"></div>
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
@@ -388,20 +312,15 @@ The layered interior, articulated through parallel chromatic bands, closely rese
                     </div>
                     <div class="detail-tags">${data.tags || ''}</div>
                     <div class="detail-description">${data.description ? data.description.replace(/\n/g, '<br>') : ''}</div>
-                    
                     ${priceHTML}
                 </div>
             `;
-
-            // Khởi tạo Swiper (Slider mượt)
             new Swiper(".myArtworkSwiper", {
                 loop: imageUrls.length > 1,
                 spaceBetween: 20,
                 pagination: { el: ".swiper-pagination", clickable: true },
                 navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
             });
-
-            // Hiệu ứng Footer
             const footer = document.getElementById('site-footer');
             let footerRevealed = false;
             function checkFooterReveal() {
