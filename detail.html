@@ -17,7 +17,7 @@
     <style>
         .detail-wrapper { 
             display: flex; flex-wrap: wrap; min-height: 60vh; align-items: flex-start; 
-            padding-top: 90px; /* FIX LỖI: Tăng padding để tránh header che nội dung */
+            padding-top: 90px; 
         }
         .detail-image-column { flex: 1; width: 50%; padding: 0 40px 60px 0; display: flex; flex-direction: column; align-items: flex-start; box-sizing: border-box; }
         
@@ -54,7 +54,6 @@
             background: #fff;
             color: var(--accent-pink);
         }
-        /* Chấm tròn bên dưới ảnh */
         .swiper-pagination-bullet-active {
             background: var(--accent-pink) !important;
         }
@@ -84,9 +83,6 @@
         .detail-description { font-size: 16px; line-height: 1.8; color: var(--text-main); max-width: 90%; margin-top: 20px; }
         .detail-description p + p { margin-top: 20px; }
 
-        /* Skeleton Loading */
-        .skeleton-swiper { width: 100%; height: 500px; border-radius: 4px; margin-bottom: 20px; }
-
         @media (max-width: 992px) {
             .detail-wrapper { flex-direction: column; min-height: auto; align-items: stretch; padding-top: 80px; }
             .detail-image-column, .detail-text-column { width: 100%; border-left: none; padding: 0 0 30px 0; }
@@ -95,9 +91,8 @@
             .close-btn { right: 0; top: 5px; }
             .detail-description { max-width: 100%; }
             .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
-            
             .swiper { height: 55vh; }
-            .swiper-button-next, .swiper-button-prev { display: none !important; } /* Ẩn nút trên Mobile */
+            .swiper-button-next, .swiper-button-prev { display: none !important; } 
         }
     </style>
 </head>
@@ -117,22 +112,9 @@
 
     <main>
         <div class="container">
+            <!-- Container hiển thị nội dung chi tiết -->
             <div class="detail-wrapper" id="detailContainer">
-                <!-- Skeleton Loading cho Swiper -->
-                <div class="detail-image-column">
-                    <div class="skeleton skeleton-swiper"></div>
-                </div>
-                <div class="detail-text-column">
-                    <div class="skeleton skeleton-title" style="width: 80%; height: 48px; border-radius: 4px; margin-bottom: 20px;"></div>
-                    <div class="skeleton skeleton-meta" style="width: 50%; height: 20px; border-radius: 4px; margin-bottom: 12px;"></div>
-                    <div class="skeleton skeleton-meta" style="width: 50%; height: 20px; border-radius: 4px; margin-bottom: 12px;"></div>
-                    <div style="margin-top: 30px;">
-                        <div class="skeleton skeleton-text" style="width: 100%; height: 16px; border-radius: 4px; margin-bottom: 10px;"></div>
-                        <div class="skeleton skeleton-text" style="width: 100%; height: 16px; border-radius: 4px; margin-bottom: 10px;"></div>
-                        <div class="skeleton skeleton-text short" style="width: 70%; height: 16px; border-radius: 4px;"></div>
-                        <div class="skeleton" style="width: 150px; height: 45px; border-radius: 4px; margin-top: 20px;"></div>
-                    </div>
-                </div>
+                <!-- Nội dung sẽ được JavaScript render tự động vào đây -->
             </div>
 
             <section id="about" class="home-about-cta" data-scroll-motion>
@@ -187,136 +169,140 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-        // =======================================================
-        // ĐƯỜNG DẪN WEB APP
-        const API_BASE_URL = "https://script.google.com/macros/s/.../exec"; // THAY URL CỦA BẠN
-        // =======================================================
+        // ==========================================================
+        //  1. DỮ LIỆU CỦA TÁC PHẨM NẰM NGAY TRONG FILE NÀY
+        //  Bạn có thể thêm nhiều tác phẩm vào mảng này để dùng chung
+        // ==========================================================
+        const ARTWORKS_DATA = [
+            {
+                id: 'ts001',
+                title: 'Thiếu nữ bên hoa',
+                year: '2026',
+                dimensions: '120×200cm',
+                medium: 'Lacquer, eggshell, gold leaf',
+                tags: 'LACQUER, PAINTING, FLOWER, WOMEN',
+                description: `The Great Unfurling Head
+This drawing marks a distinct departure from my earlier work, moving into a more interior and psychologically inflected register. Its dominant form is a single plant whose opened head occupies an ambiguous territory between a calla lily spathe, a neural cross-section, and an auditory organ. That hybrid morphology is central to the image: the structure reads as a receptive, listening apparatus.
 
+The layered interior, articulated through parallel chromatic bands, closely resembles the microscopic cross-section of a leaf, in which palisade mesophyll, spongy mesophyll, and vascular bundles are revealed as stratified tissues. Here, the internal anatomy of a leaf is reimagined as the internal architecture of cognition.`,
+                images: [
+                    'images/tamson_art_01.png', // Ảnh chính
+                    // Nếu muốn thêm ảnh chi tiết cho tác phẩm này, hãy thêm đường dẫn ảnh vào đây,
+                    // Ví dụ: 'images/prj_01/detail_01.jpg'
+                ],
+                price: '$2,200',
+                status: 'available' // 'available' hoặc 'sold'
+            }
+            // Bạn có thể copy block trên để thêm các tác phẩm khác (ts002, ts003...)
+        ];
+
+        // ==========================================================
+        //  2. XỬ LÝ HIỂN THỊ NỘI DUNG
+        // ==========================================================
         const WHATSAPP_NUMBER = "84912580018"; 
-        const CACHE_DURATION = 24 * 60 * 60 * 1000; 
-        const CACHE_KEY = 'tamSonArtCachedData';
 
-        document.addEventListener('DOMContentLoaded', async () => {
+        document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const artworkId = urlParams.get('id'); 
 
             if (!artworkId) {
-                document.getElementById('detailContainer').innerHTML = `<div style="width:100%; height: 60vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:20px; text-align:center;"><p style="font-size: 1.2rem; margin-bottom: 1rem;">Không tìm thấy ID tác phẩm.</p><a href="index.html" style="margin-top:20px; padding: 10px 20px; background: var(--text-main); color: var(--bg-color); text-decoration:none;">Quay lại</a></div>`;
+                document.getElementById('detailContainer').innerHTML = 
+                    `<div style="width:100%; height: 60vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:20px; text-align:center;">
+                        <p style="font-size: 1.2rem; margin-bottom: 1rem;">Không tìm thấy ID tác phẩm.</p>
+                        <a href="index.html" style="margin-top:20px; padding: 10px 20px; background: var(--text-main); color: var(--bg-color); text-decoration:none;">Quay lại</a>
+                    </div>`;
                 return;
             }
 
-            try {
-                // 1. Lấy dữ liệu (Có Cache)
-                const cached = localStorage.getItem(CACHE_KEY);
-                let data = null;
-                if (cached) {
-                    const parsedCache = JSON.parse(cached);
-                    if (Date.now() - parsedCache.timestamp < CACHE_DURATION) data = parsedCache.data;
-                }
-                if (!data) {
-                    const response = await fetch(API_BASE_URL + '?id=' + encodeURIComponent(artworkId));
-                    data = await response.json();
-                    localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: data }));
-                } else {
-                    if (Array.isArray(data)) {
-                        data = data.find(r => String(r.id).trim() === String(artworkId).trim());
-                    }
-                }
+            // Tìm tác phẩm trong dữ liệu khai báo ở trên
+            const data = ARTWORKS_DATA.find(item => String(item.id).trim() === String(artworkId).trim());
 
-                const container = document.getElementById('detailContainer');
-                if (!data || Object.keys(data).length === 0) {
-                    container.innerHTML = `<div style="width:100%; text-align:center; padding:100px 20px; color:var(--text-muted);">Không tìm thấy tác phẩm với ID: ${artworkId}.</div>`;
-                    return;
-                }
+            const container = document.getElementById('detailContainer');
+            if (!data) {
+                container.innerHTML = `<div style="width:100%; text-align:center; padding:100px 20px; color:var(--text-muted);">Không tìm thấy tác phẩm với ID: ${artworkId}.</div>`;
+                return;
+            }
 
-                // 2. Xử lý danh sách ảnh
-                let imageUrls = [];
-                if (data && data.image_url) {
-                    imageUrls = data.image_url.split(/[,;\n]/).map(url => url.trim()).filter(url => url.length > 0);
-                }
-                if (imageUrls.length === 0) imageUrls = ['images/tamson_art_01.png'];
+            // Xử lý danh sách ảnh
+            const imageUrls = data.images && data.images.length > 0 ? data.images : ['images/tamson_art_01.png'];
 
-                // 3. Logic hiển thị giá
-                let priceHTML = '';
-                let chatLink = `https://wa.me/${WHATSAPP_NUMBER}?text=Hi%20Vu%20Cuong,%20I'm%20interested%20in%20your%20artwork:%20${encodeURIComponent(data.title)}`;
-                
-                if (data.status && data.status.toLowerCase() === 'sold') {
-                    priceHTML = `
-                        <div class="purchase-section">
-                            <span class="price-label sold-status">SOLD</span>
-                            ${data.price ? `<span class="price-label sold-price">${data.price}</span>` : ''}
-                            <div class="cta-group">
-                                <a href="${chatLink}" target="_blank" class="btn-primary">
-                                    <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                                    Inquire / Order
-                                </a>
-                                <a href="mailto:vuquangcuong@gmail.com?subject=Inquiry%20-%20${encodeURIComponent(data.title)}" class="btn-secondary">Email Us</a>
-                            </div>
+            // Xử lý Logic Hiển thị Giá & Trạng thái
+            let priceHTML = '';
+            let chatLink = `https://wa.me/${WHATSAPP_NUMBER}?text=Hi%20Vu%20Cuong,%20I'm%20interested%20in%20your%20artwork:%20${encodeURIComponent(data.title)}`;
+            
+            if (data.status && data.status.toLowerCase() === 'sold') {
+                priceHTML = `
+                    <div class="purchase-section">
+                        <span class="price-label sold-status">SOLD</span>
+                        ${data.price ? `<span class="price-label sold-price">${data.price}</span>` : ''}
+                        <div class="cta-group">
+                            <a href="${chatLink}" target="_blank" class="btn-primary">
+                                <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                Inquire / Order
+                            </a>
+                            <a href="mailto:vuquangcuong@gmail.com?subject=Inquiry%20-%20${encodeURIComponent(data.title)}" class="btn-secondary">Email Us</a>
                         </div>
-                    `;
-                } else {
-                    priceHTML = `
-                        <div class="purchase-section">
-                            <span class="price-label">${data.price || 'Price on request'}</span>
-                            <div class="cta-group">
-                                <a href="${chatLink}" target="_blank" class="btn-primary">
-                                    <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                                    Buy / Order
-                                </a>
-                                <a href="mailto:vuquangcuong@gmail.com?subject=Inquiry%20-%20${encodeURIComponent(data.title)}" class="btn-secondary">Ask a Question</a>
-                            </div>
-                        </div>
-                    `;
-                }
-
-                // 4. Tạo HTML cho Swiper
-                let swiperSlidesHTML = imageUrls.map(url => `
-                    <div class="swiper-slide">
-                        <img src="${url}" alt="${data.title}">
-                    </div>
-                `).join('');
-
-                container.innerHTML = `
-                    <div class="detail-image-column">
-                        <div class="swiper myArtworkSwiper">
-                            <div class="swiper-wrapper">
-                                ${swiperSlidesHTML}
-                            </div>
-                            <div class="swiper-pagination"></div>
-                            <div class="swiper-button-next"></div>
-                            <div class="swiper-button-prev"></div>
-                        </div>
-                    </div>
-                    <div class="detail-text-column">
-                        <a href="index.html" class="close-btn" aria-label="Close details">
-                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                        </a>
-                        <h1 class="detail-title">${data.title}</h1>
-                        <div class="detail-meta">
-                            <span>${data.year || ''}</span>
-                            <span>${data.dimensions || ''}</span>
-                            <span>${data.medium || ''}</span>
-                        </div>
-                        <div class="detail-tags">${data.tags || ''}</div>
-                        <div class="detail-description">${data.description ? data.description.replace(/\n/g, '<br>') : ''}</div>
-                        
-                        ${priceHTML}
                     </div>
                 `;
-
-                // 5. Khởi tạo Swiper (Slider mượt)
-                new Swiper(".myArtworkSwiper", {
-                    loop: imageUrls.length > 1, // Chỉ loop nếu có nhiều hơn 1 ảnh
-                    spaceBetween: 20,
-                    pagination: { el: ".swiper-pagination", clickable: true },
-                    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
-                });
-
-            } catch (error) {
-                console.error("Lỗi load dữ liệu:", error);
-                document.getElementById('detailContainer').innerHTML = `<div style="padding:100px; text-align:center; width:100%; color:red;">Lỗi kết nối dữ liệu. Vui lòng kiểm tra lại API URL.</div>`;
+            } else {
+                priceHTML = `
+                    <div class="purchase-section">
+                        <span class="price-label">${data.price || 'Price on request'}</span>
+                        <div class="cta-group">
+                            <a href="${chatLink}" target="_blank" class="btn-primary">
+                                <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                Buy / Order
+                            </a>
+                            <a href="mailto:vuquangcuong@gmail.com?subject=Inquiry%20-%20${encodeURIComponent(data.title)}" class="btn-secondary">Ask a Question</a>
+                        </div>
+                    </div>
+                `;
             }
-            
+
+            // Tạo HTML cho Swiper
+            let swiperSlidesHTML = imageUrls.map(url => `
+                <div class="swiper-slide">
+                    <img src="${url}" alt="${data.title}">
+                </div>
+            `).join('');
+
+            // Render ra giao diện
+            container.innerHTML = `
+                <div class="detail-image-column">
+                    <div class="swiper myArtworkSwiper">
+                        <div class="swiper-wrapper">
+                            ${swiperSlidesHTML}
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+                <div class="detail-text-column">
+                    <a href="index.html" class="close-btn" aria-label="Close details">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </a>
+                    <h1 class="detail-title">${data.title}</h1>
+                    <div class="detail-meta">
+                        <span>${data.year || ''}</span>
+                        <span>${data.dimensions || ''}</span>
+                        <span>${data.medium || ''}</span>
+                    </div>
+                    <div class="detail-tags">${data.tags || ''}</div>
+                    <div class="detail-description">${data.description ? data.description.replace(/\n/g, '<br>') : ''}</div>
+                    
+                    ${priceHTML}
+                </div>
+            `;
+
+            // Khởi tạo Swiper (Slider mượt)
+            new Swiper(".myArtworkSwiper", {
+                loop: imageUrls.length > 1,
+                spaceBetween: 20,
+                pagination: { el: ".swiper-pagination", clickable: true },
+                navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+            });
+
             // Hiệu ứng Footer
             const footer = document.getElementById('site-footer');
             let footerRevealed = false;
