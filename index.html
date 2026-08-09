@@ -176,19 +176,21 @@
         /* === PADDING CHUNG CHO CÁC SECTION === */
         .main-content-wrapper {
             display: flex; flex-direction: column; width: 100%;
+            /* Mobile padding 2 bên 20px (Tương đương view 40px tổng) */
+            padding-inline: 20px; 
         }
         
         .works-intro__left-col,
         .exhibitions-section__inner,
         .home-about-cta__inner {
-            padding-left: 40px;
+            padding-left: 0; /* Reset padding trái của các section con để dùng wrapper */
         }
-        @media(max-width: 1023px) {
-            .works-intro__left-col,
-            .exhibitions-section__inner,
-            .home-about-cta__inner {
-                padding-left: 0;
-            }
+
+        /* Desktop chỉnh lại lề */
+        @media(min-width: 1024px) {
+            .main-content-wrapper { padding-inline: 0; }
+            .works-intro__left-col { padding-left: 0; }
+            .exhibitions-section__inner, .home-about-cta__inner { padding-left: 40px; }
         }
 
         /* === GALLERY LAYOUT === */
