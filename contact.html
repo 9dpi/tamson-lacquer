@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên hệ - Tam Son Art</title>
+    <meta name="description" content="Liên hệ với Nghệ nhân Vũ Cường để đặt hàng, hợp tác hoặc tư vấn về tác phẩm sơn mài cao cấp.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .page-wrapper { max-width: 800px; margin: 0 auto; padding: 100px 20px 80px; }
+        .page-wrapper h1 { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 400; font-style: italic; margin-bottom: 20px; }
+        .page-wrapper .desc { font-weight: 300; color: var(--text-muted); margin-bottom: 40px; }
+        
+        /* Form liên hệ */
+        .contact-form { display: flex; flex-direction: column; gap: 25px; margin-top: 40px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-main); }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 14px 16px; border: 1px solid var(--border-color);
+            background: var(--bg-color); font-family: var(--font-sans); font-size: 1rem;
+            color: var(--text-main); border-radius: 4px; transition: border-color 0.3s ease, box-shadow 0.3s ease; outline: none;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--accent-pink); box-shadow: 0 0 0 3px rgba(255, 94, 126, 0.1);
+        }
+        .form-group textarea { resize: vertical; min-height: 120px; }
+        
+        .btn-submit { align-self: flex-start; padding: 14px 40px; background: var(--text-main); color: var(--bg-color); border: none; font-family: var(--font-sans); font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; transition: background 0.3s ease; border-radius: 4px; margin-top: 10px; }
+        .btn-submit:hover { background: var(--accent-pink); }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+        
+        @media (max-width: 768px) { 
+            .page-wrapper { padding: 80px 20px 60px; } 
+            .btn-submit { align-self: stretch; width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">Tam Son Art</a>
+            <ul class="nav-links">
+                <li><a href="index.html#gallery">Gallery</a></li>
+                <li><a href="index.html#exhibitions">Exhibitions</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li class="active"><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span>MENU</span></button>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="page-wrapper">
+                <h1>Liên hệ</h1>
+                <p class="desc">
+                    Để lại thông tin bên dưới nếu bạn quan tâm đến các tác phẩm, muốn đặt hàng riêng hoặc cần tư vấn về nghệ thuật sơn mài. 
+                    Tôi sẽ phản hồi trong vòng 24 giờ.
+                </p>
+
+                <!-- Form sử dụng FormSubmit.co (Miễn phí, không cần Backend) -->
+                <form class="contact-form" action="https://formsubmit.co/vuquangcuong@gmail.com" method="POST">
+                    <!-- Chống Spam -->
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="https://9dpi.github.io/tamson-lacquer/contact.html?success=true">
+
+                    <div class="form-group">
+                        <label for="name">Họ và tên</label>
+                        <input type="text" id="name" name="name" placeholder="Nhập họ tên của bạn..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Nhập địa chỉ email..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Số điện thoại</label>
+                        <input type="text" id="phone" name="phone" placeholder="Nhập số điện thoại (tùy chọn)">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Nội dung</label>
+                        <textarea id="message" name="message" placeholder="Vui lòng cho tôi biết bạn quan tâm đến tác phẩm nào hoặc nhu cầu của bạn..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Gửi tin nhắn</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer" id="site-footer">
+        <div class="footer-info">
+            <div class="footer-info-grid">
+                <div class="footer-info-col">
+                    <nav class="footer-nav" aria-label="Footer navigation">
+                        <a href="index.html#gallery" class="footer-nav-link">GALLERY</a>
+                        <a href="index.html#exhibitions" class="footer-nav-link">EXHIBITIONS</a>
+                        <a href="index.html#about" class="footer-nav-link">ABOUT</a>
+                        <a href="contact.html" class="footer-nav-link">CONTACT</a>
+                    </nav>
+                </div>
+                <div class="footer-info-col">
+                    <div class="footer-info-lead">
+                        <h3 class="footer-info-heading">TAM SON ART</h3>
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="footer-info-value footer-link">REPRESENTED BY TAM SON ART GALLERY</a>
+                    </div>
+                    <div class="footer-info-row"><span class="footer-info-label">EMAIL:</span><a href="mailto:vuquangcuong@gmail.com" class="footer-info-value">VUQUANGCUONG@GMAIL.COM</a></div>
+                    <div class="footer-info-row"><span class="footer-info-label">WHATSAPP & PHONE:</span><a href="tel:+84912580018" class="footer-info-value">+84 912 580018</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright"><span>© 2026 TAM SON ART</span></div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hiển thị thông báo thành công nếu có param success=true
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('success') === 'true') {
+                alert('Cảm ơn bạn! Tin nhắn đã được gửi thành công. Tôi sẽ phản hồi sớm nhất.');
+                // Xóa param trên thanh địa chỉ để không bị hiện lại khi refresh
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+
+            const footer = document.getElementById('site-footer');
+            let footerRevealed = false;
+            function checkFooterReveal() {
+                if (footerRevealed) return;
+                const rect = footer.getBoundingClientRect();
+                if (rect.top < window.innerHeight) {
+                    footerRevealed = true;
+                    footer.classList.add('footer-motion-visible');
+                }
+            }
+            window.addEventListener('scroll', checkFooterReveal, { passive: true });
+            window.addEventListener('resize', checkFooterReveal, { passive: true });
+            checkFooterReveal();
+        });
+    </script>
+</body>
+</html>
