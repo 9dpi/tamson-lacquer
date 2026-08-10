@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit New Artwork - Tam Son Art</title>
+    <title>Generate Artwork Code - Tam Son Art</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,29 +11,53 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        .submit-wrapper { max-width: 800px; margin: 0 auto; padding: 100px 20px 80px; }
-        .submit-wrapper h1 { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 400; font-style: italic; margin-bottom: 10px; }
-        .submit-wrapper .desc { font-weight: 300; color: var(--text-muted); margin-bottom: 40px; }
-        form#submitForm { display: flex; flex-direction: column; gap: 25px; }
-        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .page-wrapper { max-width: 800px; margin: 0 auto; padding: 100px 20px 80px; }
+        @media(min-width: 1024px) { .page-wrapper { padding-inline: 0; } }
+        .page-wrapper h1 { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 400; font-style: italic; margin-bottom: 10px; }
+        .page-wrapper .desc { font-weight: 300; color: var(--text-muted); margin-bottom: 30px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
         .form-group label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-main); }
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%; padding: 14px 16px; border: 1px solid var(--border-color);
+        .form-group input, .form-group textarea, .form-group select { 
+            width: 100%; padding: 12px 16px; border: 1px solid var(--border-color);
             background: var(--bg-color); font-family: var(--font-sans); font-size: 1rem;
             color: var(--text-main); border-radius: 4px; transition: border-color 0.3s ease, box-shadow 0.3s ease; outline: none;
         }
         .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
             border-color: var(--accent-pink); box-shadow: 0 0 0 3px rgba(255, 94, 126, 0.1);
         }
-        .form-group textarea { resize: vertical; min-height: 120px; }
-        .form-group .helper { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
-        button#submitBtn { align-self: flex-start; padding: 14px 40px; background: var(--text-main); color: var(--bg-color); border: none; font-family: var(--font-sans); font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; transition: background 0.3s ease; border-radius: 4px; margin-top: 10px; }
-        button#submitBtn:hover { background: var(--accent-pink); }
-        button#submitBtn:disabled { opacity: 0.6; cursor: not-allowed; }
-        #formStatus { margin-top: 15px; padding: 12px 16px; border-radius: 4px; display: none; }
-        #formStatus.success { display: block; background: #e6fffa; color: #0b6e4f; border: 1px solid #b3f0d1; }
-        #formStatus.error { display: block; background: #ffe6e6; color: #b91c1c; border: 1px solid #f5c6c6; }
-        @media (max-width: 768px) { .submit-wrapper { padding: 80px 20px 60px; } button#submitBtn { align-self: stretch; width: 100%; text-align: center; } }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .helper-text { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+
+        .btn-primary { display: inline-block; padding: 14px 40px; background: var(--accent-pink); color: #fff; border: none; font-family: var(--font-sans); font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; transition: background 0.3s ease; border-radius: 4px; margin-top: 10px; }
+        .btn-primary:hover { background: #e0456a; }
+        
+        .output-block { display: none; margin-top: 40px; border-top: 1px solid var(--border-color); padding-top: 30px; }
+        .output-block h3 { font-family: var(--font-serif); font-weight: 400; font-style: italic; margin-bottom: 15px; }
+        .code-box { 
+            background: #1C0D18; color: #FFF3FC; padding: 20px; border-radius: 4px; 
+            font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.6; 
+            white-space: pre-wrap; word-break: break-all; margin-bottom: 15px;
+            position: relative;
+        }
+        .copy-btn { 
+            padding: 8px 16px; background: #fff; color: #1C0D18; border: none; border-radius: 4px;
+            cursor: pointer; font-weight: 500; transition: opacity 0.2s ease;
+        }
+        .copy-btn:hover { opacity: 0.8; }
+        .copy-success { color: #0b6e4f; margin-left: 10px; display: none; }
+
+        /* Mobile Overlay Menu */
+        .mobile-overlay { position: fixed; inset: 0; z-index: 200; background-color: var(--text-main); color: var(--bg-color); display: flex; flex-direction: column; overflow-y: auto; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.4s ease, visibility 0.4s ease; }
+        .mobile-overlay.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+        .mobile-overlay-header { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem var(--nav-padding-x, 2rem); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .mobile-brand { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 400; font-style: italic; color: var(--bg-color); text-decoration: none; }
+        .menu-close-top { background: none; border: none; color: var(--bg-color); font-family: var(--font-sans); font-size: 0.85rem; text-transform: uppercase; cursor: pointer; }
+        .mobile-overlay-body { padding: 2rem var(--nav-padding-x, 2rem); }
+        .mobile-nav-links { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+        .mobile-nav-links a { font-family: var(--font-serif); font-size: 2.5rem; color: var(--bg-color); text-decoration: none; transition: opacity 0.3s ease; }
+        .mobile-nav-links a:hover { opacity: 0.6; }
+        @media (max-width: 768px) { .mobile-overlay { display: flex; } }
+        @media (min-width: 769px) { .mobile-overlay { display: none; } }
     </style>
 </head>
 <body>
@@ -43,23 +67,39 @@
             <ul class="nav-links">
                 <li><a href="index.html#gallery">Gallery</a></li>
                 <li><a href="index.html#exhibitions">Exhibitions</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="heritage.html">Heritage</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
             <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span>MENU</span></button>
         </div>
     </nav>
 
+    <div class="mobile-overlay" id="mobileOverlay">
+        <div class="mobile-overlay-header">
+            <a href="index.html" class="mobile-brand">Tam Son Art</a>
+            <button class="menu-close-top" id="menuCloseTop"><span>CLOSE</span></button>
+        </div>
+        <div class="mobile-overlay-body">
+            <ul class="mobile-nav-links">
+                <li><a href="index.html#gallery" class="mobile-link">Gallery</a></li>
+                <li><a href="index.html#exhibitions" class="mobile-link">Exhibitions</a></li>
+                <li><a href="heritage.html" class="mobile-link">Heritage</a></li>
+                <li><a href="contact.html" class="mobile-link">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
     <main>
         <div class="container">
-            <div class="submit-wrapper">
-                <h1>Submit Artwork</h1>
-                <p class="desc">Fill in the details below to add a new artwork to the system.</p>
+            <div class="page-wrapper">
+                <h1>Artwork Generator</h1>
+                <p class="desc">Fill in the details below and click the button to generate the JSON code. Copy the output and paste it into the <code>ARTWORKS_DATA</code> array in your <code>detail.html</code> file.</p>
 
-                <form id="submitForm" autocomplete="off">
+                <form id="generateForm" autocomplete="off">
                     <div class="form-group">
                         <label for="id">Artwork ID</label>
                         <input type="text" id="id" name="id" placeholder="e.g. ts009" required>
+                        <span class="helper-text">Must be unique (e.g. ts009, ts010).</span>
                     </div>
                     <div class="form-group">
                         <label for="title">Artwork Title</label>
@@ -81,15 +121,11 @@
                         <label for="tags">Tags</label>
                         <input type="text" id="tags" name="tags" placeholder="e.g. LARGE-FORMATS, FLORA">
                     </div>
-                    
-                    <!-- Mới thêm: Giá tiền -->
                     <div class="form-group">
                         <label for="price">Price (USD)</label>
                         <input type="text" id="price" name="price" placeholder="e.g. $1,200">
-                        <span class="helper">Leave blank if not for sale.</span>
+                        <span class="helper-text">Leave blank if not for sale.</span>
                     </div>
-                    
-                    <!-- Mới thêm: Trạng thái -->
                     <div class="form-group">
                         <label for="status">Status</label>
                         <select id="status" name="status">
@@ -97,55 +133,112 @@
                             <option value="sold">Sold (Not available)</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="image_url">Image URL(s)</label>
                         <input type="text" id="image_url" name="image_url" placeholder="e.g. images/prj_09/artwork.png">
+                        <span class="helper-text">Separate multiple URLs with commas ( , ) without spaces.</span>
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
                         <textarea id="description" name="description" placeholder="Write a detailed description of the artwork..."></textarea>
                     </div>
 
-                    <button type="submit" id="submitBtn">Add Artwork</button>
-                    <div id="formStatus"></div>
+                    <button type="submit" class="btn-primary" id="generateBtn">Generate Artwork Code</button>
                 </form>
+
+                <div class="output-block" id="outputBlock">
+                    <h3>Generated Code</h3>
+                    <div class="code-box" id="codeBox"></div>
+                    <button class="copy-btn" id="copyBtn">Copy Code</button>
+                    <span class="copy-success" id="copySuccess">✔️ Copied!</span>
+                </div>
             </div>
         </div>
     </main>
 
-    <footer class="site-footer" id="site-footer">...</footer> <!-- Footer cũ giữ nguyên -->
+    <footer class="site-footer" id="site-footer">
+        <div class="footer-info">
+            <div class="footer-info-grid">
+                <div class="footer-info-col">
+                    <nav class="footer-nav" aria-label="Footer navigation">
+                        <a href="index.html#gallery" class="footer-nav-link">GALLERY</a>
+                        <a href="index.html#exhibitions" class="footer-nav-link">EXHIBITIONS</a>
+                        <a href="heritage.html" class="footer-nav-link">HERITAGE</a>
+                        <a href="contact.html" class="footer-nav-link">CONTACT</a>
+                    </nav>
+                </div>
+                <div class="footer-info-col">
+                    <div class="footer-info-lead"><h3 class="footer-info-heading">TAM SON ART</h3><a href="#" target="_blank" rel="noopener noreferrer" class="footer-info-value footer-link">REPRESENTED BY TAM SON ART GALLERY</a></div>
+                    <div class="footer-info-row"><span class="footer-info-label">EMAIL:</span><a href="mailto:vuquangcuong@gmail.com" class="footer-info-value">VUQUANGCUONG@GMAIL.COM</a></div>
+                    <div class="footer-info-row"><span class="footer-info-label">WHATSAPP & PHONE:</span><a href="tel:+84912580018" class="footer-info-value">+84 912 580018</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright"><span>© 2026 TAM SON ART</span></div>
+    </footer>
 
     <script>
-        // --- QUAN TRỌNG: Điền Web App URL mới nhất của bạn vào đây ---
-        const API_URL = "https://script.google.com/macros/s/.../exec"; 
-
-        document.getElementById('submitForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            const statusDiv = document.getElementById('formStatus');
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData.entries());
-
-            btn.disabled = true; btn.innerText = 'Submitting...';
-            statusDiv.className = ''; statusDiv.innerText = '';
-
-            try {
-                await fetch(API_URL, {
-                    method: 'POST', mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-                statusDiv.className = 'success';
-                statusDiv.innerText = 'Artwork added successfully! Redirecting...';
-                this.reset();
-                setTimeout(() => { window.location.href = 'index.html#gallery'; }, 2000);
-            } catch (error) {
-                statusDiv.className = 'error';
-                statusDiv.innerText = 'Error submitting artwork. Please try again.';
-            } finally {
-                btn.disabled = false; btn.innerText = 'Add Artwork';
+        document.addEventListener('DOMContentLoaded', () => {
+            // === 1. Mobile Menu ===
+            const menuToggle = document.getElementById('menuToggle');
+            const menuCloseTop = document.getElementById('menuCloseTop');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            if (menuToggle && mobileOverlay) {
+                menuToggle.addEventListener('click', () => { mobileOverlay.classList.add('is-open'); document.body.style.overflow = 'hidden'; });
+                if (menuCloseTop) menuCloseTop.addEventListener('click', () => { mobileOverlay.classList.remove('is-open'); document.body.style.overflow = 'auto'; });
+                mobileOverlay.querySelectorAll('.mobile-link').forEach(link => { link.addEventListener('click', () => { mobileOverlay.classList.remove('is-open'); document.body.style.overflow = 'auto'; }); });
             }
+
+            // === 2. Form Generate ===
+            const form = document.getElementById('generateForm');
+            const outputBlock = document.getElementById('outputBlock');
+            const codeBox = document.getElementById('codeBox');
+            const copyBtn = document.getElementById('copyBtn');
+            const copySuccess = document.getElementById('copySuccess');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData.entries());
+
+                // Tạo chuỗi JSON để copy vào detail.html
+                const outputJson = `{
+                id: '${data.id}',
+                title: '${data.title}',
+                year: '${data.year || ""}',
+                dimensions: '${data.dimensions || ""}',
+                medium: '${data.medium || ""}',
+                tags: '${data.tags || ""}',
+                description: \`${data.description || ""}\`,
+                images: ['${data.image_url || 'images/tamson_art_01.png'}'],
+                price: '${data.price || ""}',
+                status: '${data.status || "available"}'
+            }`;
+                
+                // Hiển thị kết quả
+                codeBox.textContent = outputJson;
+                outputBlock.style.display = 'block';
+                copySuccess.style.display = 'none';
+            });
+
+            // === 3. Copy to Clipboard ===
+            copyBtn.addEventListener('click', function() {
+                navigator.clipboard.writeText(codeBox.textContent).then(() => {
+                    copySuccess.style.display = 'inline-block';
+                    setTimeout(() => {
+                        copySuccess.style.display = 'none';
+                    }, 2000);
+                });
+            });
+
+            // === 4. Footer ===
+            const footer = document.getElementById('site-footer');
+            let footerRevealed = false;
+            function checkFooterReveal() { if (footerRevealed) return; const rect = footer.getBoundingClientRect(); if (rect.top < window.innerHeight) { footerRevealed = true; footer.classList.add('footer-motion-visible'); } }
+            window.addEventListener('scroll', checkFooterReveal, { passive: true });
+            window.addEventListener('resize', checkFooterReveal, { passive: true });
+            checkFooterReveal();
         });
     </script>
 </body>
