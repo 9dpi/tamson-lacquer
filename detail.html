@@ -191,13 +191,13 @@
             const urlParams = new URLSearchParams(window.location.search);
             const artworkId = urlParams.get('id'); 
             if (!artworkId) {
-                document.getElementById('detailContainer').innerHTML = `<div style="width:100%; height: 60vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:20px; text-align:center;"><p style="font-size: 1.2rem; margin-bottom: 1rem;">Không tìm thấy ID tác phẩm.</p><a href="index.html" style="margin-top:20px; padding: 10px 20px; background: var(--text-main); color: var(--bg-color); text-decoration:none;">Quay lại</a></div>`;
+                document.getElementById('detailContainer').innerHTML = `<div style="width:100%; height: 60vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:20px; text-align:center;"><p style="font-size: 1.2rem; margin-bottom: 1rem;">Artwork ID not found.</p><a href="index.html" style="margin-top:20px; padding: 10px 20px; background: var(--text-main); color: var(--bg-color); text-decoration:none;">Back</a></div>`;
                 return;
             }
             const data = ARTWORKS_DATA.find(item => String(item.id).trim() === String(artworkId).trim());
             const container = document.getElementById('detailContainer');
             if (!data) {
-                container.innerHTML = `<div style="width:100%; text-align:center; padding:100px 20px; color:var(--text-muted);">Không tìm thấy tác phẩm với ID: ${artworkId}.</div>`;
+                container.innerHTML = `<div style="width:100%; text-align:center; padding:100px 20px; color:var(--text-muted);">No artwork found with ID: ${artworkId}.</div>`;
                 return;
             }
             let imageUrls = data.images || ['images/tamson_art_01.png'];
