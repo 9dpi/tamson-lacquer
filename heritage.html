@@ -15,7 +15,7 @@
         .main-content-wrapper { display: flex; flex-direction: column; width: 100%; padding-inline: 20px; padding-top: 20px; }
         @media(min-width: 1024px) { .main-content-wrapper { padding-inline: 0; padding-top: 40px; } }
         
-        .heritage-header { padding-bottom: 40px; border-bottom: 1px solid var(--border-color); margin-bottom: 50px; }
+        /* .heritage-header { padding-bottom: 40px; border-bottom: 1px solid var(--border-color); margin-bottom: 50px; } */
         .heritage-header h1 { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 400; font-style: italic; margin: 0; }
         .heritage-header p { font-weight: 300; color: var(--text-muted); margin-top: 15px; max-width: 600px; }
         .heritage-header .sub-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 10px; display: block; }
@@ -31,11 +31,31 @@
         .grid-content .meta { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 6px; }
         .grid-content h3 { font-family: var(--font-sans); font-size: 1.15rem; font-weight: 500; margin: 0 0 6px; line-height: 1.4; }
         .grid-content p { font-size: 0.9rem; color: var(--text-muted); font-weight: 300; margin: 0; line-height: 1.5; }
+        
+        /* Điều chỉnh tỷ lệ ảnh ngẫu nhiên cho đẹp mắt */
         .grid-item:nth-child(1) img { aspect-ratio: 2 / 3; }
         .grid-item:nth-child(2) img { aspect-ratio: 4 / 3; }
         .grid-item:nth-child(3) img { aspect-ratio: 1 / 1; }
         .grid-item:nth-child(4) img { aspect-ratio: 3 / 4; }
+        
         @media (max-width: 768px) { .main-content-wrapper { padding-inline: 20px; } }
+
+        /* === SECTION BÀI VIẾT (STORIES) === */
+        .stories-header { margin-top: 80px; padding-top: 50px; border-top: 1px solid var(--border-color); padding-bottom: 35px; }
+        .stories-header .sub-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 10px; display: block; }
+        .stories-header h2 { font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400; font-style: italic; margin: 0 0 12px; }
+        .stories-header p { font-weight: 300; color: var(--text-muted); margin: 0; max-width: 560px; line-height: 1.6; }
+
+        /* === SECTION TIKTOK === */
+        /* .tiktok-section { margin-top: 80px; padding-top: 50px; border-top: 1px solid var(--border-color); } */
+        .tiktok-actions { display: flex; justify-content: flex-end; padding-bottom: 25px; }
+        .tiktok-follow { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border: 1px solid var(--text-main); border-radius: 50px; font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-main); text-decoration: none; transition: background 0.3s ease, color 0.3s ease; }
+        .tiktok-follow:hover { background: var(--text-main); color: var(--bg-color); }
+        .tiktok-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; width: 100%; }
+        @media (max-width: 1024px) { .tiktok-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px) { .tiktok-grid { grid-template-columns: 1fr; } }
+        .tiktok-grid .tiktok-embed { width: 100%; margin: 0 !important; border-radius: 4px; overflow: hidden; }
+        .tiktok-grid iframe { border-radius: 4px; }
 
         /* Mobile Overlay Menu */
         .mobile-overlay { position: fixed; inset: 0; z-index: 200; background-color: var(--text-main); color: var(--bg-color); display: flex; flex-direction: column; overflow-y: auto; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.4s ease, visibility 0.4s ease; }
@@ -89,40 +109,90 @@
                     <p>Hành trình khám phá vẻ đẹp trường tồn của nghệ thuật sơn mài Việt Nam. Nơi những câu chuyện về kỹ thuật, chất liệu và tinh thần nghệ nhân được kể lại qua từng hình ảnh và bài viết.</p>
                 </div>
 
+                <!-- Section TikTok: Video nghệ thuật sơn mài -->
+                <div class="tiktok-section">
+                    <div class="tiktok-actions">
+                        <a href="https://www.tiktok.com/@cuongvqart" target="_blank" rel="noopener noreferrer" class="tiktok-follow">@cuongvqart trên TikTok →</a>
+                    </div>
+                    <div class="tiktok-grid">
+                        <!-- Video 1: Phố cổ Hà Nội -->
+                        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@cuongvqart/video/7536889221089512712" data-video-id="7536889221089512712" style="max-width: 605px;min-width: 325px;">
+                            <section></section>
+                        </blockquote>
+                        <!-- Video 2: Phục chế đồng hồ cũ -->
+                        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@cuongvqart/video/7671700876691606791" data-video-id="7671700876691606791" style="max-width: 605px;min-width: 325px;">
+                            <section></section>
+                        </blockquote>
+                        <!-- Video 3: Lên màu lót "Nàng xuân" -->
+                        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@cuongvqart/video/7672575816512982290" data-video-id="7672575816512982290" style="max-width: 605px;min-width: 325px;">
+                            <section></section>
+                        </blockquote>
+                        <!-- Video 4: Lớp vàng thếp -->
+                        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@cuongvqart/video/7669834734838582546" data-video-id="7669834734838582546" style="max-width: 605px;min-width: 325px;">
+                            <section></section>
+                        </blockquote>
+                        <!-- Video 5: Mài moi lấy màu ẩn -->
+                        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@cuongvqart/video/7671201218676509970" data-video-id="7671201218676509970" style="max-width: 605px;min-width: 325px;">
+                            <section></section>
+                        </blockquote>
+                        <!-- Video 6: Vỏ bào ngư -->
+                        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@cuongvqart/video/7668976797899410706" data-video-id="7668976797899410706" style="max-width: 605px;min-width: 325px;">
+                            <section></section>
+                        </blockquote>
+                    </div>
+                </div>
+
+                <!-- Section bài viết Heritage -->
+                <div class="stories-header">
+                    <span class="sub-title">Câu chuyện</span>
+                    <h2>Bài viết</h2>
+                    <p>Những bài viết chuyên sâu về kỹ thuật, chất liệu và tinh thần nghệ nhân được ghi lại qua những câu chuyện của từng tác phẩm sơn mài.</p>
+                </div>
+
                 <div class="masonry-grid">
+                    
+                    <!-- Bài 1: Kỹ thuật vàng lá -->
                     <a href="heritage-detail.html?id=hrt01" class="grid-item">
-                        <img src="images/tamson_art_01.png" alt="Kỹ thuật vẽ vàng lá">
+                        <img src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?q=80&w=800&auto=format&fit=crop" alt="Nghệ thuật dát vàng lá">
                         <div class="grid-content">
                             <div class="meta">Ngày 09.08.2026 • Kỹ thuật</div>
                             <h3>Nghệ thuật dát vàng lá trong sơn mài</h3>
                             <p>Vàng lá không chỉ là chất liệu, mà là linh hồn làm bừng sáng tác phẩm. Tìm hiểu quy trình...</p>
                         </div>
                     </a>
+
+                    <!-- Bài 2: Chất liệu vỏ trứng -->
                     <a href="heritage-detail.html?id=hrt02" class="grid-item">
-                        <img src="images/tamson_art_04.png" alt="Câu chuyện về vỏ trứng">
+                        <img src="https://images.unsplash.com/photo-1516690561799-46e0f2dbd619?q=80&w=800&auto=format&fit=crop" alt="Vỏ trứng trong nghệ thuật sơn mài">
                         <div class="grid-content">
                             <div class="meta">Ngày 02.08.2026 • Chất liệu</div>
                             <h3>Vỏ trứng: Từ phế liệu đến tuyệt tác</h3>
                             <p>Mỗi mảnh vỏ trứng nhỏ bé đều có thể trở thành những vì sao lấp lánh trong tranh sơn mài...</p>
                         </div>
                     </a>
+
+                    <!-- Bài 3: Phong cách đương đại -->
                     <a href="heritage-detail.html?id=hrt03" class="grid-item">
-                        <img src="images/tamson_art_02.png" alt="Tranh sơn mài đương đại">
+                        <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=800&auto=format&fit=crop" alt="Sơn mài đương đại Việt Nam">
                         <div class="grid-content">
                             <div class="meta">Ngày 25.07.2026 • Phong cách</div>
                             <h3>Hơi thở đương đại trong Sơn mài Việt</h3>
                             <p>Làm thế nào để giữ gìn kỹ thuật nghìn năm tuổi mà vẫn mang lại sự tươi mới cho nghệ thuật hiện đại?</p>
                         </div>
                     </a>
+
+                    <!-- Bài 4: Tín ngưỡng và tâm linh -->
                     <a href="heritage-detail.html?id=hrt04" class="grid-item">
-                        <img src="images/tamson_art_08.png" alt="Sơn mài và tín ngưỡng">
+                        <img src="https://images.unsplash.com/photo-1541178735493-479c1a27ee24?q=80&w=800&auto=format&fit=crop" alt="Tín ngưỡng trong tranh sơn mài">
                         <div class="grid-content">
                             <div class="meta">Ngày 18.07.2026 • Tín ngưỡng</div>
                             <h3>Hình tượng tâm linh trong tranh sơn mài</h3>
                             <p>Khám phá ý nghĩa ẩn giấu sau những họa tiết linh thiêng thường thấy trong các tác phẩm truyền thống.</p>
                         </div>
                     </a>
+
                 </div>
+
             </div>
         </div>
     </main>
@@ -145,6 +215,7 @@
                     </div>
                     <div class="footer-info-row"><span class="footer-info-label">EMAIL:</span><a href="mailto:vuquangcuong@gmail.com" class="footer-info-value">VUQUANGCUONG@GMAIL.COM</a></div>
                     <div class="footer-info-row"><span class="footer-info-label">WHATSAPP & PHONE:</span><a href="tel:+84912580018" class="footer-info-value">+84 912 580018</a></div>
+                    <div class="footer-info-row"><span class="footer-info-label">TIKTOK:</span><a href="https://www.tiktok.com/@cuongvqart" target="_blank" rel="noopener noreferrer" class="footer-info-value">@CUONGVQART</a></div>
                 </div>
             </div>
         </div>
@@ -169,5 +240,6 @@
             checkFooterReveal();
         });
     </script>
+    <script async src="https://www.tiktok.com/embed.js"></script>
 </body>
 </html>

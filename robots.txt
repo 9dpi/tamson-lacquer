@@ -1,0 +1,8 @@
+# robots.txt cho TamSonArt
+# Cho phép tất cả các bot (Google, Bing...) crawl toàn bộ website
+
+User-agent: *
+Allow: /
+
+# Trỏ Google tới sitemap để index nhanh hơn
+Sitemap: https://9dpi.github.io/tamson-lacquer/sitemap.xml
