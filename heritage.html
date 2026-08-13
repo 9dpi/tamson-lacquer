@@ -54,8 +54,13 @@
         .tiktok-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; width: 100%; }
         @media (max-width: 1024px) { .tiktok-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 640px) { .tiktok-grid { grid-template-columns: 1fr; } }
-        .tiktok-grid .tiktok-embed { width: 100%; margin: 0 !important; border-radius: 4px; overflow: hidden; }
-        .tiktok-grid iframe { border-radius: 4px; }
+        .tiktok-video { position: relative; width: 100%; aspect-ratio: 3 / 5; border-radius: 4px; overflow: hidden; background: var(--border-color); }
+        .tiktok-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; border-radius: 4px; }
+        .tiktok-video--hidden { display: none; }
+        .tiktok-load-more-wrap { display: flex; justify-content: center; margin-top: 35px; }
+        .tiktok-load-more { padding: 13px 40px; background: transparent; border: 1px solid var(--text-main); border-radius: 50px; font-family: var(--font-sans); font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-main); cursor: pointer; transition: background 0.3s ease, color 0.3s ease; }
+        .tiktok-load-more:hover { background: var(--text-main); color: var(--bg-color); }
+        .tiktok-load-more.is-hidden { display: none; }
 
         /* Mobile Overlay Menu */
         .mobile-overlay { position: fixed; inset: 0; z-index: 200; background-color: var(--text-main); color: var(--bg-color); display: flex; flex-direction: column; overflow-y: auto; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.4s ease, visibility 0.4s ease; }
@@ -116,29 +121,24 @@
                     </div>
                     <div class="tiktok-grid">
                         <!-- Video 1: Phố cổ Hà Nội -->
-                        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@cuongvqart/video/7536889221089512712" data-video-id="7536889221089512712" style="max-width: 605px;min-width: 325px;">
-                            <section></section>
-                        </blockquote>
+                        <div class="tiktok-video">
+                            <iframe src="https://www.tiktok.com/embed/v2/7536889221089512712" allowfullscreen="true" scrolling="no" loading="lazy" title="Phố cũ Hà Nội với những ngôi nhà cổ lặng lẽ"></iframe>
+                        </div>
                         <!-- Video 2: Phục chế đồng hồ cũ -->
-                        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@cuongvqart/video/7671700876691606791" data-video-id="7671700876691606791" style="max-width: 605px;min-width: 325px;">
-                            <section></section>
-                        </blockquote>
+                        <div class="tiktok-video">
+                            <iframe src="https://www.tiktok.com/embed/v2/7671700876691606791" allowfullscreen="true" scrolling="no" loading="lazy" title="Phục chế và vẽ trang trí cho chiếc đồng hồ cũ của gia đình"></iframe>
+                        </div>
                         <!-- Video 3: Lên màu lót "Nàng xuân" -->
-                        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@cuongvqart/video/7672575816512982290" data-video-id="7672575816512982290" style="max-width: 605px;min-width: 325px;">
-                            <section></section>
-                        </blockquote>
+                        <div class="tiktok-video">
+                            <iframe src="https://www.tiktok.com/embed/v2/7672575816512982290" allowfullscreen="true" scrolling="no" loading="lazy" title="Lên màu lót cho bức tranh sơn mài Nàng xuân"></iframe>
+                        </div>
                         <!-- Video 4: Lớp vàng thếp -->
-                        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@cuongvqart/video/7669834734838582546" data-video-id="7669834734838582546" style="max-width: 605px;min-width: 325px;">
-                            <section></section>
-                        </blockquote>
-                        <!-- Video 5: Mài moi lấy màu ẩn -->
-                        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@cuongvqart/video/7671201218676509970" data-video-id="7671201218676509970" style="max-width: 605px;min-width: 325px;">
-                            <section></section>
-                        </blockquote>
-                        <!-- Video 6: Vỏ bào ngư -->
-                        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@cuongvqart/video/7668976797899410706" data-video-id="7668976797899410706" style="max-width: 605px;min-width: 325px;">
-                            <section></section>
-                        </blockquote>
+                        <div class="tiktok-video tiktok-video--hidden">
+                            <iframe src="https://www.tiktok.com/embed/v2/7669834734838582546" allowfullscreen="true" scrolling="no" loading="lazy" title="Lớp vàng thếp được phủ thêm sơn cánh dán mỏng"></iframe>
+                        </div>
+                    </div>
+                    <div class="tiktok-load-more-wrap">
+                        <button type="button" class="tiktok-load-more" id="tiktokLoadMore">Xem thêm</button>
                     </div>
                 </div>
 
@@ -232,6 +232,17 @@
                 if (menuCloseTop) menuCloseTop.addEventListener('click', () => { mobileOverlay.classList.remove('is-open'); document.body.style.overflow = 'auto'; });
                 mobileOverlay.querySelectorAll('.mobile-link').forEach(link => { link.addEventListener('click', () => { mobileOverlay.classList.remove('is-open'); document.body.style.overflow = 'auto'; }); });
             }
+            // Nút "Xem thêm" TikTok: hiện các video đang ẩn
+            const loadMoreBtn = document.getElementById('tiktokLoadMore');
+            if (loadMoreBtn) {
+                loadMoreBtn.addEventListener('click', () => {
+                    const hidden = document.querySelectorAll('.tiktok-video--hidden');
+                    hidden.forEach(v => v.classList.remove('tiktok-video--hidden'));
+                    if (!document.querySelector('.tiktok-video--hidden')) {
+                        loadMoreBtn.classList.add('is-hidden');
+                    }
+                });
+            }
             const footer = document.getElementById('site-footer');
             let footerRevealed = false;
             function checkFooterReveal() { if (footerRevealed) return; const rect = footer.getBoundingClientRect(); if (rect.top < window.innerHeight) { footerRevealed = true; footer.classList.add('footer-motion-visible'); } }
@@ -240,6 +251,5 @@
             checkFooterReveal();
         });
     </script>
-    <script async src="https://www.tiktok.com/embed.js"></script>
 </body>
 </html>
