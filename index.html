@@ -109,7 +109,7 @@
                                 <header class="exhibitions-section__header">
                                     <p class="exhibitions-section__eyebrow">Selected exhibitions</p>
                                     <h2 class="exhibitions-section__title is-revealed">EXHIBITIONS</h2>
-                                    <p class="exhibitions-section__lede">Selected exhibitions and projects featuring masterpieces of Vietnamese lacquer art. From solo showcases to international collaborations, each exhibition reflects a journey of preserving and evolving the ancient art of lacquer.</p>
+                                    <p class="exhibitions-section__lede">Selected exhibitions and art events about Vietnamese lacquer across the country. From heritage showcases in ancient communal houses to hands-on lacquer workshops for young students, each event reflects the living spirit of the ancient art of lacquer.</p>
                                 </header>
                                 <div class="exhibitions-grid-wrapper" id="exhibitionsContainer"></div>
                             </div>
@@ -361,15 +361,34 @@
             }
 
             // --- 3. Render Exhibitions ---
+            // Các triển lãm & sự kiện nghệ thuật trong nước (có ghi nguồn tin)
             const exhibitionsData = [
-                { date: 'May 2026', title: 'ART INTERNATIONAL ZURICH', source: 'Contemporary Art Fair', image: 'https://images.unsplash.com/photo-1545989253-02cc26577f88?q=80&w=800&auto=format&fit=crop' },
-                { date: 'Dec 2025', title: 'VIETNAMESE LACQUER HERITAGE', source: 'National Museum of Fine Arts', image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=800&auto=format&fit=crop' },
-                { date: 'Aug 2025', title: 'SOUTHEAST ASIAN ART FORUM', source: 'Singapore Art Week', image: 'https://images.unsplash.com/photo-1536924940846-227afb31e2a5?q=80&w=800&auto=format&fit=crop' }
+                {
+                    date: '15.08.2026 · Hội An, Đà Nẵng',
+                    title: 'HỒN PHỐ TRĂM NĂM – MẠCH NGẦM THUẦN HẬU',
+                    source: 'Nguồn: Báo Tuổi Trẻ (tuoitre.vn)',
+                    link: 'https://tuoitre.vn/dinh-lang-co-tren-200-nam-o-hoi-an-thanh-khong-gian-trien-lam-100260815193534941.htm',
+                    image: 'https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2026/8/15/1786794556469641171713406678327964117171340667832792bd90f54a479efeb65ec96c3a0c7f274-17867968475461045288599-523-273-1501-2141-crop-17867971690331993810094.jpg'
+                },
+                {
+                    date: '04.08.2026 · TP.HCM',
+                    title: 'SƠN MÀI & GỐM TRONG TRƯỜNG HỌC TP.HCM',
+                    source: 'Nguồn: Báo Tuổi Trẻ (tuoitre.vn)',
+                    link: 'https://tuoitre.vn/hoc-sinh-tphcm-sam-vai-nghe-nhan-son-mai-gom-100260806093724221.htm',
+                    image: 'https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2026/8/6/moi-hoc-sinh-tp-hcm-sam-vai-nghe-nhan-son-mai-gom-frame-at-0m25s-17859837608911086990043-0-0-1005-1920-crop-1785983790059416811590.jpg'
+                },
+                {
+                    date: 'Triển lãm trực tuyến · 2026',
+                    title: 'TRANH SƠN MÀI VIỆT NAM – BẢO TÀNG MỸ THUẬT VN',
+                    source: 'Nguồn: Bảo tàng Mỹ thuật Việt Nam (vnfam.vn)',
+                    link: 'https://tranhsonmai.baotangso.com/',
+                    image: 'https://d1fbzwhbgcf4vf.cloudfront.net/optimized-3814a3f67ea61aa4ec6f42b58595781e59f71e78889b16de5a324ca62118c0fe.jpeg/800x,q50'
+                }
             ];
 
             const container = document.getElementById('exhibitionsContainer');
             container.innerHTML = exhibitionsData.map((ex, index) => `
-                <a href="#" class="exhibition-card" style="transition-delay: ${index * 0.1}s;">
+                <a href="${ex.link}" target="_blank" rel="noopener noreferrer" class="exhibition-card" style="transition-delay: ${index * 0.1}s;">
                     <div class="exhibition-card__media"><img src="${ex.image}" alt="${ex.title}" loading="lazy" decoding="async"></div>
                     <div class="exhibition-card__meta">
                         <span class="exhibition-card__date">${ex.date}</span>
