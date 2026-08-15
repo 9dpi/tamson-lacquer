@@ -203,18 +203,31 @@
                 const formData = new FormData(this);
                 const data = Object.fromEntries(formData.entries());
 
-                // Tạo chuỗi JSON để copy vào detail.html
+                // Escape cho chuỗi trong nháy đơn
+                const escSQ = s => String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+                // Escape cho template literal (backtick + ${...})
+                const escTpl = s => String(s).replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
+
+                // Tách nhiều ảnh (phân cách bằng dấu phẩy) thành mảng
+                const images = (data.image_url || 'images/tamson_art_01.png')
+                    .split(',')
+                    .map(u => u.trim())
+                    .filter(Boolean)
+                    .map(u => `'${escSQ(u)}'`)
+                    .join(', ');
+
+                // Tạo chuỗi code để copy vào detail.html
                 const outputJson = `{
-                id: '${data.id}',
-                title: '${data.title}',
-                year: '${data.year || ""}',
-                dimensions: '${data.dimensions || ""}',
-                medium: '${data.medium || ""}',
-                tags: '${data.tags || ""}',
-                description: \`${data.description || ""}\`,
-                images: ['${data.image_url || 'images/tamson_art_01.png'}'],
-                price: '${data.price || ""}',
-                status: '${data.status || "available"}'
+                id: '${escSQ(data.id)}',
+                title: '${escSQ(data.title)}',
+                year: '${escSQ(data.year || '')}',
+                dimensions: '${escSQ(data.dimensions || '')}',
+                medium: '${escSQ(data.medium || '')}',
+                tags: '${escSQ(data.tags || '')}',
+                description: \`${escTpl(data.description || '')}\`,
+                images: [${images}],
+                price: '${escSQ(data.price || '')}',
+                status: '${escSQ(data.status || 'available')}'
             }`;
                 
                 // Hiển thị kết quả
