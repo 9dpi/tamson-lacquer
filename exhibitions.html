@@ -151,6 +151,7 @@
 
     <script>
         // Các bài viết mới nhất về nghệ thuật, hội họa, sơn mài, triển lãm & workshop (có nguồn tin)
+        /* === NEWS_DATA:START === */
         const NEWS_DATA = [
             {
                 id: 'ex01', cat: 'Triển lãm', tags: ['son-mai', 'trien-lam'], date: '15.08.2026',
@@ -161,7 +162,7 @@
             },
             {
                 id: 'ex02', cat: 'Triển lãm', tags: ['trien-lam', 'hoi-hoa'], date: '15.08.2026',
-                title: "Triển lãm 'Từ tiếng Việt đến chữ Nôm' – chơi game đấu Kiều, xem đồ án văn hóa",
+                title: 'Triển lãm \'Từ tiếng Việt đến chữ Nôm\' – chơi game đấu Kiều, xem đồ án văn hóa',
                 source: 'Báo Tuổi Trẻ', sourceUrl: 'https://tuoitre.vn/choi-game-dau-kieu-xem-do-an-van-hoa-tai-trien-lam-tu-tieng-viet-den-chu-nom-100260815134448622.htm',
                 image: 'https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2026/8/15/vinhet-trien-lam-yt-17867753079521502297552-81-0-963-1684-crop-17867837275261054344315.jpg',
                 desc: 'Không gian khám phá văn hóa tại tòa nhà Itaxa (TP.HCM) với game đấu Kiều và các đồ án văn hóa sáng tạo, diễn ra ngày 15–16.8.'
@@ -203,7 +204,7 @@
             },
             {
                 id: 'ex08', cat: 'Triển lãm', tags: ['hoi-hoa', 'trien-lam'], date: '10.08.2026',
-                title: "Triển lãm 'Nhịp điệu cảnh quan' – đối thoại ký ức Hà Nội",
+                title: 'Triển lãm \'Nhịp điệu cảnh quan\' – đối thoại ký ức Hà Nội',
                 source: 'Hà Nội Online', sourceUrl: 'https://hanoionline.vn/trien-lam-nhip-dieu-canh-quan-doi-thoai-ky-uc-ha-noi-412220.htm',
                 image: 'https://hnstorage.tek4tv.vn/2026/8/10/19/556425614_834742195image2026-08-10195320775.png',
                 desc: 'Triển lãm tranh sơn mài và acrylic của năm họa sĩ, mở cuộc đối thoại về cảnh quan, ký ức và bản sắc văn hóa Thủ đô.'
@@ -221,8 +222,93 @@
                 source: 'Bảo tàng Mỹ thuật VN', sourceUrl: 'https://tranhsonmai.baotangso.com/',
                 image: 'https://d1fbzwhbgcf4vf.cloudfront.net/optimized-3814a3f67ea61aa4ec6f42b58595781e59f71e78889b16de5a324ca62118c0fe.jpeg/800x,q50',
                 desc: 'Không gian triển lãm số giới thiệu bộ sưu tập tranh sơn mài quý giá của Bảo tàng Mỹ thuật Việt Nam, tham quan trực tuyến miễn phí.'
-            }
+            },
+            {
+                id: 'ex11', cat: 'Triển lãm', tags: ['trien-lam'], date: '2026',
+                title: 'The Gundam Base Pop-up 2026: Phép thử của Bandai cho thị trường anime, manga Việt Nam',
+                source: 'Báo Tuổi Trẻ', sourceUrl: 'https://tuoitre.vn/the-gundam-base-pop-up-2026-phep-thu-cua-bandai-cho-thi-truong-anime-manga-viet-nam-100260815190712046.htm',
+                image: 'https://cdn2.tuoitre.vn/thumb_w/1200/471584752817336320/2026/8/15/dscf6491-1786791552430867022951-88-0-1407-2110-crop-17867956094821122961774.jpg',
+                desc: 'Với cộng đồng fan anime, manga và mô hình Gundam Việt Nam, The Gundam Base Pop-up World Tour 2026 không đơn thuần là một triển lãm hay điểm...'
+            },
+            {
+                id: 'ex12', cat: 'Triển lãm', tags: ['trien-lam'], date: '2026',
+                title: 'Nguyễn Á, kỷ lục gia từ tình yêu',
+                source: 'Báo Tuổi Trẻ', sourceUrl: 'https://tuoitre.vn/nguyen-a-ky-luc-gia-tu-tinh-yeu-100260815033242669.htm',
+                image: 'https://cdn2.tuoitre.vn/thumb_w/1200/471584752817336320/2026/8/15/img4655-178677015267879431484-181-490-1125-2000-crop-17867803288081919968225.jpeg',
+                desc: 'Nghệ sĩ nhiếp ảnh Nguyễn Á lại có sản phẩm mới: là hai cuốn sách ảnh thứ 26 và 27 và là lần triển lãm thứ bao nhiêu cũng không còn nhớ nữa.....'
+            },
+            {
+                id: 'ex13', cat: 'Triển lãm', tags: ['trien-lam'], date: '2026',
+                title: 'Hàng trăm bức tượng Mozart ở Áo bất ngờ \'bốc hơi\'',
+                source: 'Báo Tuổi Trẻ', sourceUrl: 'https://tuoitre.vn/hang-tram-buc-tuong-mozart-o-ao-bat-ngo-boc-hoi-100260813154005457.htm',
+                image: 'https://cdn2.tuoitre.vn/thumb_w/1200/471584752817336320/2026/8/13/https3a2f2fassetsapnews-35-17866063137061183160937-115-116-934-1427-crop-1786606400475217289141.png',
+                desc: 'Hơn 200 bức tượng Mozart bị đánh cắp, khiến triển lãm mừng 270 năm ngày sinh của ông trở nên vắng vẻ.'
+            },
+            {
+                id: 'ex14', cat: 'Nghệ sĩ', tags: ['nghe-si'], date: '2026',
+                title: 'Họa sĩ bí ẩn Banksy khiến nước Anh phải chi gần 150.000 bảng để \'dọn hậu quả\'',
+                source: 'Báo Tuổi Trẻ', sourceUrl: 'https://tuoitre.vn/hoa-si-bi-an-banksy-khien-nuoc-anh-phai-chi-gan-150000-bang-de-don-hau-qua-100260813111227754.htm',
+                image: 'https://cdn2.tuoitre.vn/thumb_w/1200/471584752817336320/2026/8/13/anh-chup-man-hinh-2026-08-13-110029-17865936411061851920405-137-212-597-948-crop-17865940864321356434472.png',
+                desc: 'Gần 150.000 bảng Anh (khoảng 3,2 tỉ đồng) tiền thuế đã được chi cho việc dọn dẹp, bảo vệ và xử lý ba tác phẩm của nghệ sĩ đường phố Banksy t...'
+            },
+            {
+                id: 'ex15', cat: 'Nghệ thuật', tags: ['nghe-thuat'], date: '22.06.2026',
+                title: 'Hành trình khám phá vẻ đẹp thiên nhiên ở 6 châu lục của nhiếp ảnh gia',
+                source: 'Báo Nhân Dân', sourceUrl: 'https://nhandan.vn/hanh-trinh-kham-pha-ve-dep-thien-nhien-o-6-chau-luc-cua-nhiep-anh-gia-post970661.html',
+                image: 'https://cdn.nhandan.vn/images/ee5H3R5oVqt-sMyZd4YiwjxHpiA-2NQE9am34xZetIya2G-NXIwHzmybVSaLe4x7DF7eKx1B347SyRLacYA_4l2XJ3rQHsBGb-AohQZv2llc-s1e6JjRgQKQEJSNmEag/z7891714607230-6e89464498d58cfd54428f9cd603cd72.jpg.avif',
+                desc: 'Mấy năm trước, trong một chuyến săn ảnh chim quý ở Đồng Nai, tôi tình cờ ngồi chung túp lều ngụy trang với Nghệ sĩ nhiếp ảnh Nguyễn Thị Minh...'
+            },
+            {
+                id: 'ex16', cat: 'Triển lãm', tags: ['trien-lam'], date: '15.08.2026',
+                title: 'Lễ hội Sầu riêng Đắk Lắk: Đưa giá trị và uy tín nông sản Việt vươn tầm quốc tế',
+                source: 'VietnamPlus', sourceUrl: 'https://www.vietnamplus.vn/le-hoi-sau-rieng-dak-lak-dua-gia-tri-va-uy-tin-nong-san-viet-vuon-tam-quoc-te-post1130451.vnp',
+                image: 'https://media.vietnamplus.vn/images/0f-btEj60lGt0BFs9lOY1xDc6FWcvgZMLx350uENSIOB6FgvZTcAmGsrPGhnPlv6VD3LQXUGo_i3wydo2noJp87z0pH92GwMKO3KxCcj7GQ/ttxvn-dak-lak-khai-mac-le-hoi-sau-rieng-nam-2026.jpg.avif',
+                desc: 'Lễ hội Sầu riêng Đắk Lắk 2026 mở thêm không gian kết nối sản xuất, thương mại, du lịch và công nghệ, hướng tới nâng tầm thương hiệu một tron...'
+            },
+            {
+                id: 'ex17', cat: 'Triển lãm', tags: ['trien-lam'], date: '15.08.2026',
+                title: '“81 Mùa Bình yên”: Từ những chiến công đến sứ mệnh trong kỷ nguyên mới',
+                source: 'VietnamPlus', sourceUrl: 'https://www.vietnamplus.vn/81-mua-binh-yen-tu-nhung-chien-cong-den-su-menh-trong-ky-nguyen-moi-post1130449.vnp',
+                image: 'https://media.vietnamplus.vn/images/0f-btEj60lGt0BFs9lOY15mf6PiLNYs_xz5u1aKaVteFsxXWDTEl7onKg74pzRl-FokpKU_MmZltQ2xewlE4t1Ct8b8JVf9lvnRk5vHw3CI7rwqiTf1XER6BGktEJl54/ttxvn-chuong-trinh-nghe-thuat-chinh-luan-81-mua-binh-yen.jpg.avif',
+                desc: 'Chương trình không chỉ tái hiện những chiến công của các thế hệ chiến sỹ Công an Hà Nội mà còn khắc họa hình ảnh lực lượng Công an tiên phon...'
+            },
+            {
+                id: 'ex18', cat: 'Triển lãm', tags: ['trien-lam','hoi-hoa'], date: '15.08.2026',
+                title: '“Hương sắc Việt Nam” trên giấy Dó chinh phục công chúng vùng Viễn Đông',
+                source: 'VietnamPlus', sourceUrl: 'https://www.vietnamplus.vn/huong-sac-viet-nam-tren-giay-do-chinh-phuc-cong-chung-vung-vien-dong-post1130425.vnp',
+                image: 'https://media.vietnamplus.vn/images/VDu2ayPW9xEUQJPBOsBm6tIRpNr5boTp41H0PV6kAnaZubwXLlEQd81lkjP0XlyyS59rTbHN1HMxHsbCxL8Snv3j4ibNlrnyxZl1fDWaj1PN_s_F2v411d-hmkH1eMI5i-avP0AOebJhkAlcPgfAiTa-fRhx3WqBIcticFUqN8Y/ttxvn-huong-sac-viet-nam-tren-giay-do-den-voi-cong-chung-vung-vien-dong-cua-nga-8957657-1.jpg.avif',
+                desc: 'Triển lãm “Hương sắc Việt Nam” của họa sỹ Ngô Đức Hoàng tại Vladivostok giới thiệu gần 30 tác phẩm tranh giấy dó, góp phần quảng bá vẻ đẹp v...'
+            },
+            {
+                id: 'ex19', cat: 'Hội họa', tags: ['hoi-hoa'], date: '15.08.2026',
+                title: 'Hôn lễ Top 1 của Phương Mỹ Chi: Khi văn hóa Khmer chạm trái tim triệu người',
+                source: 'VOV', sourceUrl: 'https://vov.vn/van-hoa/hon-le-top-1-cua-phuong-my-chi-khi-van-hoa-khmer-cham-trai-tim-trieu-nguoi-post1324440.vov',
+                image: 'https://media.vov.vn/sites/default/files/styles/og_image/public/2026-08/hon_le_top_1_cua_phuong_my_chi_khi_van_hoa_khmer_cham_trai_tim_trieu_nguoi-ava.jpg',
+                desc: 'VOV.VN - Phương Mỹ Chi gieo thương nhớ khi độc chiếm Top 1 Trending YouTube với hình ảnh cô dâu Khmer ngọt ngào trong MV "Thiên đường với ng...'
+            },
+            {
+                id: 'ex20', cat: 'Nghệ sĩ', tags: ['nghe-si'], date: '14.08.2026',
+                title: 'Giữ hồn đất nung trên nền tảng số ở Lâm Đồng',
+                source: 'VOV', sourceUrl: 'https://vov.vn/van-hoa/giu-hon-dat-nung-tren-nen-tang-so-o-lam-dong-post1324255.vov',
+                image: 'https://media.vov.vn/sites/default/files/styles/og_image/public/2026-08/ba-con-lang-gom-binh-duc-dang-sap-xep-cac-san-pham-gom-theo-trinh-tu-giua-dong-vang-de-chuan-bi-nung-gom.jpg',
+                desc: 'VOV.VN - Hiện nay, ngoài phát triển mẫu mã phong phú hơn, thị trường mở rộng hơn, giới trẻ người Chăm ở làng gốm Bình Đức, thôn Phan Hiệp, x...'
+            },
+            {
+                id: 'ex21', cat: 'Workshop', tags: ['workshop'], date: '13.08.2026',
+                title: '“Hộ chiếu di sản” mở lối tiếp cận mới cho bảo tàng và công chúng trẻ',
+                source: 'VOV', sourceUrl: 'https://vov.vn/van-hoa/ho-chieu-di-san-mo-loi-tiep-can-moi-cho-bao-tang-va-cong-chung-tre-post1323819.vov',
+                image: 'https://media.vov.vn/sites/default/files/styles/og_image/public/2026-08/1_41.jpg',
+                desc: 'VOV.VN - Từ bảo tàng đến hành trình số, “Hộ chiếu di sản” ra đời, góp phần đổi mới cách kể chuyện di sản, tăng kết nối du lịch và mở rộng tr...'
+            },
+            {
+                id: 'ex22', cat: 'Triển lãm', tags: ['trien-lam','hoi-hoa'], date: '13.08.2026',
+                title: 'Sở Văn hóa, Thể thao và Du lịch Hà Nội thực hiện 35 nhóm nhiệm vụ sau sáp nhập',
+                source: 'VOV', sourceUrl: 'https://vov.vn/van-hoa/so-van-hoa-the-thao-va-du-lich-ha-noi-thuc-hien-35-nhom-nhiem-vu-sau-sap-nhap-post1323795.vov',
+                image: 'https://media.vov.vn/sites/default/files/styles/og_image/public/2026-08/so-van-hoa-the-thao-du-lich_1.jpg',
+                desc: 'VOV.VN - Sở Văn hóa, Thể thao và Du lịch Hà Nội được giao thực hiện 35 nhóm nhiệm vụ, trong đó tập trung về nghệ thuật biểu diễn; điện ảnh;...'
+            },
         ];
+        /* === NEWS_DATA:END === */
 
         document.addEventListener('DOMContentLoaded', () => {
             // --- Mobile menu ---
