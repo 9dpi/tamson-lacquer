@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exhibition & Events - Vietnamese Lacquer Art | Tam Son Art</title>
+    <meta name="description" content="Tổng hợp các bài viết mới nhất về nghệ thuật, hội họa, sơn mài, triển lãm và workshop tại Việt Nam. Cập nhật liên tục với nguồn tin đầy đủ.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* === PAGE LAYOUT === */
+        .main-content-wrapper { display: flex; flex-direction: column; width: 100%; padding-inline: 20px; padding-top: 20px; }
+        @media(min-width: 1024px) { .main-content-wrapper { padding-inline: 0; padding-top: 40px; } }
+
+        /* === HEADER === */
+        .page-header { padding-bottom: 40px; border-bottom: 1px solid var(--border-color); margin-bottom: 45px; }
+        .page-header .sub-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 10px; display: block; }
+        .page-header h1 { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 400; font-style: italic; margin: 0; }
+        .page-header p { font-weight: 300; color: var(--text-muted); margin-top: 15px; max-width: 640px; line-height: 1.6; }
+
+        /* === FILTER BAR === */
+        .filter-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 35px; }
+        .filter-chip { padding: 9px 20px; background: transparent; border: 1px solid var(--border-color); border-radius: 50px; font-family: var(--font-sans); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-main); cursor: pointer; transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+        .filter-chip:hover { border-color: var(--text-main); }
+        .filter-chip.is-active { background: var(--text-main); border-color: var(--text-main); color: var(--bg-color); }
+
+        /* === NEWS GRID === */
+        .news-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 35px; }
+        @media (min-width: 768px) { .news-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .news-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .news-card { display: flex; flex-direction: column; background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease; }
+        .news-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px -22px rgba(17, 17, 17, 0.25); }
+        .news-card__media { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; background: #f9f6f5; text-decoration: none; }
+        .news-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.8s ease; }
+        .news-card:hover .news-card__media img { transform: scale(1.04); }
+        .news-card__badge { position: absolute; top: 14px; left: 14px; z-index: 2; padding: 6px 14px; background: rgba(17, 17, 17, 0.85); color: var(--bg-color); font-family: var(--font-sans); font-size: 0.68rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 50px; backdrop-filter: blur(4px); }
+        .news-card__body { display: flex; flex-direction: column; flex: 1; padding: 22px 22px 24px; }
+        .news-card__meta { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 10px; }
+        .news-card__meta .news-card__date { color: var(--accent-pink); font-weight: 500; }
+        .news-card__title { font-family: var(--font-sans); font-size: 1.12rem; font-weight: 500; line-height: 1.45; margin: 0 0 10px; }
+        .news-card__title a { color: var(--text-main); text-decoration: none; }
+        .news-card__title a:hover { color: var(--accent-pink); }
+        .news-card__desc { font-size: 0.9rem; font-weight: 300; color: var(--text-muted); line-height: 1.6; margin: 0 0 18px; }
+        .news-card__source { margin-top: auto; display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent-pink); text-decoration: none; }
+        .news-card__source:hover { text-decoration: underline; }
+
+        .news-card.is-hidden { display: none; }
+
+        /* Empty state */
+        .news-empty { display: none; text-align: center; padding: 80px 20px; color: var(--text-muted); font-weight: 300; }
+        .news-empty.is-visible { display: block; }
+
+        /* === MOBILE OVERLAY === */
+        .mobile-overlay { position: fixed; inset: 0; z-index: 200; background-color: var(--text-main); color: var(--bg-color); display: flex; flex-direction: column; overflow-y: auto; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.4s ease, visibility 0.4s ease; }
+        .mobile-overlay.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+        .mobile-overlay-header { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem var(--nav-padding-x, 2rem); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .mobile-brand { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 400; font-style: italic; color: var(--bg-color); text-decoration: none; }
+        .menu-close-top { background: none; border: none; color: var(--bg-color); font-family: var(--font-sans); font-size: 0.85rem; text-transform: uppercase; cursor: pointer; }
+        .mobile-overlay-body { padding: 2rem var(--nav-padding-x, 2rem); }
+        .mobile-nav-links { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+        .mobile-nav-links a { font-family: var(--font-serif); font-size: 2.5rem; color: var(--bg-color); text-decoration: none; transition: opacity 0.3s ease; }
+        .mobile-nav-links a:hover { opacity: 0.6; }
+        @media (max-width: 768px) { .mobile-overlay { display: flex; } }
+        @media (min-width: 769px) { .mobile-overlay { display: none; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">Tam Son Art</a>
+            <ul class="nav-links">
+                <li><a href="index.html#gallery">Gallery</a></li>
+                <li class="active"><a href="exhibitions.html">Exhibitions</a></li>
+                <li><a href="heritage.html">Heritage</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span>MENU</span></button>
+        </div>
+    </nav>
+
+    <div class="mobile-overlay" id="mobileOverlay">
+        <div class="mobile-overlay-header">
+            <a href="index.html" class="mobile-brand">Tam Son Art</a>
+            <button class="menu-close-top" id="menuCloseTop"><span>CLOSE</span></button>
+        </div>
+        <div class="mobile-overlay-body">
+            <ul class="mobile-nav-links">
+                <li><a href="index.html#gallery" class="mobile-link">Gallery</a></li>
+                <li><a href="exhibitions.html" class="mobile-link">Exhibitions</a></li>
+                <li><a href="heritage.html" class="mobile-link">Heritage</a></li>
+                <li><a href="contact.html" class="mobile-link">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main>
+        <div class="container">
+            <div class="main-content-wrapper">
+                <header class="page-header">
+                    <span class="sub-title">Exhibition &amp; Events</span>
+                    <h1>Triển lãm &amp; Sự kiện nghệ thuật</h1>
+                    <p>Tổng hợp các bài viết mới nhất về nghệ thuật, hội họa, sơn mài, triển lãm và workshop tại Việt Nam. Nội dung được tổng hợp từ các báo và đơn vị tổ chức, kèm đầy đủ nguồn tin.</p>
+                </header>
+
+                <!-- Filter -->
+                <div class="filter-bar" id="filterBar">
+                    <button type="button" class="filter-chip is-active" data-filter="all">Tất cả</button>
+                    <button type="button" class="filter-chip" data-filter="son-mai">Sơn mài</button>
+                    <button type="button" class="filter-chip" data-filter="trien-lam">Triển lãm</button>
+                    <button type="button" class="filter-chip" data-filter="workshop">Workshop</button>
+                    <button type="button" class="filter-chip" data-filter="hoi-hoa">Hội họa</button>
+                    <button type="button" class="filter-chip" data-filter="nghe-si">Nghệ sĩ</button>
+                </div>
+
+                <!-- News grid -->
+                <div class="news-grid" id="newsGrid"></div>
+                <div class="news-empty" id="newsEmpty">Không tìm thấy bài viết phù hợp.</div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer" id="site-footer">
+        <div class="footer-info">
+            <div class="footer-info-grid">
+                <div class="footer-info-col">
+                    <nav class="footer-nav" aria-label="Footer navigation">
+                        <a href="index.html#gallery" class="footer-nav-link">GALLERY</a>
+                        <a href="exhibitions.html" class="footer-nav-link">EXHIBITIONS</a>
+                        <a href="heritage.html" class="footer-nav-link">HERITAGE</a>
+                        <a href="contact.html" class="footer-nav-link">CONTACT</a>
+                    </nav>
+                </div>
+                <div class="footer-info-col">
+                    <div class="footer-info-lead">
+                        <h3 class="footer-info-heading">TAM SON ART</h3>
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="footer-info-value footer-link">REPRESENTED BY TAM SON ART GALLERY</a>
+                    </div>
+                    <div class="footer-info-row"><span class="footer-info-label">EMAIL:</span><a href="mailto:vuquangcuong@gmail.com" class="footer-info-value">VUQUANGCUONG@GMAIL.COM</a></div>
+                    <div class="footer-info-row"><span class="footer-info-label">WHATSAPP & PHONE:</span><a href="tel:+84912580018" class="footer-info-value">+84 912 580018</a></div>
+                    <div class="footer-info-row"><span class="footer-info-label">TIKTOK:</span><a href="https://www.tiktok.com/@cuongvqart" target="_blank" rel="noopener noreferrer" class="footer-info-value">@CUONGVQART</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright"><span>© 2026 TAM SON ART</span></div>
+    </footer>
+
+    <script>
+        // Các bài viết mới nhất về nghệ thuật, hội họa, sơn mài, triển lãm & workshop (có nguồn tin)
+        const NEWS_DATA = [
+            {
+                id: 'ex01', cat: 'Triển lãm', tags: ['son-mai', 'trien-lam'], date: '15.08.2026',
+                title: 'Đình làng cổ 200 năm ở Hội An thành không gian triển lãm',
+                source: 'Báo Tuổi Trẻ', sourceUrl: 'https://tuoitre.vn/dinh-lang-co-tren-200-nam-o-hoi-an-thanh-khong-gian-trien-lam-100260815193534941.htm',
+                image: 'https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2026/8/15/1786794556469641171713406678327964117171340667832792bd90f54a479efeb65ec96c3a0c7f274-17867968475461045288599-523-273-1501-2141-crop-17867971690331993810094.jpg',
+                desc: 'Triển lãm "Nghệ thuật từ những bàn tay phố Hội" giới thiệu tác phẩm thủ công của các nghệ nhân xứ Quảng ngay trong đình làng hơn 200 năm tuổi.'
+            },
+            {
+                id: 'ex02', cat: 'Triển lãm', tags: ['trien-lam', 'hoi-hoa'], date: '15.08.2026',
+                title: "Triển lãm 'Từ tiếng Việt đến chữ Nôm' – chơi game đấu Kiều, xem đồ án văn hóa",
+                source: 'Báo Tuổi Trẻ', sourceUrl: 'https://tuoitre.vn/choi-game-dau-kieu-xem-do-an-van-hoa-tai-trien-lam-tu-tieng-viet-den-chu-nom-100260815134448622.htm',
+                image: 'https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2026/8/15/vinhet-trien-lam-yt-17867753079521502297552-81-0-963-1684-crop-17867837275261054344315.jpg',
+                desc: 'Không gian khám phá văn hóa tại tòa nhà Itaxa (TP.HCM) với game đấu Kiều và các đồ án văn hóa sáng tạo, diễn ra ngày 15–16.8.'
+            },
+            {
+                id: 'ex03', cat: 'Workshop', tags: ['son-mai', 'workshop'], date: '04.08.2026',
+                title: 'Học sinh TP.HCM mê mẩn nặn gốm, vẽ sơn mài, thêm yêu di sản quê hương',
+                source: 'Báo Tuổi Trẻ', sourceUrl: 'https://tuoitre.vn/hoc-sinh-tphcm-me-man-nan-gom-ve-son-mai-them-yeu-di-san-que-huong-100260804192110223.htm',
+                image: 'https://cdn2.tuoitre.vn/471584752817336320/2026/8/4/178583248591016053362612098856141605336261209885614988c8642ee364ab93edd8bf4a9fd5791-1785845351152437882800.jpg',
+                desc: '100 học sinh được "đổi lớp học" thành làng nghề Sơn Mài Định Hòa và Lò Lu Đại Hưng – tự tay vẽ tranh sơn mài, nặn gốm.'
+            },
+            {
+                id: 'ex04', cat: 'Workshop', tags: ['son-mai', 'workshop'], date: '06.08.2026',
+                title: 'Học sinh TP.HCM sắm vai nghệ nhân sơn mài, gốm',
+                source: 'Báo Tuổi Trẻ (video)', sourceUrl: 'https://tuoitre.vn/hoc-sinh-tphcm-sam-vai-nghe-nhan-son-mai-gom-100260806093724221.htm',
+                image: 'https://cdn2.tuoitre.vn/zoom/1200_630/471584752817336320/2026/8/6/moi-hoc-sinh-tp-hcm-sam-vai-nghe-nhan-son-mai-gom-frame-at-0m25s-17859837608911086990043-0-0-1005-1920-crop-1785983790059416811590.jpg',
+                desc: 'Hàng trăm học sinh THCS trải nghiệm vai trò nghệ nhân sơn mài tại Chương trình Ngành nghề nông thôn TP.HCM.'
+            },
+            {
+                id: 'ex05', cat: 'Nghệ sĩ', tags: ['nghe-si', 'hoi-hoa'], date: '07.08.2026',
+                title: 'Họa sĩ Võ Thành Thân: Đối thoại với di sản qua ngôn ngữ thị giác đương đại',
+                source: 'Báo Nhân Dân', sourceUrl: 'https://nhandan.vn/hoa-si-vo-thanh-than-doi-thoai-voi-di-san-thong-qua-ngon-ngu-thi-giac-duong-dai-post980202.html',
+                image: 'https://cdn.nhandan.vn/images/IvCZyovHroGqKo00FqhL-CmmGpIZTKhRZe_eIDgM3zE9dlXkzuloRumFxCXGsJocXPrNXuiY0YECkBCUjZhGoA/anh-4.jpg.webp',
+                desc: 'Họa sĩ trẻ xứ Huế chia sẻ về bút pháp giấy vò, tác phẩm đoạt giải được Bảo tàng Mỹ thuật Việt Nam sưu tập.'
+            },
+            {
+                id: 'ex06', cat: 'Triển lãm', tags: ['son-mai', 'trien-lam'], date: '2026',
+                title: '"Sơn mài song Xuất" 2025 và 2026 – cách tân với chất liệu sơn ta',
+                source: 'Báo Nhân Dân', sourceUrl: 'https://nhandan.vn/son-mai-song-xuat-2025-va-2026-post934311.html',
+                image: 'https://cdn.nhandan.vn/images/IvCZyovHroGqKo00FqhL-GFc2f7qa5S1qicxCgxFgUv4TZmd_l_DIDmFt5bi0kVY/121.jpg.webp',
+                desc: 'Giới thiệu những sáng tạo "cách tân xuất chúng" với riêng chất liệu sơn mài Việt – sơn ta, bồi vải, bột giấy giang, xà cừ, đất và nước.'
+            },
+            {
+                id: 'ex07', cat: 'Workshop', tags: ['son-mai', 'workshop'], date: '2026',
+                title: 'Chạm nghề phố cổ 2026 – kể chuyện ký ức qua tranh sơn mài',
+                source: 'Báo Lao Động', sourceUrl: 'https://laodong.vn/ldt/an-choi/cham-nghe-pho-co-2026-ke-chuyen-ky-uc-qua-tranh-son-mai-1686030.ldo',
+                image: 'https://media-cdn-v2.laodong.vn/storage/newsportal/2026/4/15/1686030/Son-Mai_A.jpg?w=800&crop=auto&scale=both',
+                desc: 'Lễ hội Chạm nghề phố cổ 2026 đưa tinh hoa nghề truyền thống – trong đó có sơn mài – đến với công chúng qua những câu chuyện ký ức.'
+            },
+            {
+                id: 'ex08', cat: 'Triển lãm', tags: ['hoi-hoa', 'trien-lam'], date: '10.08.2026',
+                title: "Triển lãm 'Nhịp điệu cảnh quan' – đối thoại ký ức Hà Nội",
+                source: 'Hà Nội Online', sourceUrl: 'https://hanoionline.vn/trien-lam-nhip-dieu-canh-quan-doi-thoai-ky-uc-ha-noi-412220.htm',
+                image: 'https://hnstorage.tek4tv.vn/2026/8/10/19/556425614_834742195image2026-08-10195320775.png',
+                desc: 'Triển lãm tranh sơn mài và acrylic của năm họa sĩ, mở cuộc đối thoại về cảnh quan, ký ức và bản sắc văn hóa Thủ đô.'
+            },
+            {
+                id: 'ex09', cat: 'Workshop', tags: ['son-mai', 'workshop'], date: '02.2026',
+                title: 'Trải nghiệm hoạt động sơn mài giữa lòng phố cổ – "Theo dấu chân ngựa Gióng"',
+                source: 'VOV5', sourceUrl: 'https://vovworld.vn/vi-VN/van-hoa/trai-nghiem-hoat-dong-son-mai-giua-long-pho-co-2411288.vov5',
+                image: 'https://vovworld.vn/sites/default/files/styles/og_image/public/world/Uploaded/lehuy/2026_02_10/vov5_12-hoatdongtrainghiem_anh1_YLPP.jpg',
+                desc: 'Workshop sơn mài miễn phí tại phố cổ Hà Nội, tôn vinh di sản qua câu chuyện Thánh Gióng được chuyển hóa thành ngôn ngữ tạo hình.'
+            },
+            {
+                id: 'ex10', cat: 'Triển lãm', tags: ['son-mai', 'trien-lam'], date: '2026',
+                title: 'Tranh sơn mài Việt Nam – Triển lãm trực tuyến của Bảo tàng Mỹ thuật Việt Nam',
+                source: 'Bảo tàng Mỹ thuật VN', sourceUrl: 'https://tranhsonmai.baotangso.com/',
+                image: 'https://d1fbzwhbgcf4vf.cloudfront.net/optimized-3814a3f67ea61aa4ec6f42b58595781e59f71e78889b16de5a324ca62118c0fe.jpeg/800x,q50',
+                desc: 'Không gian triển lãm số giới thiệu bộ sưu tập tranh sơn mài quý giá của Bảo tàng Mỹ thuật Việt Nam, tham quan trực tuyến miễn phí.'
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Mobile menu ---
+            const menuToggle = document.getElementById('menuToggle');
+            const menuCloseTop = document.getElementById('menuCloseTop');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            if (menuToggle && mobileOverlay) {
+                menuToggle.addEventListener('click', () => { mobileOverlay.classList.add('is-open'); document.body.style.overflow = 'hidden'; });
+                if (menuCloseTop) menuCloseTop.addEventListener('click', () => { mobileOverlay.classList.remove('is-open'); document.body.style.overflow = 'auto'; });
+                mobileOverlay.querySelectorAll('.mobile-link').forEach(link => { link.addEventListener('click', () => { mobileOverlay.classList.remove('is-open'); document.body.style.overflow = 'auto'; }); });
+            }
+
+            // --- Render news grid ---
+            const grid = document.getElementById('newsGrid');
+            const empty = document.getElementById('newsEmpty');
+            let currentFilter = 'all';
+
+            function render() {
+                const items = NEWS_DATA.filter(n => currentFilter === 'all' || n.tags.includes(currentFilter));
+                grid.innerHTML = items.map((n, index) => `
+                    <article class="news-card" style="transition-delay: ${index * 0.05}s;">
+                        <a class="news-card__media" href="${n.sourceUrl}" target="_blank" rel="noopener noreferrer">
+                            <img src="${n.image}" alt="${n.title}" loading="lazy" decoding="async">
+                            <span class="news-card__badge">${n.cat}</span>
+                        </a>
+                        <div class="news-card__body">
+                            <div class="news-card__meta"><span class="news-card__date">${n.date}</span> · Nguồn: ${n.source}</div>
+                            <h3 class="news-card__title"><a href="${n.sourceUrl}" target="_blank" rel="noopener noreferrer">${n.title}</a></h3>
+                            <p class="news-card__desc">${n.desc}</p>
+                            <a class="news-card__source" href="${n.sourceUrl}" target="_blank" rel="noopener noreferrer">Đọc bài viết →</a>
+                        </div>
+                    </article>
+                `).join('');
+                empty.classList.toggle('is-visible', items.length === 0);
+            }
+            render();
+
+            // --- Filter ---
+            const chips = document.querySelectorAll('.filter-chip');
+            chips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    chips.forEach(c => c.classList.remove('is-active'));
+                    chip.classList.add('is-active');
+                    currentFilter = chip.getAttribute('data-filter');
+                    render();
+                });
+            });
+
+            // --- Footer reveal ---
+            const footer = document.getElementById('site-footer');
+            let footerRevealed = false;
+            function checkFooterReveal() { if (footerRevealed) return; const rect = footer.getBoundingClientRect(); if (rect.top < window.innerHeight) { footerRevealed = true; footer.classList.add('footer-motion-visible'); } }
+            window.addEventListener('scroll', checkFooterReveal, { passive: true });
+            window.addEventListener('resize', checkFooterReveal, { passive: true });
+            checkFooterReveal();
+        });
+    </script>
+</body>
+</html>

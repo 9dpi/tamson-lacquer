@@ -19,7 +19,7 @@
             <a href="#" class="nav-brand">Tam Son Art</a>
             <ul class="nav-links">
                 <li class="active"><a href="#gallery">Gallery</a></li>
-                <li><a href="#exhibitions">Exhibitions</a></li>
+                <li><a href="exhibitions.html">Exhibitions</a></li>
                 <li><a href="heritage.html">Heritage</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
@@ -36,7 +36,7 @@
         <div class="mobile-overlay-body">
             <ul class="mobile-nav-links">
                 <li><a href="#gallery" class="mobile-link">Gallery</a></li>
-                <li><a href="#exhibitions" class="mobile-link">Exhibitions</a></li>
+                <li><a href="exhibitions.html" class="mobile-link">Exhibitions</a></li>
                 <li><a href="heritage.html" class="mobile-link">Heritage</a></li>
                 <li><a href="contact.html" class="mobile-link">Contact</a></li>
             </ul>
@@ -112,6 +112,9 @@
                                     <p class="exhibitions-section__lede">Selected exhibitions and art events about Vietnamese lacquer across the country. From heritage showcases in ancient communal houses to hands-on lacquer workshops for young students, each event reflects the living spirit of the ancient art of lacquer.</p>
                                 </header>
                                 <div class="exhibitions-grid-wrapper" id="exhibitionsContainer"></div>
+                                <div class="exhibitions-read-more-wrap">
+                                    <a href="exhibitions.html" class="exhibitions-read-more">Read more →</a>
+                                </div>
                             </div>
                         </section>
 
@@ -153,7 +156,7 @@
                 <div class="footer-info-col">
                     <nav class="footer-nav" aria-label="Footer navigation">
                         <a href="#gallery" class="footer-nav-link">GALLERY</a>
-                        <a href="#exhibitions" class="footer-nav-link">EXHIBITIONS</a>
+                        <a href="exhibitions.html" class="footer-nav-link">EXHIBITIONS</a>
                         <a href="heritage.html" class="footer-nav-link">HERITAGE</a>
                         <a href="contact.html" class="footer-nav-link">CONTACT</a>
                     </nav>
@@ -281,6 +284,9 @@
         .exhibition-card__date { display: block; font-size: 0.8rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-pink); margin-bottom: 6px; }
         .exhibition-card__caption { font-size: 1.1rem; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; color: var(--text-main); margin-bottom: 4px; }
         .exhibition-card__source { font-size: 0.9rem; font-weight: 300; color: var(--text-muted); }
+        .exhibitions-read-more-wrap { display: flex; justify-content: flex-start; margin-top: 35px; }
+        .exhibitions-read-more { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border: 1px solid var(--text-main); border-radius: 50px; font-family: var(--font-sans); font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-main); text-decoration: none; transition: background 0.3s ease, color 0.3s ease; }
+        .exhibitions-read-more:hover { background: var(--text-main); color: var(--bg-color); }
 
         /* === ABOUT SECTION (Riêng biệt) === */
         .home-about-cta { width: 100%; background-color: var(--bg-color); border-top: 1px solid var(--border-color); padding-bottom: 50px; }
